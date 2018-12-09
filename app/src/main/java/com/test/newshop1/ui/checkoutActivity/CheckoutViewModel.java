@@ -271,8 +271,8 @@ public class CheckoutViewModel extends ViewModel {
     public void completeOrder() {
         Customer customer = customerLD.getValue();
         PaymentGateway pg = selectedPaymentMethod.getValue();
-//        Order order = new Order("pending", customer.getId(),
-//                "", customer.getBilling(), customer.getShipping(),
-//                pg.getTitle(), pg.getMethodTitle(), cartItems,"");
+        Order order = new Order(Order.PENDING, customer.getId(),
+                "", customer.getBilling(), customer.getShipping(),
+                pg.getTitle(), pg.getMethodTitle(), cartItems,"");
     }
 }

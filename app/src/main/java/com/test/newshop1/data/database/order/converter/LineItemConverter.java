@@ -4,7 +4,7 @@ import android.arch.persistence.room.TypeConverter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.test.newshop1.data.database.order.CartItem;
+import com.test.newshop1.data.database.shoppingcart.CartItem;
 
 import java.lang.reflect.Type;
 import java.util.List;

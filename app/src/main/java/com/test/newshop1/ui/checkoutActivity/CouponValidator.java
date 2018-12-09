@@ -161,9 +161,9 @@ public class CouponValidator {
 
     private void updateItems(CartItem item){
         Float newPrice = Integer.valueOf(item.getSubtotal())*(1-discountAmount/cartTotal);
-        //CartItem resultItem = item.cloneItem();
-        item.setTotal(String.valueOf(newPrice));
-        this.resultItems.add(item);
+        CartItem resultItem = item.cloneItem();
+        resultItem.setTotal(String.valueOf(newPrice));
+        this.resultItems.add(resultItem);
     }
 
     private void invalidProductException(String productName) {

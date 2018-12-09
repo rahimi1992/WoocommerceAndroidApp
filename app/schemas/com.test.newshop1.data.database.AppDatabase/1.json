@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b7bef548449134f0b03b9725ca4f11fd",
+    "identityHash": "48c31246990bdbe0b02a4891477a7ff7",
     "entities": [
       {
         "tableName": "product",
@@ -218,7 +218,16 @@
           ],
           "autoGenerate": false
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_product_category_join_categoryId",
+            "unique": false,
+            "columnNames": [
+              "categoryId"
+            ],
+            "createSql": "CREATE  INDEX `index_product_category_join_categoryId` ON `${TABLE_NAME}` (`categoryId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "product",
@@ -356,7 +365,7 @@
       },
       {
         "tableName": "shopping_cart",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `productId` INTEGER, `variationId` INTEGER, `quantity` INTEGER, `price` TEXT, `imageSrc` TEXT, `categories` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT, `productId` INTEGER, `variationId` INTEGER, `quantity` INTEGER, `total` TEXT, `subtotal` TEXT, `imageSrc` TEXT, `categories` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -389,8 +398,14 @@
             "notNull": false
           },
           {
-            "fieldPath": "price",
-            "columnName": "price",
+            "fieldPath": "total",
+            "columnName": "total",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "subtotal",
+            "columnName": "subtotal",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -732,7 +747,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b7bef548449134f0b03b9725ca4f11fd\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"48c31246990bdbe0b02a4891477a7ff7\")"
     ]
   }
 }

@@ -108,9 +108,9 @@ public class CartItem {
         this.total = total;
     }
 
-//    public CartItem cloneItem() {
-//        return new CartItem(name, productId, variationId, quantity, total, imageSrc, categories);
-//    }
+    public CartItem cloneItem() {
+        return new CartItem(name, productId, variationId, quantity, total, imageSrc, categories);
+    }
 
     public void resetDiscount(){
         this.total = String.valueOf(this.subtotal);

@@ -16,9 +16,19 @@ import com.test.newshop1.data.database.customer.Shipping;
 import com.test.newshop1.data.database.order.converter.BillingConverter;
 import com.test.newshop1.data.database.order.converter.LineItemConverter;
 import com.test.newshop1.data.database.order.converter.ShippingConverter;
+import com.test.newshop1.data.database.shoppingcart.CartItem;
 
 @Entity(tableName = "order")
 public class Order {
+
+    public static final String PENDING = "pending";
+    public static final String PROCESSING = "processing";
+    public static final String ON_HOLD = "on-hold";
+    public static final String COMPLETED = "completed";
+    public static final String CANCELLED = "cancelled";
+    public static final String REFUNDED = "refunded";
+    public static final String FAILED = "failed";
+    public static final String TRASH = "trash";
 
     @PrimaryKey
     @SerializedName("id")

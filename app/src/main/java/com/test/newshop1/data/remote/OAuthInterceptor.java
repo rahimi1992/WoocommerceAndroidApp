@@ -1,5 +1,6 @@
 package com.test.newshop1.data.remote;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 
@@ -17,17 +18,6 @@ import okhttp3.*;
 
 public class OAuthInterceptor implements Interceptor {
     private static final String TAG = "CallRequest";
-
-    /*THIS CLASS CONTAIN ERROR ITS BECAUSE THIS APP DOES NOT IMPORTED THE RETROFIT LIBRARY*/
-
-
-   /*IMPORT below dependency to gradel to fix error
-   *
-   *  compile 'com.squareup.retrofit2:retrofit:2.1.0'
-   compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-   compile 'com.squareup.okhttp3:okhttp:3.3.1'
-   compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
-   * */
 
     private static final String OAUTH_CONSUMER_KEY = "oauth_consumer_key";
     private static final String OAUTH_TOKEN = "oauth_token";
@@ -53,47 +43,23 @@ public class OAuthInterceptor implements Interceptor {
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         CacheControl.Builder cacheBuilder = new CacheControl.Builder().maxAge(60, TimeUnit.MINUTES);
         cacheBuilder.onlyIfCached();
-        //int maxAge = 60*60;
         Request original = chain.request();
-// .newBuilder()
-//                .removeHeader("Pragma")
-//                //.cacheControl(cacheBuilder.build())
-//                .header("Cache-Control", "public, only-if-cached, max-age=" + maxAge)
-//                .build();
-//
+
 
 
         HttpUrl originalHttpUrl = original.url();
-//
-        Log.d(TAG, " CALLED!!!!!!!!! ");
-//        Log.d("URL", original.url().toString());
-//        Log.d("URL", original.url().scheme());
-//        Log.d("encodedpath", original.url().encodedPath());
-//        Log.d("query", ""+original.url().query());
-//        Log.d("path", ""+original.url().host());
-//        Log.d("encodedQuery", ""+original.url().encodedQuery());
-//        ;
-//        Log.d("method", ""+original.method());
-
-        ////////////////////////////////////////////////////////////
 
         final String nonce = new TimestampServiceImpl().getNonce();
         final String timestamp = new TimestampServiceImpl().getTimestampInSeconds();
-//        Log.d("nonce", nonce);
-//        Log.d("time", timestamp);
-//        Log.d(TAG, "intercept: " + original.url().toString());
 
         String dynamicStructureUrl = original.url().scheme() + "://" + original.url().host() + original.url().encodedPath();
 
-        //Log.d(TAG, "intercept: " + dynamicStructureUrl);
-
-        //Log.d("ENCODED PATH", ""+dynamicStructureUrl);
         String firstBaseString = original.method() + "&" + urlEncoded(dynamicStructureUrl);
-        //Log.d("firstBaseString", firstBaseString);
-        String generatedBaseString = "";
+
+        String generatedBaseString;
 
 
         if(original.url().encodedQuery()!=null) {
@@ -108,23 +74,20 @@ public class OAuthInterceptor implements Interceptor {
         ParameterList result = new ParameterList();
         result.addQuerystring(generatedBaseString);
         generatedBaseString=result.sort().asOauthBaseString();
-        //Log.d("Sorted","00--"+result.sort().asOauthBaseString());
 
-        String secoundBaseString = "&" + generatedBaseString;
+        String secondBaseString = "&" + generatedBaseString;
 
         if (firstBaseString.contains("%3F")) {
-            //Log.d("iff","yess iff");
-            secoundBaseString = "%26" + urlEncoded(generatedBaseString);
+            secondBaseString = "%26" + urlEncoded(generatedBaseString);
         }
 
-        String baseString = firstBaseString + secoundBaseString;
+        String baseString = firstBaseString + secondBaseString;
 
         Log.d(TAG, "intercept: base string: " + baseString);
         Log.d(TAG, "intercept: cons secret: " + consumerSecret);
         Log.d(TAG, "intercept: cons key: " + consumerKey);
 
         String signature = new HMACSha1SignatureService().getSignature(baseString, consumerSecret, tokenSecret);
-        //Log.d("Signature", signature);
 
         HttpUrl url = originalHttpUrl.newBuilder()
 
@@ -149,39 +112,39 @@ public class OAuthInterceptor implements Interceptor {
     }
 
 
-    public static final class Builder {
+    static final class Builder {
 
         private String consumerKey;
         private String consumerSecret;
         private String oauthToken;
         private String tokenSecret;
 
-        public Builder consumerKey(String consumerKey) {
+        Builder consumerKey(String consumerKey) {
             if (consumerKey == null) throw new NullPointerException("consumerKey = null");
             this.consumerKey = consumerKey;
             return this;
         }
 
-        public Builder consumerSecret(String consumerSecret) {
+        Builder consumerSecret(String consumerSecret) {
             if (consumerSecret == null) throw new NullPointerException("consumerSecret = null");
             this.consumerSecret = consumerSecret;
             return this;
         }
 
-        public Builder oauthToken(String oauthToken) {
+        Builder oauthToken(String oauthToken) {
             if (oauthToken == null) throw new NullPointerException("consumerSecret = null");
             this.oauthToken = oauthToken;
             return this;
         }
 
-        public Builder tokenSecret(String tokenSecret) {
+        Builder tokenSecret(String tokenSecret) {
             if (tokenSecret == null) throw new NullPointerException("consumerSecret = null");
             this.tokenSecret = tokenSecret;
             return this;
         }
 
 
-        public OAuthInterceptor build() {
+        OAuthInterceptor build() {
 
             if (consumerKey == null) throw new IllegalStateException("consumerKey not set");
             if (consumerSecret == null) throw new IllegalStateException("consumerSecret not set");
@@ -192,16 +155,14 @@ public class OAuthInterceptor implements Interceptor {
         }
     }
 
-    public String urlEncoded(String url) {
-        String encodedurl = "";
+    private String urlEncoded(String url) {
+        String encodedUrl = "";
         try {
-
-            encodedurl = URLEncoder.encode(url, "UTF-8");
-            //Log.d("TEST", encodedurl);
+            encodedUrl = URLEncoder.encode(url, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
-        return encodedurl;
+        return encodedUrl;
     }
 }
