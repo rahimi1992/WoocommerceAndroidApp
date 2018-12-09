@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/md_grey_700</color>
+    <color name="colorPrimaryDark">@color/primary_dark</color>
+    <color name="colorAccent">@color/md_amber_600</color>
+    <color name="white">#fff</color>
+    <color name="colorPrimaryText">#333</color>
+    <color name="grey">#333</color>
+    <color name="accent">#FFB300</color>
+    <color name="red">#f00</color>
+    <color name="transparent">#05FFF8E1</color>
+    <color name="lightGray">#ccc</color>
+    <color name="black">#000000</color>
+    <color name="gray">#333</color>
+    <color name="transparentDark">#22FFffff</color>
+    <color name="darkGray">#333</color>
+
+
+
+    <color name="primary_dark">@color/md_grey_800</color>
+    <color name="primary_light">@color/md_grey_400</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">@color/md_green_A400</color>
+    <color name="icons">@color/md_cyan_A700</color>
+    <color name="divider">@color/md_amber_100</color>
+
+</resources>

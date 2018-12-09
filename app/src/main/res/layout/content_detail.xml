@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".ui.detailActivity.DetailActivity"
+        tools:showIn="@layout/activity_detail">
+
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:isScrollContainer="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="6">
+
+                    <TextView
+                        android:id="@+id/product_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_margin="2dp"
+                        android:background="@drawable/bg_price_border"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textColorLink="@color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/regular_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+                        android:paddingStart="8dp"
+                        android:paddingLeft="8dp"
+                        android:text="TextView"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
+                <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
+                    android:id="@+id/var_btn_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_margin="4dp"
+                    android:layout_marginTop="8dp"
+                    app:tbgChildSpacing="auto"
+                    app:tbgChildSpacingForLastRow="align"
+                    app:tbgRowSpacing="8dp"
+                    app:tbgRtl="true">
+
+                </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
+
+                <Button
+                    android:id="@+id/reviews_BTN"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_button"
+                    android:elevation="4dp"
+                    android:text="مشاهده نظرات" />
+
+                <com.test.newshop1.ui.detailActivity.CustomCardView
+                    android:id="@+id/detail_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_margin="8dp"
+                    android:layout_marginBottom="60dp"
+                    app:cardCornerRadius="4dp"
+                    app:cardElevation="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <WebView
+
+                            android:id="@+id/product_description"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:addStatesFromChildren="false"
+                            android:paddingBottom="50dp"
+                            android:textAlignment="textStart"
+                            android:textDirection="rtl"
+                            android:transitionName="title_transition" />
+
+                        <Button
+                            android:id="@+id/expand_btn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="0dp"
+                            android:background="@color/white"
+                            android:elevation="2dp"
+                            tools:text="ادامه..." />
+                    </RelativeLayout>
+                </com.test.newshop1.ui.detailActivity.CustomCardView>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/related_RV"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:nestedScrollingEnabled="false"
+                    android:padding="5dp"
+                    android:paddingBottom="10dp" />
+
+            </LinearLayout>
+
+        </android.support.v4.widget.NestedScrollView>
+
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">newShop1</string>
+
+    <string name="currency">  %1$s تومان </string>
+    <string name="delet_item_text">حذف</string>
+    <string name="total_price_text">جمع فاکتور</string>
+    <string name="payment_text">قابل پرداخت</string>
+    <string name="payout_button_text">تکمیل سفارش</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title"> </string>
+    <string name="nav_header_subtitle">ورود و ثبت نام</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">جستجو</string>
+    <string name="title_activity_login_acticity">LoginActicity</string>
+
+    <string name="prompt_email">ایمیل</string>
+    <string name="prompt_password">رمز عبور</string>
+    <string name="action_sign_in">ورود یا ثبت نام</string>
+    <string name="action_sign_in_short">ورود</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="successful_login_toast_message">ورود با موفقیت انجام شد</string>
+    <string name="failed_login_toast_message">خطا در برقراری ارتباط</string>
+    <string name="wrong_pass_login_toast_message">رمز عبور نادرست است</string>
+    <string name="checkout_next_btn">مرحله بعد</string>
+    <string name="empty_cart_text">سبد خرید شما خالی است</string>
+    <string name="login_or_sign_up">ورود یا ثبت نام</string>
+    <string name="login_force_text">ابتدا وارد حساب کاربری خود شوید</string>
+    <string name="minimum_cart_message">حداقل خرید</string>
+
+    <string-array name="cart_step_titles">
+        <item>سبد خرید</item>
+        <item>آدرس</item>
+        <item>نحوه پرداخت</item>
+        <item>تایید نهایی</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="customer"
+            type="com.test.newshop1.data.database.customer.Customer"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/checkout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.checkout.CheckoutFragment">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/address_item"
+            bind:address="@{customer.billing}"
+
+            bind:layout_constraintBottom_toTopOf="@+id/next_btn"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintHorizontal_bias="1.0"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/login_or_sign_up"
+            bind:showIfNull="@{customer}"
+            bind:layout_constraintBottom_toTopOf="@+id/next_btn" />
+
+        <Button
+            android:id="@+id/next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/checkout_next_btn"
+            bind:layout_constraintBottom_toBottomOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

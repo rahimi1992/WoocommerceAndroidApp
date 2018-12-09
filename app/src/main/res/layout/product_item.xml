@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.test.newshop1.utilities.PersianTextUtil"/>
+        <variable
+            name="product"
+            type="com.test.newshop1.data.database.product.Product"/>
+        <variable
+            name="listener"
+            type="com.test.newshop1.ui.OnItemClickListener"/>
+    </data>
+
+    <android.support.v7.widget.CardView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="0dp"
+        android:background="@color/white"
+
+        android:padding="0dp"
+        app:cardBackgroundColor="#eeeeee"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        android:onClick="@{() -> listener.onItemClicked(product.id)}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:background="@drawable/border"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:scaleType="fitCenter"
+                app:imageUrl="@{product.images[0].src}"
+                app:thumb="@{true}"
+                app:error="@{@drawable/logo}"
+                app:srcCompat="@drawable/bg_white" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="4dp"
+                android:paddingTop="8dp"
+                android:weightSum="3">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="2"
+                    android:gravity="center_vertical"
+                    android:paddingTop="8dp"
+                    android:text="@{product.name}"
+
+                    android:textColor="@color/colorPrimaryText" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:gravity="bottom"
+                        android:text="@{PersianTextUtil.toPer(product.price)}"
+                        android:textColor="#ff0000"
+                        android:textSize="17sp" />
+
+                    <RatingBar
+                        android:id="@+id/ratingBar"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="2dp"
+
+                        android:layout_marginEnd="2dp"
+                        android:layoutDirection="ltr"
+                        android:rating="3" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/regular_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="2"
+                    android:text="@{PersianTextUtil.toPer(product.regularPrice)}"
+                    android:textColor="@color/lightGray"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/badge"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="-30dp"
+                android:background="@drawable/corner"
+                android:visibility="gone"
+                app:visibleGone="@{product.featured}">
+
+                <TextView
+                    android:id="@+id/badge_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:gravity="center_horizontal"
+                    android:rotation="-45"
+                    android:text="ویژه"
+                    android:textColor="@color/red"
+                    android:textColorHighlight="@color/accent"
+                    android:textSize="16sp" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="29dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/border"
+            android:backgroundTint="@color/lightGray"
+            android:fadeScrollbars="true"
+            android:padding="3dp"
+            android:visibility="gone"
+            />
+
+    </android.support.v7.widget.CardView>
+
+</layout>
