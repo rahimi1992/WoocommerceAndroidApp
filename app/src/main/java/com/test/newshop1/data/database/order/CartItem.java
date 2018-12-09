@@ -11,7 +11,7 @@ import com.test.newshop1.data.database.product.MetaDatum;
 
 
 @Entity(tableName = "shopping_cart")
-public class LineItem {
+public class CartItem {
 
     @SerializedName("id")
     @Expose
@@ -69,7 +69,7 @@ public class LineItem {
     @Expose
     private Float price;
 
-    public LineItem(Integer id, String name, Integer productId, Integer variationId, Integer quantity) {
+    public CartItem(Integer id, String name, Integer productId, Integer variationId, Integer quantity) {
         this.id = id;
         this.name = name;
         this.productId = productId;

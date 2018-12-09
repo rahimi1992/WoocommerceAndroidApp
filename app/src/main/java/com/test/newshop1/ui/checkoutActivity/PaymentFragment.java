@@ -51,6 +51,7 @@ public class PaymentFragment extends Fragment {
     }
 
     private void nextStep() {
+        mViewModel.completeOrder();
         mViewModel.setCurrentStep(CheckoutStep.CONFIRM);
     }
 

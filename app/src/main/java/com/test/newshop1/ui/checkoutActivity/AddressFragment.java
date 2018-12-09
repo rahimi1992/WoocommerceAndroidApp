@@ -1,6 +1,5 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
@@ -65,7 +64,7 @@ public class AddressFragment extends Fragment {
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(Objects.requireNonNull(getActivity()));
         mViewModel = ViewModelProviders.of(getActivity(), factory).get(CheckoutViewModel.class);
 
-        mViewModel.getCustomer().observe(this, this::updateUI);
+        mViewModel.getCustomerLD().observe(this, this::updateUI);
         //binding.setViewmodel(mViewModel);
     }
 

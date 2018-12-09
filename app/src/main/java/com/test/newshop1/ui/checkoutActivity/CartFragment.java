@@ -67,7 +67,7 @@ public class CartFragment extends Fragment {
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(Objects.requireNonNull(getContext()));
         cartItems = new ArrayList<>();
         mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), factory).get(CheckoutViewModel.class);
-        mViewModel.getCartItems().observe(this, items -> {
+        mViewModel.getCartItemsLD().observe(this, items -> {
             cartItems = items;
             showCartDetail();
         });
@@ -107,7 +107,7 @@ public class CartFragment extends Fragment {
                 TextView qtyTV = viewItem.findViewById(R.id.qty);
                 qtyTV.setText(PersianTextUtil.toPer(item.getQuantity()));
                 TextView priceTV = viewItem.findViewById(R.id.item_price);
-                String itemPriceText = PersianTextUtil.toPer(item.getQuantity()) + " x " + PersianTextUtil.toPer(item.getPrice());
+                String itemPriceText = PersianTextUtil.toPer(item.getQuantity()) + " x " + PersianTextUtil.toPer(item.getTotal());
                 priceTV.setText(itemPriceText);
                 //priceTV.setTypeface(font_yekan);
                 ImageView image = viewItem.findViewById(R.id.thumbnail);
@@ -121,7 +121,7 @@ public class CartFragment extends Fragment {
 //                    viewItem.findViewById(R.id.cart_header).setVisibility(View.VISIBLE);
 //                }
                 linearLayout.addView(viewItem);
-                price += Integer.valueOf(item.getPrice()) * item.getQuantity();
+                price += Integer.valueOf(item.getTotal()) * item.getQuantity();
             }
             viewItem = inflater.inflate(R.layout.cart_summary, linearLayout, false);
             TextView totalPriceTV = viewItem.findViewById(R.id.s_total_price);

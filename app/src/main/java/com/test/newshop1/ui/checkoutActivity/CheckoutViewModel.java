@@ -13,6 +13,7 @@ import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.coupon.Coupon;
 import com.test.newshop1.data.database.customer.Customer;
+import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
@@ -38,21 +39,22 @@ public class CheckoutViewModel extends ViewModel {
     private Integer totalPrice;
     private Integer shippingCost = 0;
     private Integer discountAmount = 0;
-    private LiveData<Customer> customer;
+    private LiveData<Customer> customerLD;
     private MutableLiveData<List<ShippingMethod>> validShippingMethods = new MutableLiveData<>();
     private MutableLiveData<List<PaymentGateway>> validPayments = new MutableLiveData<>();
     private ShippingMethod selectedShippingMethod;
     private MutableLiveData<PaymentGateway> selectedPaymentMethod;
-    private LiveData<List<CartItem>> cartItems;
+    private LiveData<List<CartItem>> cartItemsLD;
+    private List<CartItem> cartItems = new ArrayList<>();
 
 
     public CheckoutViewModel(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
         this.currentStep = new MutableLiveData<>();
-        this.customer = dataRepository.getLoggedInCustomer();
+        this.customerLD = dataRepository.getLoggedInCustomer();
         this.shippingMethods = new ArrayList<>();
         this.selectedPaymentMethod = new MutableLiveData<>();
-        this.cartItems = Transformations.map(dataRepository.getCartItems(), items -> items);
+        this.cartItemsLD = Transformations.map(dataRepository.getCartItems(), items -> items);
         currentStep.setValue(CheckoutStep.CART);
         initShippingAndPaymentMethods();
     }
@@ -89,8 +91,8 @@ public class CheckoutViewModel extends ViewModel {
         totalPayment.set(PersianTextUtil.toPer(totalPrice + shippingCost - discountAmount));
     }
 
-    public LiveData<Customer> getCustomer() {
-        return customer;
+    public LiveData<Customer> getCustomerLD() {
+        return customerLD;
         //return null;
     }
 
@@ -112,8 +114,8 @@ public class CheckoutViewModel extends ViewModel {
     }
 
 
-    LiveData<List<CartItem>> getCartItems(){
-        return cartItems;
+    LiveData<List<CartItem>> getCartItemsLD(){
+        return cartItemsLD;
     }
 
     void deleteItem(int id) {
@@ -245,16 +247,18 @@ public class CheckoutViewModel extends ViewModel {
 
     private void validateCoupon(List<Coupon> coupons) {
 
-        List<CartItem> items = cartItems.getValue();
+        List<CartItem> items = cartItemsLD.getValue();
 
         //Log.d(TAG, "validateCoupon: validating");
         CouponValidator validator = new CouponValidator(items, coupons);
         Log.d(TAG, "validateCoupon: " + validator.getResultStatus());
 
+        cartItems = validator.getResultItems();
         discountAmount = validator.getDiscountAmount().intValue();
         updatePaymentDetails();
         loadingCoupon.set(false);
         isCouponEnabled.set(discountAmount == 0);
+
 
     }
 
@@ -262,5 +266,13 @@ public class CheckoutViewModel extends ViewModel {
         discountAmount = 0;
         isCouponEnabled.set(true);
         updatePaymentDetails();
+    }
+
+    public void completeOrder() {
+        Customer customer = customerLD.getValue();
+        PaymentGateway pg = selectedPaymentMethod.getValue();
+//        Order order = new Order("pending", customer.getId(),
+//                "", customer.getBilling(), customer.getShipping(),
+//                pg.getTitle(), pg.getMethodTitle(), cartItems,"");
     }
 }

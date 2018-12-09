@@ -85,7 +85,7 @@ public class Order {
     @SerializedName("line_items")
     @Expose
     @TypeConverters(LineItemConverter.class)
-    private List<LineItem> lineItems = null;
+    private List<CartItem> lineItems = null;
 
     @SerializedName("transaction_id")
     @Expose
@@ -230,7 +230,7 @@ public class Order {
     private Links links;
 
 
-    public Order(Integer id, String status, String currency, String dateCreated, String dateModified, String discountTotal, String shippingTotal, String total, Integer customerId, String customerNote, Billing billing, Shipping shipping, String paymentMethod, String paymentMethodTitle, List<LineItem> lineItems, String transactionId) {
+    public Order(Integer id, String status, String currency, String dateCreated, String dateModified, String discountTotal, String shippingTotal, String total, Integer customerId, String customerNote, Billing billing, Shipping shipping, String paymentMethod, String paymentMethodTitle, List<CartItem> lineItems, String transactionId) {
         this.id = id;
         this.status = status;
         this.currency = currency;
@@ -248,6 +248,20 @@ public class Order {
         this.lineItems = lineItems;
         this.transactionId = transactionId;
     }
+
+    @Ignore
+    public Order(String status, Integer customerId, String customerNote, Billing billing, Shipping shipping, String paymentMethod, String paymentMethodTitle, List<CartItem> lineItems, String transactionId) {
+        this.status = status;
+        this.customerId = customerId;
+        this.customerNote = customerNote;
+        this.billing = billing;
+        this.shipping = shipping;
+        this.paymentMethod = paymentMethod;
+        this.paymentMethodTitle = paymentMethodTitle;
+        this.lineItems = lineItems;
+        this.transactionId = transactionId;
+    }
+
 
     public Integer getId() {
         return id;
@@ -305,7 +319,7 @@ public class Order {
         return paymentMethodTitle;
     }
 
-    public List<LineItem> getLineItems() {
+    public List<CartItem> getLineItems() {
         return lineItems;
     }
 

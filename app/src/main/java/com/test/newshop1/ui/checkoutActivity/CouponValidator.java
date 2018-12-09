@@ -134,7 +134,7 @@ public class CouponValidator {
     private Float calculateCartTotal(List<CartItem> items) {
         Float total = (float) 0;
         for (CartItem item : items) {
-            total += item.getQuantity() * Float.valueOf(item.getPrice());
+            total += item.getQuantity() * Float.valueOf(item.getTotal());
         }
         return total;
     }
@@ -160,10 +160,10 @@ public class CouponValidator {
     }
 
     private void updateItems(CartItem item){
-        Float newPrice = Integer.valueOf(item.getPrice())*(1-discountAmount/cartTotal);
-        CartItem resultItem = item.cloneItem();
-        resultItem.setPrice(String.valueOf(newPrice));
-        this.resultItems.add(resultItem);
+        Float newPrice = Integer.valueOf(item.getSubtotal())*(1-discountAmount/cartTotal);
+        //CartItem resultItem = item.cloneItem();
+        item.setTotal(String.valueOf(newPrice));
+        this.resultItems.add(item);
     }
 
     private void invalidProductException(String productName) {
