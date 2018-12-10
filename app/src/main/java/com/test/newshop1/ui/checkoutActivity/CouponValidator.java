@@ -162,7 +162,7 @@ public class CouponValidator {
     private void updateItems(CartItem item){
         Float newPrice = Integer.valueOf(item.getSubtotal())*(1-discountAmount/cartTotal);
         CartItem resultItem = item.cloneItem();
-        resultItem.setTotal(String.valueOf(newPrice));
+        //resultItem.setTotal(String.valueOf(newPrice));
         this.resultItems.add(resultItem);
     }
 

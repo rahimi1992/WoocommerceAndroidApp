@@ -104,7 +104,6 @@ public class Order {
 
 
 
-
     @SerializedName("set_paid")
     @Ignore
     private boolean paid;
@@ -335,5 +334,9 @@ public class Order {
 
     public String getTransactionId() {
         return transactionId;
+    }
+
+    public void setShippingLines(List<ShippingLine> shippingLines) {
+        this.shippingLines = shippingLines;
     }
 }

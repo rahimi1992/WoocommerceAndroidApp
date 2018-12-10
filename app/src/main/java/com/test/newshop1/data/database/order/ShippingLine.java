@@ -33,6 +33,12 @@ public class ShippingLine {
     @Expose
     private List<MetaData> metaData = null;
 
+    public ShippingLine(String methodTitle, String methodId, String total) {
+        this.methodTitle = methodTitle;
+        this.methodId = methodId;
+        this.total = total;
+    }
+
     public Integer getId() {
         return id;
     }

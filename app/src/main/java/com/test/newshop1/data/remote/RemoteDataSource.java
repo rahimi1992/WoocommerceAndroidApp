@@ -9,6 +9,7 @@ import com.test.newshop1.data.database.coupon.Coupon;
 import com.test.newshop1.data.database.customer.Customer;
 import com.test.newshop1.data.database.customer.LoginData;
 import com.test.newshop1.data.database.customer.LoginResponse;
+import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
@@ -98,6 +99,10 @@ public class RemoteDataSource {
         mService.getCoupon(coupon).enqueue(new GenericCallback<List<Coupon>>().create(callback));
     }
 
+    public void saveOrder(Order order, ResponseCallback<Order> callback) {
+        mService.postOrder(order).enqueue(new GenericCallback<Order>().create(callback));
+    }
+
     private class GenericCallback<T>{
 
         Callback<T> create(ResponseCallback<T> callBack){
@@ -109,7 +114,7 @@ public class RemoteDataSource {
                         Log.d(TAG, "onResponse: successful");
                         callBack.onLoaded(response.body());
                     } else {
-                        Log.d(TAG, "onResponse: not successful - response code: " + response.code());
+                        Log.d(TAG, "onResponse: not successful - response code: " + response.code() + response.errorBody());
                         callBack.onDataNotAvailable();
                     }
                 }

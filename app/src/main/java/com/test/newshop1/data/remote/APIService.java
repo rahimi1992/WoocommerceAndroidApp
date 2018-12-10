@@ -7,6 +7,7 @@ import com.test.newshop1.data.database.coupon.Coupon;
 import com.test.newshop1.data.database.customer.Customer;
 import com.test.newshop1.data.database.customer.LoginData;
 import com.test.newshop1.data.database.customer.LoginResponse;
+import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
@@ -55,4 +56,7 @@ public interface APIService {
 
     @GET("coupons")
     Call<List<Coupon>> getCoupon(@Query("code") String code);
+
+    @POST("orders")
+    Call<Order> postOrder(@Body Order order);
 }

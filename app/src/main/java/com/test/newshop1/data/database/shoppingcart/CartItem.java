@@ -109,7 +109,7 @@ public class CartItem {
     }
 
     public CartItem cloneItem() {
-        return new CartItem(name, productId, variationId, quantity, total, imageSrc, categories);
+        return new CartItem(name, productId, variationId, quantity, subtotal, imageSrc, categories);
     }
 
     public void resetDiscount(){

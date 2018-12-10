@@ -14,12 +14,14 @@ import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.coupon.Coupon;
 import com.test.newshop1.data.database.customer.Customer;
 import com.test.newshop1.data.database.order.Order;
+import com.test.newshop1.data.database.order.ShippingLine;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.utilities.PersianTextUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -43,9 +45,11 @@ public class CheckoutViewModel extends ViewModel {
     private MutableLiveData<List<ShippingMethod>> validShippingMethods = new MutableLiveData<>();
     private MutableLiveData<List<PaymentGateway>> validPayments = new MutableLiveData<>();
     private ShippingMethod selectedShippingMethod;
-    private MutableLiveData<PaymentGateway> selectedPaymentMethod;
+    private PaymentGateway selectedPaymentMethod;
     private LiveData<List<CartItem>> cartItemsLD;
     private List<CartItem> cartItems = new ArrayList<>();
+
+    private boolean isCouponValidated = false;
 
 
     public CheckoutViewModel(DataRepository dataRepository) {
@@ -53,7 +57,6 @@ public class CheckoutViewModel extends ViewModel {
         this.currentStep = new MutableLiveData<>();
         this.customerLD = dataRepository.getLoggedInCustomer();
         this.shippingMethods = new ArrayList<>();
-        this.selectedPaymentMethod = new MutableLiveData<>();
         this.cartItemsLD = Transformations.map(dataRepository.getCartItems(), items -> items);
         currentStep.setValue(CheckoutStep.CART);
         initShippingAndPaymentMethods();
@@ -67,7 +70,8 @@ public class CheckoutViewModel extends ViewModel {
         updatePaymentDetails();
     }
 
-    public MutableLiveData<PaymentGateway> getSelectedPaymentMethod() {
+
+    public PaymentGateway getSelectedPaymentMethod() {
         return selectedPaymentMethod;
     }
 
@@ -76,7 +80,7 @@ public class CheckoutViewModel extends ViewModel {
     }
 
     void setSelectedPaymentMethod(PaymentGateway selectedPaymentMethod) {
-        this.selectedPaymentMethod.setValue(selectedPaymentMethod);
+        this.selectedPaymentMethod = selectedPaymentMethod;
     }
 
     void setTotalPrice(Integer totalPrice) {
@@ -225,6 +229,7 @@ public class CheckoutViewModel extends ViewModel {
 
         if (TextUtils.isEmpty(coupon.trim())){
             discountAmount = 0;
+            isCouponValidated = false;
             return;
         }
         isCouponEnabled.set(false);
@@ -240,6 +245,7 @@ public class CheckoutViewModel extends ViewModel {
                 discountAmount = 0;
                 updatePaymentDetails();
                 loadingCoupon.set(false);
+                isCouponValidated = false;
                 isCouponEnabled.set(true);
             }
         });
@@ -248,7 +254,6 @@ public class CheckoutViewModel extends ViewModel {
     private void validateCoupon(List<Coupon> coupons) {
 
         List<CartItem> items = cartItemsLD.getValue();
-
         //Log.d(TAG, "validateCoupon: validating");
         CouponValidator validator = new CouponValidator(items, coupons);
         Log.d(TAG, "validateCoupon: " + validator.getResultStatus());
@@ -258,6 +263,7 @@ public class CheckoutViewModel extends ViewModel {
         updatePaymentDetails();
         loadingCoupon.set(false);
         isCouponEnabled.set(discountAmount == 0);
+        isCouponValidated = true;
 
 
     }
@@ -265,14 +271,27 @@ public class CheckoutViewModel extends ViewModel {
     public void removeCode(){
         discountAmount = 0;
         isCouponEnabled.set(true);
+        isCouponValidated = false;
         updatePaymentDetails();
     }
 
     public void completeOrder() {
         Customer customer = customerLD.getValue();
-        PaymentGateway pg = selectedPaymentMethod.getValue();
+
+        if (!isCouponValidated){
+            Log.d(TAG, "completeOrder: no Coupon");
+            cartItems = cartItemsLD.getValue();
+        }
+
+
+
         Order order = new Order(Order.PENDING, customer.getId(),
                 "", customer.getBilling(), customer.getShipping(),
-                pg.getTitle(), pg.getMethodTitle(), cartItems,"");
+                selectedPaymentMethod.getTitle(), selectedPaymentMethod.getMethodTitle(), cartItems,"");
+
+        ShippingLine shippingLine = new ShippingLine(selectedShippingMethod.getTitle(), selectedPaymentMethod.getId(),String.valueOf(shippingCost));
+        order.setShippingLines(Collections.singletonList(shippingLine));
+
+        dataRepository.saveOrder(order);
     }
 }
