@@ -39,7 +39,7 @@ public class NormalProductListAdapter extends RecyclerView.Adapter<NormalProduct
         return products == null ? 0 : products.size();
     }
 
-    public void setProducts(List<Product> products) {
+    void setProducts(List<Product> products) {
         if (products != null && !products.isEmpty()) {
             this.products = products;
             notifyDataSetChanged();

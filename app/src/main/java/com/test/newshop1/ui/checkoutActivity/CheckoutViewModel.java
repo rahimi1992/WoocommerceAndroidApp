@@ -21,7 +21,6 @@ import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.utilities.PersianTextUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -280,9 +279,15 @@ public class CheckoutViewModel extends ViewModel {
 
         if (!isCouponValidated){
             Log.d(TAG, "completeOrder: no Coupon");
-            cartItems = cartItemsLD.getValue();
+            cartItems.clear();
+
+            for (CartItem cartItem : cartItemsLD.getValue()) {
+                cartItems.add(cartItem.cloneItem());
+            }
         }
 
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        Log.d(TAG, "completeOrder: " + gson.toJson(cartItems));
 
 
         Order order = new Order(Order.PENDING, customer.getId(),

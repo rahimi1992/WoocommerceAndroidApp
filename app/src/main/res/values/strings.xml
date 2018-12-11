@@ -31,6 +31,7 @@
     <string name="login_or_sign_up">ورود یا ثبت نام</string>
     <string name="login_force_text">ابتدا وارد حساب کاربری خود شوید</string>
     <string name="minimum_cart_message">حداقل خرید</string>
+    <string name="add_to_cart_btn_text">افزودن به سبد خرید</string>
 
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>

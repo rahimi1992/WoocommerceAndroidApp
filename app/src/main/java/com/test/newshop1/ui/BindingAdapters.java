@@ -12,7 +12,7 @@ public class BindingAdapters {
     @BindingAdapter({"imageUrl", "error", "thumb"})
     public static void loadImage(ImageView view, String url, Drawable error, boolean isThumb) {
         if (isThumb)
-            url = ImageUtil.getThumb(url, ImageUtil.SMALL_SIZE);
+            url = ImageUtil.getThumb(url, ImageUtil.MEDIUM_SIZE);
 
         Picasso.get().load(url).error(error).into(view);
     }

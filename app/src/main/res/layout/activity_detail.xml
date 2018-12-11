@@ -60,7 +60,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="50dp"
+                        android:layout_marginBottom="30dp"
                         android:textAlignment="center"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="1.0"
@@ -68,7 +68,7 @@
                         app:piv_dynamicCount="true"
                         app:piv_interactiveAnimation="true"
                         app:piv_selectedColor="@color/colorAccent"
-                        app:piv_unselectedColor="@color/gray"
+                        app:piv_unselectedColor="@color/primary_light"
                         app:piv_viewPager="@id/slider_view_pager"
                         attrs:piv_padding="12dp"
                         attrs:piv_radius="4dp" />
@@ -99,13 +99,13 @@
 
         <include layout="@layout/content_detail" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/add_shopping_cart" />
+        <!--<android.support.design.widget.FloatingActionButton-->
+            <!--android:id="@+id/add_to_cart_btn"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="bottom|end"-->
+            <!--android:layout_margin="@dimen/fab_margin"-->
+            <!--app:srcCompat="@drawable/add_shopping_cart" />-->
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

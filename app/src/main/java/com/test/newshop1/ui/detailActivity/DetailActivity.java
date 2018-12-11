@@ -33,6 +33,9 @@ import com.test.newshop1.utilities.InjectorUtil;
 import com.test.newshop1.utilities.PersianTextUtil;
 import com.rd.PageIndicatorView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class DetailActivity extends AppCompatActivity implements ProductImageSliderAdapter.OnCallback, OnItemClickListener {
     private static final String TAG = DetailActivity.class.getSimpleName();
@@ -46,7 +49,7 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
     private CollapsingToolbarLayout collapsingToolbar;
     private AppBarLayout appBarLayout;
     private PageIndicatorView pageIndicatorView;
-    private int[] colors;
+    private List<Integer> colors = new ArrayList<>();
     private CustomCardView customCardView;
     private Button expandBtn;
     private LayerDrawable cartIcon;
@@ -68,7 +71,7 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         collapsingToolbar = findViewById(R.id.collapsing_toolbar);
 
 
-        //collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.primary_600));
+        collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.transparentDark));
         collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.transparentDark));
 
         appBarLayout = findViewById(R.id.appbar);
@@ -92,12 +95,10 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
         RecyclerView relatedRV = findViewById(R.id.related_RV);
 
-
-
         relatedRV.setAdapter(adapter);
         relatedRV.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
-        findViewById(R.id.fab).setOnClickListener(v -> viewModel.addToCart());
+        findViewById(R.id.add_to_cart_btn).setOnClickListener(v -> viewModel.addToCart());
     }
 
     private void setObservers(){
@@ -106,7 +107,11 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
     private void updateUI(Product product) {
         if (product != null) {
-            ProductImageSliderAdapter sliderAdapter = new ProductImageSliderAdapter(this, product.getImages(), this);
+            colors.clear();
+            for (int i = 0; i < product.getImages().size(); i++) {
+                colors.add(getResources().getColor(R.color.colorAccent));
+            }
+            ProductImageSliderAdapter sliderAdapter = new ProductImageSliderAdapter(product.getImages(), this);
             slider.setAdapter(sliderAdapter);
             collapsingToolbar.setTitle(product.getName());
 
@@ -117,7 +122,7 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
                     PersianTextUtil.toPer(product.getRegularPrice())));
             pRegularPrice.setPaintFlags(pRegularPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             if (price >= regularPrice) {
-                pRegularPrice.setVisibility(View.INVISIBLE);
+                pRegularPrice.setVisibility(View.GONE);
             }
             TextView pPrice = findViewById(R.id.product_price);
             pPrice.setText(getResources().getString(R.string.currency,
@@ -148,12 +153,12 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
     @Override
     public void callbackColor(int color, int position) {
-
-//        colors.set(position, color);
-//        int page = slider.getCurrentItem();
-//        collapsingToolbar.setContentScrimColor(colors.get(page));
-//        pageIndicatorView.setSelectedColor(colors.get(page));
-//        invalidateOptionsMenu();
+        Log.d(TAG, "callbackColor: color: " + color);
+        colors.set(position, color);
+        int page = slider.getCurrentItem();
+        //collapsingToolbar.setContentScrimColor(colors.get(page));
+        pageIndicatorView.setSelectedColor(colors.get(page));
+        invalidateOptionsMenu();
     }
 
     @Override

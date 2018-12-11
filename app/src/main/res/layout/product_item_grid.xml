@@ -22,13 +22,13 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="3dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="3dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="6dp"
         android:layout_marginBottom="6dp"
         android:background="@drawable/border"
         app:cardBackgroundColor="#eeeeee"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="4dp"
         android:onClick="@{() -> listener.onItemClicked(product.id)}">
 
