@@ -31,37 +31,6 @@
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/bg_price_product_detail"
-                    android:divider="?android:listDivider"
-                    android:orientation="horizontal"
-                    android:padding="8dp"
-                    android:showDividers="middle">
-
-                    <TextView
-                        android:id="@+id/product_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textColorLink="@color/black"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/regular_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:paddingLeft="8dp"
-                        android:textColor="@color/white"
-                        android:visibility="visible" />
-
-                </LinearLayout>
 
                 <com.nex3z.togglebuttongroup.SingleSelectToggleGroup
                     android:id="@+id/var_btn_container"
@@ -77,18 +46,7 @@
 
                 </com.nex3z.togglebuttongroup.SingleSelectToggleGroup>
 
-                <Button
-                    android:id="@+id/add_to_cart_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:layout_marginBottom="12dp"
-                    android:background="@drawable/bg_accent_round_btn"
 
-                    android:elevation="4dp"
-                    android:text="@string/add_to_cart_btn_text"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
 
                 <com.test.newshop1.ui.detailActivity.CustomCardView
                     android:id="@+id/detail_card"
