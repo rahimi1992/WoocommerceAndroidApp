@@ -272,17 +272,24 @@ public class DataRepository {
         mRemoteDataSource.getCoupon(coupon, callback);
     }
 
-    public void saveOrder(Order order) {
+    public void saveOrder(Order order, ResponseCallback<Order> callback) {
         mRemoteDataSource.saveOrder(order, new ResponseCallback<Order>() {
             @Override
             public void onLoaded(Order response) {
                 Log.d(TAG, "onLoaded: order posted successfully");
+                saveOrderOnDB(response);
+                callback.onLoaded(response);
             }
 
             @Override
             public void onDataNotAvailable() {
                 Log.d(TAG, "onDataNotAvailable: send order error");
+                callback.onDataNotAvailable();
             }
         });
+    }
+
+    private void saveOrderOnDB(Order order) {
+        mLocalDataSource.saveOrder(order);
     }
 }

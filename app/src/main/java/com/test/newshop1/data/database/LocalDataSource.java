@@ -10,6 +10,7 @@ import com.test.newshop1.data.database.category.Category;
 import com.test.newshop1.data.database.category.CategoryDao;
 import com.test.newshop1.data.database.customer.Customer;
 import com.test.newshop1.data.database.customer.CustomerDao;
+import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.order.OrderDao;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.data.database.product.ProductCategoryJoin;
@@ -178,5 +179,10 @@ public class LocalDataSource {
 
     public void logoutCustomer(int id) {
         executors.diskIO().execute(() -> customerDao.logout(id));
+    }
+
+    public void saveOrder(Order order) {
+        executors.diskIO().execute(() -> orderDao.Insert(order));
+
     }
 }

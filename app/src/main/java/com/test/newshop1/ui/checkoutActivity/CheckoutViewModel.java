@@ -19,20 +19,26 @@ import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.utilities.PersianTextUtil;
+import com.zarinpal.ewallets.purchase.OnCallbackRequestPaymentListener;
+import com.zarinpal.ewallets.purchase.OnCallbackVerificationPaymentListener;
+import com.zarinpal.ewallets.purchase.PaymentRequest;
+import com.zarinpal.ewallets.purchase.ZarinPal;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CheckoutViewModel extends ViewModel {
+public class CheckoutViewModel extends ViewModel implements OnCallbackVerificationPaymentListener {
     private static final String TAG = "CheckoutViewModel";
 
     public ObservableField<String> shippingCostText = new ObservableField<>();
     public ObservableField<String> totalPriceText = new ObservableField<>();
     public ObservableField<String> discountText = new ObservableField<>();
     public ObservableField<String> totalPayment = new ObservableField<>();
+    public ObservableField<String> orderingMessage = new ObservableField<>();
     public ObservableBoolean loadingCoupon = new ObservableBoolean(false);
     public ObservableBoolean isCouponEnabled = new ObservableBoolean(true);
+
 
     private DataRepository dataRepository;
     private MutableLiveData<CheckoutStep> currentStep;
@@ -50,6 +56,8 @@ public class CheckoutViewModel extends ViewModel {
 
     private boolean isCouponValidated = false;
 
+    private ZarinPal zarinPal;
+    private OnCallbackRequestPaymentListener onPaymentReadyListener;
 
     public CheckoutViewModel(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
@@ -61,6 +69,9 @@ public class CheckoutViewModel extends ViewModel {
         initShippingAndPaymentMethods();
     }
 
+    public void setZarinPal(ZarinPal zarinPal) {
+        this.zarinPal = zarinPal;
+    }
 
     public void setSelectedShippingMethod(ShippingMethod selectedShippingMethod) {
         this.shippingCostText.set(PersianTextUtil.toPer(selectedShippingMethod.getCostValue()));
@@ -296,7 +307,60 @@ public class CheckoutViewModel extends ViewModel {
 
         ShippingLine shippingLine = new ShippingLine(selectedShippingMethod.getTitle(), selectedPaymentMethod.getId(),String.valueOf(shippingCost));
         order.setShippingLines(Collections.singletonList(shippingLine));
+        dataRepository.saveOrder(order, new ResponseCallback<Order>() {
+            @Override
+            public void onLoaded(Order response) {
+                goToPayment(response);
+            }
 
-        dataRepository.saveOrder(order);
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+    }
+
+    private void goToPayment(Order order) {
+        switch (selectedPaymentMethod.getId()) {
+            case "WC_ZPal":
+                zarinPalPayment(order);
+                orderingMessage.set("در حال انتقال به صفحه پرداخت");
+
+                break;
+            case "cod":
+                orderingMessage.set("سفارش شما با موفقیت ثبت شد");
+                break;
+        }
+        setCurrentStep(CheckoutStep.CONFIRM);
+    }
+
+    private void zarinPalPayment(Order order) {
+
+        zarinPal.startPayment(createPaymentRequest(order), onPaymentReadyListener);
+    }
+
+    private PaymentRequest createPaymentRequest(Order order) {
+
+        int amount = Integer.valueOf(order.getTotal());
+        String merchantId = selectedPaymentMethod.getSettings().getMerchantcode().getValue();
+
+        PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
+        paymentRequest.setMerchantID(merchantId);
+        paymentRequest.setAmount(amount);
+        paymentRequest.setDescription("تست پرداخت");
+        paymentRequest.setCallbackURL("femeloapp1://app");     /* Your App Scheme */
+        paymentRequest.setMobile(order.getBilling().getPhone());            /* Optional Parameters */
+        paymentRequest.setEmail(order.getBilling().getEmail());     /* Optional Parameters */
+
+        return paymentRequest;
+    }
+
+    public void setOnPaymentReadyListener(OnCallbackRequestPaymentListener onPaymentReadyListener) {
+        this.onPaymentReadyListener = onPaymentReadyListener;
+    }
+
+    @Override
+    public void onCallbackResultVerificationPayment(boolean isPaymentSuccess, String refID, PaymentRequest paymentRequest) {
+
     }
 }

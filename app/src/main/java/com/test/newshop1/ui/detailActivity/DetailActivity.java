@@ -153,12 +153,12 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
     @Override
     public void callbackColor(int color, int position) {
-        Log.d(TAG, "callbackColor: color: " + color);
-        colors.set(position, color);
-        int page = slider.getCurrentItem();
+        //Log.d(TAG, "callbackColor: color: " + color);
+        //colors.set(position, color);
+        //int page = slider.getCurrentItem();
         //collapsingToolbar.setContentScrimColor(colors.get(page));
-        pageIndicatorView.setSelectedColor(colors.get(page));
-        invalidateOptionsMenu();
+        //pageIndicatorView.setSelectedColor(colors.get(page));
+        //invalidateOptionsMenu();
     }
 
     @Override

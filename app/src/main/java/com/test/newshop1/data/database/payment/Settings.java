@@ -25,6 +25,10 @@ public class Settings {
     @Expose
     private FailedMassage failedMassage;
 
+    @SerializedName("merchantcode")
+    @Expose
+    private Merchantcode merchantcode;
+
     public Title getTitle() {
         return title;
     }
@@ -73,4 +77,11 @@ public class Settings {
         this.failedMassage = failedMassage;
     }
 
+    public Merchantcode getMerchantcode() {
+        return merchantcode;
+    }
+
+    public void setMerchantcode(Merchantcode merchantcode) {
+        this.merchantcode = merchantcode;
+    }
 }

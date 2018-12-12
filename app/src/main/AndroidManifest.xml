@@ -43,7 +43,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.test.newshop1.ui.homeActivity.HomeActivity" />
         </activity>
-        <activity android:name=".ui.checkoutActivity.CheckoutActivity" />
+        <activity android:name=".ui.checkoutActivity.CheckoutActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="femeloapp1" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.profileActivity.ProfileActivity"></activity>
     </application>
 

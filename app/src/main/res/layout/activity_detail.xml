@@ -28,7 +28,7 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="480dp"
+                android:layout_height="350dp"
                 app:collapsedTitleTextAppearance="@style/Collapsed.TitleText"
                 app:expandedTitleMarginStart="@dimen/activity_margin_content"
                 app:expandedTitleTextAppearance="@style/Expanded.TitleText"
@@ -58,9 +58,9 @@
                         android:id="@+id/slider_view_pager_indicator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="15dp"
-                        android:layout_above="@id/price_container"
+                        android:layout_marginBottom="30dp"
                         android:textAlignment="center"
                         app:layout_collapseMode="parallax"
                         app:layout_collapseParallaxMultiplier="1.0"
@@ -73,55 +73,7 @@
                         attrs:piv_padding="12dp"
                         attrs:piv_radius="4dp" />
 
-                    <LinearLayout
-                        android:id="@+id/price_container"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="10dp"
-                        android:translationZ="2dp"
-                        android:layout_above="@+id/add_to_cart_btn"
-                        android:background="@drawable/bg_price_product_detail"
-                        android:divider="?android:listDivider"
-                        android:orientation="horizontal"
-                        android:padding="8dp"
-                        android:showDividers="middle">
 
-                        <TextView
-                            android:id="@+id/product_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textColorLink="@color/black"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/regular_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="8dp"
-                            android:paddingLeft="8dp"
-                            android:textColor="@color/white"
-                            android:visibility="visible" />
-
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/add_to_cart_btn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="12dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="30dp"
-                        android:background="@drawable/bg_accent_round_btn"
-                        android:elevation="4dp"
-                        android:text="@string/add_to_cart_btn_text"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
 
                 </RelativeLayout>
 
