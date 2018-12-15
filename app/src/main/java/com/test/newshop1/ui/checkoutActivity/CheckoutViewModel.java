@@ -304,13 +304,18 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             }
         }
 
+        if (selectedPaymentMethod == null) {
+            mSnackbarText.setValue(R.string.select_payment_method_message);
+            return;
+        }
+
         if ((selectedShippingMethod == null)) {
             mSnackbarText.setValue(R.string.select_shipping_method_message);
             return;
         }
+
 //        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 //        Log.d(TAG, "completeOrder: " + gson.toJson(cartItems));
-
 
         Order order = new Order(Order.PENDING, customer.getId(),
                 "", customer.getBilling(), customer.getShipping(),

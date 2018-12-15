@@ -34,6 +34,7 @@
     <string name="add_to_cart_btn_text">افزودن به سبد خرید</string>
 
     <string name="select_shipping_method_message">لطفا نحوه ارسال را انتخاب کنید</string>
+    <string name="select_payment_method_message">لطفا نحوه پرداخت را انتخاب کنید</string>
 
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>
