@@ -33,6 +33,8 @@
     <string name="minimum_cart_message">حداقل خرید</string>
     <string name="add_to_cart_btn_text">افزودن به سبد خرید</string>
 
+    <string name="select_shipping_method_message">لطفا نحوه ارسال را انتخاب کنید</string>
+
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>
         <item>آدرس</item>

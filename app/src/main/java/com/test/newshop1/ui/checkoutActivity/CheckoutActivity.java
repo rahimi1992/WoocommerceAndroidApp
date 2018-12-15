@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +14,10 @@ import android.widget.Toast;
 
 import com.shuhart.stepview.StepView;
 import com.test.newshop1.R;
+import com.test.newshop1.ui.SnackbarMessage;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.utilities.InjectorUtil;
+import com.test.newshop1.utilities.SnackbarUtils;
 import com.zarinpal.ewallets.purchase.OnCallbackRequestPaymentListener;
 import com.zarinpal.ewallets.purchase.OnCallbackVerificationPaymentListener;
 import com.zarinpal.ewallets.purchase.PaymentRequest;
@@ -26,6 +29,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private StepView mStepView;
     private CheckoutViewModel mViewModel;
+    private View parentLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class CheckoutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: called");
         setContentView(R.layout.checkout_activity);
-
+        parentLayout = findViewById(android.R.id.content);
         mStepView = findViewById(R.id.cart_step_view);
         //mStepView.go(0, false);
 
@@ -54,6 +58,13 @@ public class CheckoutActivity extends AppCompatActivity {
         });
         Uri data = getIntent().getData();
         zarinPal.verificationPayment(data, mViewModel);
+
+        setupSnackBar();
+    }
+
+    private void setupSnackBar() {
+
+        mViewModel.getSnackbarText().observe(this, (SnackbarMessage.SnackbarObserver) snackbarMessageResourceId -> SnackbarUtils.showSnackbar(parentLayout, getString(snackbarMessageResourceId)));
     }
 
     public static CheckoutViewModel obtainViewModel(FragmentActivity activity) {

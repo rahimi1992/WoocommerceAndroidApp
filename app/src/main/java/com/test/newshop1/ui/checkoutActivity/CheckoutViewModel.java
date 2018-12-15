@@ -9,6 +9,7 @@ import android.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.test.newshop1.R;
 import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.coupon.Coupon;
@@ -18,6 +19,7 @@ import com.test.newshop1.data.database.order.ShippingLine;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
+import com.test.newshop1.ui.SnackbarMessage;
 import com.test.newshop1.utilities.PersianTextUtil;
 import com.zarinpal.ewallets.purchase.OnCallbackRequestPaymentListener;
 import com.zarinpal.ewallets.purchase.OnCallbackVerificationPaymentListener;
@@ -53,6 +55,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     private PaymentGateway selectedPaymentMethod;
     private LiveData<List<CartItem>> cartItemsLD;
     private List<CartItem> cartItems = new ArrayList<>();
+    private final SnackbarMessage mSnackbarText = new SnackbarMessage();
 
     private boolean isCouponValidated = false;
 
@@ -108,6 +111,10 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     public LiveData<Customer> getCustomerLD() {
         return customerLD;
         //return null;
+    }
+
+    public SnackbarMessage getSnackbarText() {
+        return mSnackbarText;
     }
 
     LiveData<List<ShippingMethod>> getValidShippingMethods(){
@@ -297,6 +304,10 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             }
         }
 
+        if ((selectedShippingMethod == null)) {
+            mSnackbarText.setValue(R.string.select_shipping_method_message);
+            return;
+        }
 //        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 //        Log.d(TAG, "completeOrder: " + gson.toJson(cartItems));
 
