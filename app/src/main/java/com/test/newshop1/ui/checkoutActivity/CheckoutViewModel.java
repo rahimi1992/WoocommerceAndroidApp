@@ -363,6 +363,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     @Override
     public void onCallbackResultVerificationPayment(boolean isPaymentSuccess, String refID, PaymentRequest paymentRequest) {
+        currentStep.setValue(CheckoutStep.CONFIRM);
         Log.d(TAG, "onCallbackResultVerificationPayment: called");
         String orderId = paymentRequest.getCallBackURL().split("_")[1];
         if (isPaymentSuccess) {

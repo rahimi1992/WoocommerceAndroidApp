@@ -61,8 +61,8 @@ public class AddressFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(), factory).get(CheckoutViewModel.class);
+
+        mViewModel = CheckoutActivity.obtainViewModel(getActivity());
 
         mViewModel.getCustomerLD().observe(this, this::updateUI);
         //binding.setViewmodel(mViewModel);

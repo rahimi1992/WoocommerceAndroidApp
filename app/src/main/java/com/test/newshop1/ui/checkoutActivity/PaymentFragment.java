@@ -59,8 +59,8 @@ public class PaymentFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(Objects.requireNonNull(getActivity()));
-        mViewModel = ViewModelProviders.of(getActivity(), factory).get(CheckoutViewModel.class);
+
+        mViewModel = CheckoutActivity.obtainViewModel(getActivity());
         binding.setViewmodel(mViewModel);
 
         mViewModel.getValidShippingMethods().observe(this, this::updateShippingMethods);

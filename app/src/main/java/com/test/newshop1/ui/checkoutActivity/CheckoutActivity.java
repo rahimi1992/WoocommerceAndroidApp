@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,8 +37,8 @@ public class CheckoutActivity extends AppCompatActivity {
         mStepView = findViewById(R.id.cart_step_view);
         //mStepView.go(0, false);
 
-        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
-        mViewModel = ViewModelProviders.of(this, factory).get(CheckoutViewModel.class);
+
+        mViewModel = obtainViewModel(this);
 
         mViewModel.getCurrentStep().observe(this, this::updateFragments);
         //mViewModel.setCurrentStep(CheckoutStep.CART);
@@ -53,6 +54,13 @@ public class CheckoutActivity extends AppCompatActivity {
         });
         Uri data = getIntent().getData();
         zarinPal.verificationPayment(data, mViewModel);
+    }
+
+    public static CheckoutViewModel obtainViewModel(FragmentActivity activity) {
+
+        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(activity);
+
+        return ViewModelProviders.of(activity, factory).get(CheckoutViewModel.class);
     }
 
     private void updateFragments(CheckoutStep currentStep) {

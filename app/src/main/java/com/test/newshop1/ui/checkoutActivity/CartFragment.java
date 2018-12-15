@@ -64,9 +64,9 @@ public class CartFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(Objects.requireNonNull(getContext()));
+
         cartItems = new ArrayList<>();
-        mViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity()), factory).get(CheckoutViewModel.class);
+        mViewModel = CheckoutActivity.obtainViewModel(getActivity());
         mViewModel.getCartItemsLD().observe(this, items -> {
             cartItems = items;
             showCartDetail();
