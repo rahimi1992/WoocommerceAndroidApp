@@ -30,6 +30,7 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: called");
         setContentView(R.layout.checkout_activity);
 
         mStepView = findViewById(R.id.cart_step_view);

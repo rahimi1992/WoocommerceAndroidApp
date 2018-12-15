@@ -341,17 +341,18 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     private PaymentRequest createPaymentRequest(Order order) {
 
-        int amount = Integer.valueOf(order.getTotal());
+//        int amount = Integer.valueOf(order.getTotal());
+        int amount = 100;
+
         String merchantId = selectedPaymentMethod.getSettings().getMerchantcode().getValue();
 
         PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
         paymentRequest.setMerchantID(merchantId);
         paymentRequest.setAmount(amount);
         paymentRequest.setDescription("تست پرداخت");
-        paymentRequest.setCallbackURL("femeloapp1://app");     /* Your App Scheme */
+        paymentRequest.setCallbackURL("femeloapp1://app_" + order.getId());     /* Your App Scheme */
         paymentRequest.setMobile(order.getBilling().getPhone());            /* Optional Parameters */
         paymentRequest.setEmail(order.getBilling().getEmail());     /* Optional Parameters */
-        paymentRequest.setAuthority(String.valueOf(order.getId()));
 
         return paymentRequest;
     }
@@ -362,9 +363,11 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     @Override
     public void onCallbackResultVerificationPayment(boolean isPaymentSuccess, String refID, PaymentRequest paymentRequest) {
-
+        Log.d(TAG, "onCallbackResultVerificationPayment: called");
+        String orderId = paymentRequest.getCallBackURL().split("_")[1];
         if (isPaymentSuccess) {
-            dataRepository.updateOrder(paymentRequest.getAuthority(), new Order(true));
+            Log.d(TAG, "onCallbackResultVerificationPayment: trying to set payment to true: " + orderId);
+            dataRepository.updateOrder(orderId, new Order(true));
         } else {
 
         }
