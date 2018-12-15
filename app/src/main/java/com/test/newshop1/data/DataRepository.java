@@ -292,4 +292,8 @@ public class DataRepository {
     private void saveOrderOnDB(Order order) {
         mLocalDataSource.saveOrder(order);
     }
+
+    public void updateOrder(String orderId, Order order) {
+        mRemoteDataSource.updateOrder(orderId, order);
+    }
 }

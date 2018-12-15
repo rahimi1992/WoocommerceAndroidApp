@@ -271,6 +271,11 @@ public class Order {
         this.transactionId = transactionId;
     }
 
+    @Ignore
+    public Order(boolean paid){
+        this.paid = paid;
+    }
+
 
     public Integer getId() {
         return id;

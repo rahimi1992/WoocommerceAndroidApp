@@ -103,6 +103,24 @@ public class RemoteDataSource {
         mService.postOrder(order).enqueue(new GenericCallback<Order>().create(callback));
     }
 
+    public void updateOrder(String orderId, Order order) {
+        mService.updateOrder(orderId, order).enqueue(new Callback<Order>() {
+            @Override
+            public void onResponse(@NonNull Call<Order> call, @NonNull Response<Order> response) {
+                if (!response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: retrying set payment");
+                    call.clone().enqueue(this);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Order> call, @NonNull Throwable t) {
+                Log.d(TAG, "onResponse: retrying set payment");
+                call.clone().enqueue(this);
+            }
+        });
+    }
+
     private class GenericCallback<T>{
 
         Callback<T> create(ResponseCallback<T> callBack){

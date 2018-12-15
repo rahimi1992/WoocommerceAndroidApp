@@ -351,6 +351,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         paymentRequest.setCallbackURL("femeloapp1://app");     /* Your App Scheme */
         paymentRequest.setMobile(order.getBilling().getPhone());            /* Optional Parameters */
         paymentRequest.setEmail(order.getBilling().getEmail());     /* Optional Parameters */
+        paymentRequest.setAuthority(String.valueOf(order.getId()));
 
         return paymentRequest;
     }
@@ -361,6 +362,12 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     @Override
     public void onCallbackResultVerificationPayment(boolean isPaymentSuccess, String refID, PaymentRequest paymentRequest) {
+
+        if (isPaymentSuccess) {
+            dataRepository.updateOrder(paymentRequest.getAuthority(), new Order(true));
+        } else {
+
+        }
 
     }
 }

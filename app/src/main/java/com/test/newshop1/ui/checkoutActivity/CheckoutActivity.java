@@ -38,13 +38,6 @@ public class CheckoutActivity extends AppCompatActivity {
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
         mViewModel = ViewModelProviders.of(this, factory).get(CheckoutViewModel.class);
 
-//        if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .add(R.id.container, CartFragment.newInstance())
-//                    .commit();
-//        }
-
-
         mViewModel.getCurrentStep().observe(this, this::updateFragments);
         //mViewModel.setCurrentStep(CheckoutStep.CART);
 
