@@ -1,6 +1,5 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,14 +18,13 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
-import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.ui.detailActivity.DetailActivity;
-import com.test.newshop1.utilities.InjectorUtil;
 import com.test.newshop1.utilities.PersianTextUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CartFragment extends Fragment {
     private static final String TAG = CartFragment.class.getSimpleName();
@@ -110,7 +108,7 @@ public class CartFragment extends Fragment {
                 String itemPriceText = PersianTextUtil.toPer(item.getQuantity()) + " x " + PersianTextUtil.toPer(item.getTotal());
                 priceTV.setText(itemPriceText);
                 //priceTV.setTypeface(font_yekan);
-                ImageView image = viewItem.findViewById(R.id.thumbnail);
+                CircleImageView image = viewItem.findViewById(R.id.thumbnail);
                 image.setOnClickListener(this::goToProductDetail);
                 image.setId(item.getProductId());
                 Picasso.get().load(item.getImageSrc())

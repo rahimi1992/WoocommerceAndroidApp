@@ -11,8 +11,8 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
         app:layout_constraintBottom_toTopOf="@id/next_btn"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -30,6 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/checkout_next_btn"
+        android:background="@drawable/bg_accent_round_btn"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

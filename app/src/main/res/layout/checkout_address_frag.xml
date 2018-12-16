@@ -31,7 +31,8 @@
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_accent_round_btn"
             android:text="@string/login_or_sign_up"
             bind:showIfNull="@{customer}"
             bind:layout_constraintBottom_toTopOf="@+id/next_btn" />
@@ -40,7 +41,8 @@
             android:id="@+id/next_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_accent_round_btn"
             android:text="@string/checkout_next_btn"
             bind:layout_constraintBottom_toBottomOf="parent" />
 

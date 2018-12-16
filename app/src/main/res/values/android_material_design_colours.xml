@@ -275,7 +275,7 @@ http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
     <!--grey-->
     <color name="md_grey_50">#FAFAFA</color>
     <color name="md_grey_100">#F5F5F5</color>
-    <color name="md_grey_200">#EEEEEE</color>
+    <color name="md_grey_200">#eeeeee</color>
     <color name="md_grey_300">#E0E0E0</color>
     <color name="md_grey_400">#BDBDBD</color>
     <color name="md_grey_500">#9E9E9E</color>
