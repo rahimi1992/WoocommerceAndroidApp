@@ -2,11 +2,9 @@
 package com.test.newshop1.ui;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 
-public class SnackbarMessage extends SingleLiveEvent<Integer> {
+public class SnackbarMessageText extends SingleLiveEvent<String> {
 
     public void observe(LifecycleOwner owner, final SnackbarObserver observer) {
         super.observe(owner, t -> {
@@ -19,7 +17,8 @@ public class SnackbarMessage extends SingleLiveEvent<Integer> {
 
     public interface SnackbarObserver {
 
-        void onNewMessage(@StringRes int snackbarMessageResourceId);
+        void onNewMessage(String snackbarMessageText);
+
     }
 
 }
