@@ -19,7 +19,8 @@ import com.test.newshop1.data.database.order.ShippingLine;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
-import com.test.newshop1.ui.SnackbarMessage;
+import com.test.newshop1.ui.SnackbarMessageId;
+import com.test.newshop1.ui.SnackbarMessageText;
 import com.test.newshop1.utilities.PersianTextUtil;
 import com.zarinpal.ewallets.purchase.OnCallbackRequestPaymentListener;
 import com.zarinpal.ewallets.purchase.OnCallbackVerificationPaymentListener;
@@ -55,7 +56,9 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     private PaymentGateway selectedPaymentMethod;
     private LiveData<List<CartItem>> cartItemsLD;
     private List<CartItem> cartItems = new ArrayList<>();
-    private final SnackbarMessage mSnackbarText = new SnackbarMessage();
+    private final SnackbarMessageId mSnackbarMessageId = new SnackbarMessageId();
+    private final SnackbarMessageText mSnackbarMessageText = new SnackbarMessageText();
+
 
     private boolean isCouponValidated = false;
 
@@ -113,8 +116,12 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         //return null;
     }
 
-    public SnackbarMessage getSnackbarText() {
-        return mSnackbarText;
+    public SnackbarMessageId getSnackbarMessageId() {
+        return mSnackbarMessageId;
+    }
+
+    public SnackbarMessageText getSnackbarMessageText() {
+        return mSnackbarMessageText;
     }
 
     LiveData<List<ShippingMethod>> getValidShippingMethods(){
@@ -164,6 +171,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             @Override
             public void onDataNotAvailable() {
                 shippingMethods = null;
+                connectionError();
                 Log.d(TAG, "onDataNotAvailable: called");
             }
         });
@@ -177,6 +185,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             @Override
             public void onDataNotAvailable() {
                 validPayments.postValue(null);
+                connectionError();
             }
         });
 
@@ -281,6 +290,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         loadingCoupon.set(false);
         isCouponEnabled.set(discountAmount == 0);
         isCouponValidated = true;
+        mSnackbarMessageText.setValue(validator.getResultStatus());
 
 
     }
@@ -305,12 +315,12 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         }
 
         if (selectedPaymentMethod == null) {
-            mSnackbarText.setValue(R.string.select_payment_method_message);
+            mSnackbarMessageId.setValue(R.string.select_payment_method_message);
             return;
         }
 
         if ((selectedShippingMethod == null)) {
-            mSnackbarText.setValue(R.string.select_shipping_method_message);
+            mSnackbarMessageId.setValue(R.string.select_shipping_method_message);
             return;
         }
 
@@ -331,7 +341,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
             @Override
             public void onDataNotAvailable() {
-
+                connectionError();
             }
         });
     }
@@ -389,5 +399,9 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
         }
 
+    }
+
+    private void connectionError(){
+        mSnackbarMessageId.setValue(R.string.connection_error_message);
     }
 }

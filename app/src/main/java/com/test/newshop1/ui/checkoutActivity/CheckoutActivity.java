@@ -1,10 +1,8 @@
 package com.test.newshop1.ui.checkoutActivity;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -14,13 +12,11 @@ import android.widget.Toast;
 
 import com.shuhart.stepview.StepView;
 import com.test.newshop1.R;
-import com.test.newshop1.ui.SnackbarMessage;
+import com.test.newshop1.ui.SnackbarMessageId;
+import com.test.newshop1.ui.SnackbarMessageText;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.utilities.InjectorUtil;
 import com.test.newshop1.utilities.SnackbarUtils;
-import com.zarinpal.ewallets.purchase.OnCallbackRequestPaymentListener;
-import com.zarinpal.ewallets.purchase.OnCallbackVerificationPaymentListener;
-import com.zarinpal.ewallets.purchase.PaymentRequest;
 import com.zarinpal.ewallets.purchase.ZarinPal;
 
 
@@ -64,7 +60,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void setupSnackBar() {
 
-        mViewModel.getSnackbarText().observe(this, (SnackbarMessage.SnackbarObserver) snackbarMessageResourceId -> SnackbarUtils.showSnackbar(parentLayout, getString(snackbarMessageResourceId)));
+        mViewModel.getSnackbarMessageText().observe(this, (SnackbarMessageText.SnackbarObserver) snackbarMessageText -> SnackbarUtils.showSnackbar(getWindow().getDecorView().getRootView(), snackbarMessageText));
+        mViewModel.getSnackbarMessageId().observe(this, (SnackbarMessageId.SnackbarObserver) snackbarMessageResourceId -> SnackbarUtils.showSnackbar(getWindow().getDecorView().getRootView(), getString(snackbarMessageResourceId)));
     }
 
     public static CheckoutViewModel obtainViewModel(FragmentActivity activity) {
