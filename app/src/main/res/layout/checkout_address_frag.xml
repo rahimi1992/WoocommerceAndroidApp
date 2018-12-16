@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.test.newshop1.ui.checkoutActivity.CheckoutViewModel"/>
 
         <variable
             name="customer"
@@ -14,12 +17,13 @@
         android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="16dp"
         tools:context=".ui.checkout.CheckoutFragment">
 
         <include
             android:id="@+id/include"
             layout="@layout/address_item"
-            bind:address="@{customer.billing}"
+            bind:address="@{viewModel.billing}"
 
             bind:layout_constraintBottom_toTopOf="@+id/next_btn"
             bind:layout_constraintEnd_toEndOf="parent"

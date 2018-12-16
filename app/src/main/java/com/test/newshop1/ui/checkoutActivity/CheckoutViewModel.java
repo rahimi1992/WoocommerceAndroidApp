@@ -13,6 +13,7 @@ import com.test.newshop1.R;
 import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.coupon.Coupon;
+import com.test.newshop1.data.database.customer.Billing;
 import com.test.newshop1.data.database.customer.Customer;
 import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.order.ShippingLine;
@@ -41,7 +42,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     public ObservableField<String> orderingMessage = new ObservableField<>();
     public ObservableBoolean loadingCoupon = new ObservableBoolean(false);
     public ObservableBoolean isCouponEnabled = new ObservableBoolean(true);
-
+    public ObservableField<Billing> billing = new ObservableField<>();
 
     private DataRepository dataRepository;
     private MutableLiveData<CheckoutStep> currentStep;
@@ -253,6 +254,8 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     void loadCoupon(String coupon) {
 
+        Log.d(TAG, "loadCoupon: " + billing.get().getPhone());
+
         if (TextUtils.isEmpty(coupon.trim())){
             discountAmount = 0;
             isCouponValidated = false;
@@ -324,11 +327,9 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             return;
         }
 
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        Log.d(TAG, "completeOrder: " + gson.toJson(cartItems));
 
         Order order = new Order(Order.PENDING, customer.getId(),
-                "", customer.getBilling(), customer.getShipping(),
+                "", billing.get(), customer.getShipping(),
                 selectedPaymentMethod.getTitle(), selectedPaymentMethod.getMethodTitle(), cartItems,"");
 
         ShippingLine shippingLine = new ShippingLine(selectedShippingMethod.getTitle(), selectedPaymentMethod.getId(),String.valueOf(shippingCost));
@@ -403,5 +404,9 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     private void connectionError(){
         mSnackbarMessageId.setValue(R.string.connection_error_message);
+    }
+
+    public void updateAddress(Billing billing) {
+        this.billing.set(billing);
     }
 }

@@ -65,13 +65,18 @@ public class AddressFragment extends Fragment {
         mViewModel = CheckoutActivity.obtainViewModel(getActivity());
 
         mViewModel.getCustomerLD().observe(this, this::updateUI);
-        //binding.setViewmodel(mViewModel);
+        binding.setViewModel(mViewModel);
+
     }
 
     private void updateUI(Customer customer) {
 
         isLoggedIn = customer != null;
         binding.setCustomer(customer);
+
+        if (customer != null)
+            mViewModel.updateAddress(customer.getBilling());
+
     }
 
 }
