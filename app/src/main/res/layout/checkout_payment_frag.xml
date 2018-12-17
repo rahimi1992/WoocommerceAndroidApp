@@ -4,220 +4,245 @@
     xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewmodel"
-            type="com.test.newshop1.ui.checkoutActivity.CheckoutViewModel"/>
+            type="com.test.newshop1.ui.checkoutActivity.CheckoutViewModel" />
     </data>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true"
-        android:isScrollContainer="true"
-        app:layout_scrollFlags="scroll">
+        android:layout_height="match_parent">
 
-
-        <LinearLayout
-            android:id="@+id/my_linear_layout"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="match_parent"
+            android:clipToPadding="true"
+            android:fillViewport="true"
+            android:isScrollContainer="true"
+            app:layout_scrollFlags="scroll">
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="نحوه پرداخت" />
-            <RadioGroup
-                android:id="@+id/payment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="vertical"
-                android:weightSum="2">
-
-            </RadioGroup>
-            <ProgressBar
-                android:id="@+id/payment_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="invisible" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="نحوه ارسال" />
-            <RadioGroup
-                android:id="@+id/shipping"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="vertical"
-                android:weightSum="2">
-
-            </RadioGroup>
-
-            <ProgressBar
-                android:id="@+id/shipping_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="invisible" />
 
             <LinearLayout
+                android:id="@+id/my_linear_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="4dp">
+                android:layout_height="100dp"
+                android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/coupon_et"
-                    android:layout_width="wrap_content"
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:hint="کد تخفیف"
-                    android:enabled="@{viewmodel.isCouponEnabled}"
-                    android:inputType="textPersonName" />
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="15dp"
+                    bind:setElevation="@{viewmodel.isPaymentSelected}">
 
-                <Button
-                    android:id="@+id/discount_btn"
-                    android:layout_width="wrap_content"
+                    <RadioGroup
+                        android:id="@+id/payment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical"
+                        android:weightSum="2">
+
+                    </RadioGroup>
+
+                    <ProgressBar
+                        android:id="@+id/payment_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:visibility="invisible" />
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{viewmodel.isCouponEnabled}"
-                    android:text="اعمال کد" />
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="15dp"
+                    bind:setElevation="@{viewmodel.isShippingSelected}">
+
+                    <RadioGroup
+                        android:id="@+id/shipping"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:orientation="vertical"
+                        android:weightSum="2">
+
+                    </RadioGroup>
+
+                    <ProgressBar
+                        android:id="@+id/shipping_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:visibility="invisible" />
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <EditText
+                        android:id="@+id/coupon_et"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="@{viewmodel.isCouponEnabled}"
+                        android:hint="کد تخفیف"
+                        android:inputType="textPersonName" />
+
+                    <Button
+                        android:id="@+id/discount_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="@{viewmodel.isCouponEnabled}"
+                        android:text="ثبت کد" />
+
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/discount_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:visibility="invisible"
+                    bind:invisibleIfFalse="@{viewmodel.loadingCoupon}" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardElevation="4dp">
+
+                    <LinearLayout
+                        android:id="@+id/total_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="4dp"
+                            android:text="جمغ فاکتور" />
+
+                        <TextView
+                            android:id="@+id/total"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="4dp"
+                            android:text="@{viewmodel.totalPriceText}" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/shipping_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="4dp"
+                            android:text="هزینه ارسال" />
+
+                        <TextView
+                            android:id="@+id/shipping_cost"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="4dp"
+                            android:text="@{viewmodel.shippingCostText}" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/discount_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:weightSum="4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:paddingStart="8dp"
+                            android:text="تخفیف" />
+
+                        <TextView
+                            android:id="@+id/discount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="4dp"
+                            android:text="@{viewmodel.discountText}" />
+
+                        <Button
+                            android:id="@+id/remove_coupon_btn"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:onClick="@{()-> viewmodel.removeCode()}"
+                            android:text="حذف کد"
+                            android:textSize="12sp"
+                            bind:invisibleIfFalse="@{!viewmodel.isCouponEnabled}" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/payment_ll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="4dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="4dp"
+                            android:text="قابل پرداخت" />
+
+                        <TextView
+                            android:id="@+id/payment_amount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingStart="4dp"
+                            android:text="@{viewmodel.totalPayment}" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
 
             </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/discount_progress"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="invisible"
-                bind:invisibleIfFalse="@{viewmodel.loadingCoupon}"
-                />
+        </android.support.v4.widget.NestedScrollView>
 
-            <LinearLayout
-                android:id="@+id/total_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="4dp"
-                android:weightSum="2">
+        <Button
+            android:id="@+id/next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/bg_accent_round_btn"
+            android:text="@string/checkout_next_btn"
+            bind:layout_constraintBottom_toBottomOf="parent" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="جمغ فاکتور" />
-
-                <TextView
-                    android:id="@+id/total"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="@{viewmodel.totalPriceText}"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/shipping_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="4dp"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="هزینه ارسال" />
-
-                <TextView
-                    android:id="@+id/shipping_cost"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="@{viewmodel.shippingCostText}"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/discount_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="0dp"
-                android:paddingTop="0dp"
-                android:weightSum="4">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingStart="8dp"
-                    android:text="تخفیف" />
-
-                <TextView
-                    android:id="@+id/discount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="@{viewmodel.discountText}" />
-
-                <Button
-                    android:id="@+id/remove_coupon_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:text="حذف کد"
-                    android:textSize="12sp"
-                    bind:invisibleIfFalse="@{!viewmodel.isCouponEnabled}"
-                    android:onClick="@{()-> viewmodel.removeCode()}"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/payment_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="4dp"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="قابل پرداخت" />
-
-                <TextView
-                    android:id="@+id/payment_amount"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="4dp"
-                    android:text="@{viewmodel.totalPayment}"/>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/next_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="next"/>
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.constraint.ConstraintLayout>
 </layout>

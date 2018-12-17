@@ -42,7 +42,10 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     public ObservableField<String> orderingMessage = new ObservableField<>();
     public ObservableBoolean loadingCoupon = new ObservableBoolean(false);
     public ObservableBoolean isCouponEnabled = new ObservableBoolean(true);
-    public ObservableField<Billing> billing = new ObservableField<>();
+    public ObservableBoolean isPaymentSelected = new ObservableBoolean(false);
+    public ObservableBoolean isShippingSelected = new ObservableBoolean(false);
+
+    public ObservableField<Billing> billingObservableField = new ObservableField<>();
 
     private DataRepository dataRepository;
     private MutableLiveData<CheckoutStep> currentStep;
@@ -81,23 +84,30 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     }
 
     public void setSelectedShippingMethod(ShippingMethod selectedShippingMethod) {
-        this.shippingCostText.set(PersianTextUtil.toPer(selectedShippingMethod.getCostValue()));
+        if (selectedShippingMethod != null) {
+            isShippingSelected.set(true);
+            this.shippingCostText.set(PersianTextUtil.toPer(selectedShippingMethod.getCostValue()));
+            this.shippingCost = Integer.valueOf(selectedShippingMethod.getCostValue());
+            updatePaymentDetails();
+        }else {
+            isShippingSelected.set(false);
+        }
         this.selectedShippingMethod = selectedShippingMethod;
-        this.shippingCost = Integer.valueOf(selectedShippingMethod.getCostValue());
-        updatePaymentDetails();
+
     }
 
+    void setSelectedPaymentMethod(PaymentGateway selectedPaymentMethod) {
 
-    public PaymentGateway getSelectedPaymentMethod() {
-        return selectedPaymentMethod;
+        isPaymentSelected.set(selectedPaymentMethod != null);
+        this.selectedPaymentMethod = selectedPaymentMethod;
     }
 
     public ShippingMethod getSelectedShippingMethod() {
         return selectedShippingMethod;
     }
 
-    void setSelectedPaymentMethod(PaymentGateway selectedPaymentMethod) {
-        this.selectedPaymentMethod = selectedPaymentMethod;
+    public PaymentGateway getSelectedPaymentMethod() {
+        return selectedPaymentMethod;
     }
 
     void setTotalPrice(Integer totalPrice) {
@@ -172,7 +182,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             @Override
             public void onDataNotAvailable() {
                 shippingMethods = null;
-                connectionError();
+                //connectionError();
                 Log.d(TAG, "onDataNotAvailable: called");
             }
         });
@@ -186,7 +196,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             @Override
             public void onDataNotAvailable() {
                 validPayments.postValue(null);
-                connectionError();
+                //connectionError();
             }
         });
 
@@ -254,7 +264,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     void loadCoupon(String coupon) {
 
-        Log.d(TAG, "loadCoupon: " + billing.get().getPhone());
+        Log.d(TAG, "loadCoupon: " + billingObservableField.get().getPhone());
 
         if (TextUtils.isEmpty(coupon.trim())){
             discountAmount = 0;
@@ -317,19 +327,27 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
             }
         }
 
+        if (validPayments.getValue() == null || shippingMethods == null){
+            initShippingAndPaymentMethods();
+            mSnackbarMessageId.setValue(R.string.connection_error_message);
+            return;
+        }
+
         if (selectedPaymentMethod == null) {
+            isPaymentSelected.set(false);
             mSnackbarMessageId.setValue(R.string.select_payment_method_message);
             return;
         }
 
         if ((selectedShippingMethod == null)) {
+            isShippingSelected.set(false);
             mSnackbarMessageId.setValue(R.string.select_shipping_method_message);
             return;
         }
 
 
         Order order = new Order(Order.PENDING, customer.getId(),
-                "", billing.get(), customer.getShipping(),
+                "", billingObservableField.get(), customer.getShipping(),
                 selectedPaymentMethod.getTitle(), selectedPaymentMethod.getMethodTitle(), cartItems,"");
 
         ShippingLine shippingLine = new ShippingLine(selectedShippingMethod.getTitle(), selectedPaymentMethod.getId(),String.valueOf(shippingCost));
@@ -376,7 +394,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
         paymentRequest.setMerchantID(merchantId);
         paymentRequest.setAmount(amount);
-        paymentRequest.setDescription("تست پرداخت");
+        paymentRequest.setDescription("");
         paymentRequest.setCallbackURL("femeloapp1://app_" + order.getId());     /* Your App Scheme */
         paymentRequest.setMobile(order.getBilling().getPhone());            /* Optional Parameters */
         paymentRequest.setEmail(order.getBilling().getEmail());     /* Optional Parameters */
@@ -407,6 +425,40 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     }
 
     public void updateAddress(Billing billing) {
-        this.billing.set(billing);
+        this.billingObservableField.set(billing);
+    }
+
+    public void checkAddress() {
+        Billing billing = billingObservableField.get();
+        if (billing != null) {
+            if (!billing.hasFirstName()) {
+                mSnackbarMessageId.setValue(R.string.empty_first_name_message);
+                return;
+            }
+            if (!billing.hasLastName()) {
+                mSnackbarMessageId.setValue(R.string.empty_last_name_message);
+                return;
+            }
+            if (!billing.hasPhone()) {
+                mSnackbarMessageId.setValue(R.string.empty_phone_message);
+                return;
+            }
+            if (!billing.hasState()) {
+                mSnackbarMessageId.setValue(R.string.empty_state_message);
+                return;
+            }
+            if (!billing.hasCity()) {
+                mSnackbarMessageId.setValue(R.string.empty_city_message);
+                return;
+            }
+            if (!billing.hasAddress1()) {
+                mSnackbarMessageId.setValue(R.string.empty_address_message);
+                return;
+            }
+
+        } else {
+            return;
+        }
+        setCurrentStep(CheckoutStep.PAYMENT);
     }
 }

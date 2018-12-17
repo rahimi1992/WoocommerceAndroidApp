@@ -21,50 +21,87 @@
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:divider="?android:listDivider"
-            android:showDividers="middle">
+            android:padding="8dp">
 
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="100dp"
+                android:padding="3dp"
                 android:weightSum="5">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text="نام و نام خانوادگی"
+                    android:text="نام"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+
+                    android:text="@={address.firstName}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/md_grey_700"
-                    android:textSize="16sp"
-                    android:text="@{address.firstName + address.lastName}"/>
+                    android:textSize="16sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="3dp"
+                android:weightSum="5">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5"
+                    android:padding="2dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="نام خانوادگی"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPersonName"
+                    android:padding="2dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="@={address.lastName}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/md_grey_700"
+                    android:textSize="16sp" />
             </TableRow>
 
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="3dp"
                 android:weightSum="5">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -76,12 +113,15 @@
                     android:id="@+id/phone"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionNext"
                     android:inputType="phone"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
                     android:text="@={address.phone}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/md_grey_700"
                     android:textSize="16sp" />
             </TableRow>
@@ -89,12 +129,13 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="3dp"
                 android:weightSum="5">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -106,24 +147,29 @@
                     android:id="@+id/email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+                    android:text="@={address.email}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/md_grey_700"
-                    android:textSize="16sp"
-                    android:text="@{address.email}"/>
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="3dp"
                 android:weightSum="5">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -132,27 +178,31 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/state"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+                    android:text="@={address.state}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/md_grey_700"
-                    android:textSize="16sp"
-                    android:text="@{address.state}"/>
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="3dp"
                 android:weightSum="5">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -161,27 +211,31 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/city"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+                    android:text="@={address.city}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/md_grey_700"
-                    android:textSize="16sp"
-                    android:text="@{address.city}"/>
+                    android:textSize="16sp" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:padding="3dp"
                 android:weightSum="5">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -190,15 +244,17 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/code"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionNext"
                     android:inputType="number"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
-                    android:text="@{address.postcode}"
+                    android:text="@={address.postcode}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/md_grey_700"
                     android:textSize="16sp" />
             </TableRow>
@@ -206,12 +262,13 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="3dp"
                 android:weightSum="5">
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
@@ -220,16 +277,20 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="3"
+                    android:layout_weight="3.5"
+                    android:backgroundTint="@color/primary_light"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPostalAddress|textCapSentences|textMultiLine"
                     android:padding="2dp"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp"
+                    android:singleLine="false"
+                    android:text="@={address.address1}"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/md_grey_700"
-                    android:textSize="16sp"
-                    android:text="@{address.address1}"/>
+                    android:textSize="16sp" />
             </TableRow>
 
 

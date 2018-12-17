@@ -23,8 +23,7 @@
         <include
             android:id="@+id/include"
             layout="@layout/address_item"
-            bind:address="@{viewModel.billing}"
-
+            bind:address="@{viewModel.billingObservableField}"
             bind:layout_constraintBottom_toTopOf="@+id/next_btn"
             bind:layout_constraintEnd_toEndOf="parent"
             bind:layout_constraintHorizontal_bias="1.0"

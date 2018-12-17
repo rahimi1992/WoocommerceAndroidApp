@@ -37,6 +37,15 @@
     <string name="select_payment_method_message">لطفا نحوه پرداخت را انتخاب کنید</string>
     <string name="connection_error_message">خطا در برقراری ارتباط</string>
 
+    <string name="empty_first_name_message">لطفا نام خود را وارد کنید</string>
+    <string name="empty_last_name_message">لطفا نام خانوادگی خود را وارد کنید</string>
+    <string name="empty_phone_message">لطفا شماره تماس خود را وارد کنید</string>
+    <string name="empty_email_message">لطفا ایمیل خود را وارد کنید</string>
+    <string name="empty_state_message">لطفا استان را وارد کنید</string>
+    <string name="empty_city_message">لطفا شهر را وارد کنید</string>
+    <string name="empty_post_code_message">لطفا کد پستی را وارد کنید</string>
+    <string name="empty_address_message">لطفا جزییات آدرس خود را وارد کنید</string>
+
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>
         <item>آدرس</item>

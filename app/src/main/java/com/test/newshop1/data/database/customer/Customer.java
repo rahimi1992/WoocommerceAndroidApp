@@ -176,4 +176,8 @@ public class Customer {
     public void setLoggedIn(Boolean loggedIn) {
         isLoggedIn = loggedIn;
     }
+
+    public boolean hasBilling() {
+        return billing != null;
+    }
 }

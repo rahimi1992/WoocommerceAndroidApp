@@ -2,6 +2,7 @@ package com.test.newshop1.ui;
 
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -41,5 +42,10 @@ public class BindingAdapters {
     @BindingAdapter("invisibleIfFalse")
     public static void invisibleIfFalse(View view, boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+    }
+
+    @BindingAdapter("setElevation")
+    public static void setElevation(CardView view, boolean isSelected) {
+        view.setCardElevation(isSelected ? 10 : 30);
     }
 }

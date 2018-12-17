@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +31,7 @@ public class RemoteDataSource {
     private static final int SYNC_INTERVAL_SECONDS = (int) TimeUnit.HOURS.toSeconds(SYNC_INTERVAL_HOURS);
     private static final int SYNC_FLEXTIME_SECONDS = SYNC_INTERVAL_SECONDS / 3;
     private static final String REMOTE_SYNC_TAG = "remote-sync";
+    private static final int MAX_RETRY_REQUEST = 5;
 
     private static final Object LOCK = new Object();
     private static RemoteDataSource sInstance;
@@ -124,7 +126,7 @@ public class RemoteDataSource {
     private class GenericCallback<T>{
 
         Callback<T> create(ResponseCallback<T> callBack){
-
+            AtomicInteger callCount = new AtomicInteger(0);
             return new Callback<T>(){
                 @Override
                 public void onResponse(@NonNull Call<T> call, @NonNull Response<T> response) {
@@ -139,8 +141,12 @@ public class RemoteDataSource {
 
                 @Override
                 public void onFailure(@NonNull Call<T> call, @NonNull Throwable t) {
-                    Log.d(TAG, "onFailure: failed");
-                    callBack.onDataNotAvailable();
+                    if (callCount.incrementAndGet() < MAX_RETRY_REQUEST) {
+                        call.clone().enqueue(this);
+                    } else {
+                        Log.d(TAG, "onFailure: failed");
+                        callBack.onDataNotAvailable();
+                    }
                 }
             };
 

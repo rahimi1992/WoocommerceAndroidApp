@@ -44,7 +44,7 @@
                 android:cropToPadding="true"
                 android:scaleType="fitCenter"
                 app:imageUrl="@{category.image.src}"
-                app:error="@{@drawable/logo}"
+                app:error="@{@drawable/place_holder}"
                 app:thumb="@{false}"
                 app:srcCompat="@drawable/place_holder" />
 

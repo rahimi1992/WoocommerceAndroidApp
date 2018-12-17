@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,8 @@ public class PaymentFragment extends Fragment {
         paymentRG = root.findViewById(R.id.payment);
         couponET = root.findViewById(R.id.coupon_et);
 
+
+
         return root;
     }
 
@@ -72,39 +75,52 @@ public class PaymentFragment extends Fragment {
 
 
     private void updatePayments(List<PaymentGateway> paymentGateways) {
+        mViewModel.setSelectedPaymentMethod(null);
         paymentRG.removeAllViews();
         if (paymentGateways != null && paymentGateways.size() != 0){
             for (PaymentGateway paymentGateway : paymentGateways) {
                 RadioButton rb = new RadioButton(getContext());
                 rb.setText(paymentGateway.getTitle());
+                rb.setTag(paymentGateway.getId());
                 rb.setOnCheckedChangeListener((buttonView, isChecked) -> {
+
                     if (isChecked)
                         mViewModel.setSelectedPaymentMethod(paymentGateway);
                 });
+
                 paymentRG.addView(rb);
             }
             if (paymentRG.getChildCount() == 1){
                 ((RadioButton) paymentRG.getChildAt(0)).setChecked(true);
             }
         }
+
     }
 
     private void updateShippingMethods(List<ShippingMethod> shippingMethods) {
+        Log.d(TAG, "updateShippingMethods: updating");
+        mViewModel.setSelectedShippingMethod(null);
         shippingRG.removeAllViews();
         if (shippingMethods != null && shippingMethods.size() != 0){
             for (ShippingMethod shippingMethod : shippingMethods) {
                 RadioButton rb = new RadioButton(getContext());
                 rb.setText(shippingMethod.getTitle());
+                rb.setTag(shippingMethod.getId());
                 rb.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                    if (isChecked)
+
+                    if (isChecked) {
                         mViewModel.setSelectedShippingMethod(shippingMethod);
+                    }
                 });
+
                 shippingRG.addView(rb);
             }
             if (shippingRG.getChildCount() == 1){
                 ((RadioButton) shippingRG.getChildAt(0)).setChecked(true);
             }
         }
+
+
     }
 
 

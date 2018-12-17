@@ -147,4 +147,40 @@ public class Billing {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public boolean hasFirstName(){
+        return firstName != null && !firstName.isEmpty();
+    }
+
+    public boolean hasLastName(){
+        return lastName != null && !lastName.isEmpty();
+    }
+
+    public boolean hasPhone(){
+        return phone != null && !phone.isEmpty();
+    }
+
+    public boolean hasHasEmail(){
+        return email != null && !email.isEmpty();
+    }
+
+    public boolean hasState(){
+        return state != null && !state.isEmpty();
+    }
+
+    public boolean hasCity(){
+        return city != null && !city.isEmpty();
+    }
+
+    public boolean hasPostCode(){
+        return postcode != null && !postcode.isEmpty();
+    }
+
+    public boolean hasAddress1(){
+        return address1 != null && !address1.isEmpty();
+    }
+
+    public boolean hasAddress2(){
+        return address2 != null && !address2.isEmpty();
+    }
 }

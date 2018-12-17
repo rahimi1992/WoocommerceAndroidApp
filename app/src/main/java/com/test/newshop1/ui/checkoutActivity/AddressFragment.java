@@ -1,6 +1,5 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,11 +14,7 @@ import android.view.ViewGroup;
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.customer.Customer;
 import com.test.newshop1.databinding.CheckoutAddressFragBinding;
-import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.ui.loginActivity.LoginActivity;
-import com.test.newshop1.utilities.InjectorUtil;
-
-import java.util.Objects;
 
 
 public class AddressFragment extends Fragment {
@@ -51,7 +46,7 @@ public class AddressFragment extends Fragment {
     private void nextStep() {
         Log.d(TAG, "nextStep: address to payment");
         if (isLoggedIn){
-            mViewModel.setCurrentStep(CheckoutStep.PAYMENT);
+            mViewModel.checkAddress();
         } else {
             Snackbar.make(getView(), R.string.login_force_text, Snackbar.LENGTH_SHORT).show();
         }
@@ -73,10 +68,12 @@ public class AddressFragment extends Fragment {
 
         isLoggedIn = customer != null;
         binding.setCustomer(customer);
-
-        if (customer != null)
+        Log.d(TAG, "updateUI: customer is null: " + (customer == null));
+//        Log.d(TAG, "updateUI: customer has billing: " + (customer.hasBilling()));
+        if (customer != null) {
+            Log.d(TAG, "updateUI: updating billing Address" + customer.getFirstName());
             mViewModel.updateAddress(customer.getBilling());
-
+        }
     }
 
 }

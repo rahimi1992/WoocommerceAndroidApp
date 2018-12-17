@@ -192,6 +192,7 @@ public class DataRepository {
                     callBack.onLoaded(LoginStatus.SUCCESSFUL);
                     mRemoteDataSource.getCustomer(userId, createCustomerCallback());
                 } else {
+                    Log.d(TAG, "onLoaded: " + response.getStatus());
                     callBack.onLoaded(LoginStatus.WRONG_PASS);
                 }
 

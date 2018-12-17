@@ -60,8 +60,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
     private void setupSnackBar() {
 
-        mViewModel.getSnackbarMessageText().observe(this, (SnackbarMessageText.SnackbarObserver) snackbarMessageText -> SnackbarUtils.showSnackbar(getWindow().getDecorView().getRootView(), snackbarMessageText));
-        mViewModel.getSnackbarMessageId().observe(this, (SnackbarMessageId.SnackbarObserver) snackbarMessageResourceId -> SnackbarUtils.showSnackbar(getWindow().getDecorView().getRootView(), getString(snackbarMessageResourceId)));
+        mViewModel.getSnackbarMessageText().observe(this, (SnackbarMessageText.SnackbarObserver) snackbarMessageText -> SnackbarUtils.showSnackbar(parentLayout, snackbarMessageText));
+        mViewModel.getSnackbarMessageId().observe(this, (SnackbarMessageId.SnackbarObserver) snackbarMessageResourceId -> SnackbarUtils.showSnackbar(parentLayout, getString(snackbarMessageResourceId)));
     }
 
     public static CheckoutViewModel obtainViewModel(FragmentActivity activity) {
