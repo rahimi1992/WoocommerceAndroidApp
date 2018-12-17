@@ -45,6 +45,8 @@
     <string name="empty_city_message">لطفا شهر را وارد کنید</string>
     <string name="empty_post_code_message">لطفا کد پستی را وارد کنید</string>
     <string name="empty_address_message">لطفا جزییات آدرس خود را وارد کنید</string>
+    <string name="checkout_btn">ثبت سفارش</string>
+    <string name="go_to_my_orders_btn">وضعیت سفارش ها</string>
 
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>

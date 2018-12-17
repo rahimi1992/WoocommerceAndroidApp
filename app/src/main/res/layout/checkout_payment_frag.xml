@@ -15,12 +15,17 @@
         android:layout_height="match_parent">
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScrollView2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="true"
-            android:fillViewport="true"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:fillViewport="false"
             android:isScrollContainer="true"
-            app:layout_scrollFlags="scroll">
+            app:layout_constraintBottom_toTopOf="@id/next_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
             <LinearLayout
@@ -86,7 +91,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="4dp">
+                    android:padding="4dp"
+                    android:paddingStart="8dp">
 
                     <EditText
                         android:id="@+id/coupon_et"
@@ -102,7 +108,10 @@
                         android:id="@+id/discount_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
                         android:layout_weight="1"
+                        android:background="@drawable/bg_accent_round_btn"
+                        android:elevation="4dp"
                         android:enabled="@{viewmodel.isCouponEnabled}"
                         android:text="ثبت کد" />
 
@@ -120,113 +129,128 @@
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="15dp"
                     app:cardElevation="4dp">
 
                     <LinearLayout
-                        android:id="@+id/total_ll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="4dp"
-                        android:weightSum="2">
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="0dp"
+                        <LinearLayout
+                            android:id="@+id/total_ll"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="4dp"
-                            android:text="جمغ فاکتور" />
+                            android:orientation="horizontal"
+                            android:padding="4dp"
+                            android:weightSum="2">
 
-                        <TextView
-                            android:id="@+id/total"
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:text="جمغ فاکتور" />
+
+                            <TextView
+                                android:id="@+id/total"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:text="@{viewmodel.totalPriceText}" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/shipping_ll"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="4dp"
-                            android:text="@{viewmodel.totalPriceText}" />
-                    </LinearLayout>
+                            android:orientation="horizontal"
+                            android:padding="4dp"
+                            android:weightSum="2">
 
-                    <LinearLayout
-                        android:id="@+id/shipping_ll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="4dp"
-                        android:weightSum="2">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:text="هزینه ارسال" />
 
-                        <TextView
-                            android:layout_width="0dp"
+                            <TextView
+                                android:id="@+id/shipping_cost"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:text="@{viewmodel.shippingCostText}" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/discount_ll"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="4dp"
-                            android:text="هزینه ارسال" />
+                            android:orientation="horizontal"
+                            android:paddingTop="0dp"
+                            android:paddingBottom="0dp"
+                            android:weightSum="4">
 
-                        <TextView
-                            android:id="@+id/shipping_cost"
-                            android:layout_width="0dp"
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:paddingStart="8dp"
+                                android:text="تخفیف" />
+
+                            <TextView
+                                android:id="@+id/discount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:text="@{viewmodel.discountText}" />
+
+                            <Button
+                                android:id="@+id/remove_coupon_btn"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_margin="4dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/bg_accent_round_btn"
+                                android:elevation="4dp"
+                                android:onClick="@{()-> viewmodel.removeCode()}"
+                                android:text="حذف کد"
+                                android:textSize="12sp"
+                                bind:invisibleIfFalse="@{!viewmodel.isCouponEnabled}" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/payment_ll"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="4dp"
-                            android:text="@{viewmodel.shippingCostText}" />
-                    </LinearLayout>
+                            android:orientation="horizontal"
+                            android:background="@color/md_grey_100"
+                            android:padding="4dp"
+                            android:weightSum="2">
 
-                    <LinearLayout
-                        android:id="@+id/discount_ll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="0dp"
-                        android:paddingBottom="0dp"
-                        android:weightSum="4">
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:paddingStart="4dp"
+                                android:textSize="18sp"
+                                android:text="قابل پرداخت" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:paddingStart="8dp"
-                            android:text="تخفیف" />
+                            <TextView
+                                android:id="@+id/payment_amount"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="18sp"
+                                android:paddingStart="4dp"
 
-                        <TextView
-                            android:id="@+id/discount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="4dp"
-                            android:text="@{viewmodel.discountText}" />
-
-                        <Button
-                            android:id="@+id/remove_coupon_btn"
-                            android:layout_width="0dp"
-                            android:layout_height="40dp"
-                            android:layout_weight="1"
-                            android:onClick="@{()-> viewmodel.removeCode()}"
-                            android:text="حذف کد"
-                            android:textSize="12sp"
-                            bind:invisibleIfFalse="@{!viewmodel.isCouponEnabled}" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/payment_ll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="4dp"
-                        android:weightSum="2">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="4dp"
-                            android:text="قابل پرداخت" />
-
-                        <TextView
-                            android:id="@+id/payment_amount"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:paddingStart="4dp"
-                            android:text="@{viewmodel.totalPayment}" />
+                                android:text="@{String.format(@string/currency, viewmodel.totalPayment)}"  />
+                        </LinearLayout>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
@@ -240,9 +264,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/bg_accent_round_btn"
-            android:text="@string/checkout_next_btn"
-            bind:layout_constraintBottom_toBottomOf="parent" />
+            android:text="@string/checkout_btn"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+             />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -17,7 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="1.5dp"
-        android:background="@drawable/border"
         android:padding="8dp"
         app:cardBackgroundColor="#eeeeee"
         app:cardCornerRadius="1dp"
@@ -28,8 +27,7 @@
             android:id="@+id/item_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:background="@drawable/border"
+            android:background="@color/white"
             android:orientation="vertical"
             android:padding="2dp"
             android:paddingStart="8dp"

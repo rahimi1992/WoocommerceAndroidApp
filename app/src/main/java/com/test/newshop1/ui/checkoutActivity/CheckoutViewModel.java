@@ -264,7 +264,6 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     void loadCoupon(String coupon) {
 
-        Log.d(TAG, "loadCoupon: " + billingObservableField.get().getPhone());
 
         if (TextUtils.isEmpty(coupon.trim())){
             discountAmount = 0;
