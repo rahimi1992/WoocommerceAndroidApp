@@ -47,6 +47,10 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     implementation 'com.shuhart.stepview:stepview:1.2.6'
 
+    // ButterKnife
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+
     // ZarinPal
     implementation 'com.zarinpal:purchase:0.0.4-beta'
 
