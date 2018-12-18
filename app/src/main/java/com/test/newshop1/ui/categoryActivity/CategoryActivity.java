@@ -9,7 +9,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 import com.test.newshop1.R;
@@ -23,28 +25,18 @@ import java.util.List;
 
 public class CategoryActivity extends BaseActivity {
 
-
+    private static final String TAG = "CategoryActivity";
     private static int LAST_PARENT_ID = -1;
     private static String LAST_PARENT_NAME;
     private CategoryViewModel mViewModel;
     private CategoryRecyclerViewAdapter categoryAdapter;
+    private StaggeredGridLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("");
-        //setSupportActionBar(toolbar);
-
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = findViewById(R.id.nav_view);
-//        setupNavigationView(navigationView);
+        getSupportActionBar().setTitle("");
 
         RecyclerView recyclerView = findViewById(R.id.container_RV);
 
@@ -62,7 +54,7 @@ public class CategoryActivity extends BaseActivity {
             LAST_PARENT_NAME = category.getName();
             showSubCategories(category.getId());
         });
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        layoutManager = new StaggeredGridLayoutManager(2, 1);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(categoryAdapter);
     }
@@ -71,7 +63,17 @@ public class CategoryActivity extends BaseActivity {
     private void showSubCategories(int id) {
 
         List<Category> subCategories = mViewModel.getCategories(id);
-        if (subCategories.isEmpty()) {
+
+        if (id == 0){
+            for (Category category : subCategories) {
+                category.setSubCatTitles(mViewModel.getSubCatTitles(category.getId()));
+            }
+            layoutManager.setSpanCount(2);
+        } else {
+            layoutManager.setSpanCount(1);
+        }
+
+        if (subCategories.size() < 1) {
             updateLastParent();
             showProductList(id);
         } else {
@@ -97,9 +99,11 @@ public class CategoryActivity extends BaseActivity {
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        Log.d(TAG, "onBackPressed: " + LAST_PARENT_ID);
         if (LAST_PARENT_ID == -1 || drawer.isDrawerOpen(GravityCompat.START))
             super.onBackPressed();
         else {
+
             showSubCategories(LAST_PARENT_ID);
             updateLastParent();
         }

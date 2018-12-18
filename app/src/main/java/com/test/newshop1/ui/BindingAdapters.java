@@ -5,11 +5,14 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.test.newshop1.utilities.ImageUtil;
 import com.test.newshop1.utilities.PersianTextUtil;
+
+import java.util.List;
 
 public class BindingAdapters {
     @BindingAdapter({"imageUrl", "error", "thumb"})
@@ -58,6 +61,20 @@ public class BindingAdapters {
         Double regularPriceD = regularPrice.equals("")?0:Double.valueOf(regularPrice);
         String text = PersianTextUtil.toPer( Math.round(100.0 - priceD / regularPriceD * 100.0)) + "%";
         view.setText(text);
+    }
+
+    @BindingAdapter({"subTitles"})
+    public static void setSubTitles(LinearLayout layout, List<String> titles){
+        layout.removeAllViews();
+        if (titles == null || titles.isEmpty()){
+            return;
+        }
+        for (String title : titles) {
+            TextView textView = new TextView(layout.getContext().getApplicationContext());
+            textView.setText(title);
+            layout.addView(textView);
+        }
+
     }
 
 }

@@ -10,6 +10,8 @@ import android.arch.persistence.room.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 @Entity(tableName = "category" , indices = {@Index(value = {"id"})})
 public class Category {
 
@@ -49,6 +51,9 @@ public class Category {
     @SerializedName("_links")
     @Expose
     private Links links;
+
+    @Ignore
+    private List<String> subCatTitles;
 
     public Category(Integer id, String name, String slug, Integer parent, String description, String display, Image image, Integer menuOrder, Integer count) {
         this.id = id;
@@ -102,5 +107,13 @@ public class Category {
 
     public Integer getCount() {
         return count;
+    }
+
+    public List<String> getSubCatTitles() {
+        return subCatTitles;
+    }
+
+    public void setSubCatTitles(List<String> subCatTitles) {
+        this.subCatTitles = subCatTitles;
     }
 }

@@ -58,4 +58,13 @@ public class CategoryViewModel extends ViewModel implements ResponseCallback<Lis
         return null;
 
     }
+
+    List<String> getSubCatTitles(int parent) {
+        List<String> subCatTitles = new ArrayList<>();
+        for (Category category : allCategories){
+            if (category.getParent().equals(parent))
+                subCatTitles.add(category.getName());
+        }
+        return subCatTitles;
+    }
 }

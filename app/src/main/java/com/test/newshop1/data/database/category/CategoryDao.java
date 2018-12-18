@@ -13,7 +13,7 @@ public interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void bulkInsert(List<Category> categories);
 
-    @Query("SELECT * FROM category")
+    @Query("SELECT * FROM category WHERE count > 0")
     List<Category> getCategories();
 
 

@@ -103,14 +103,6 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         }
     }
 
-//    class CustomItemGridHolder extends RecyclerView.ViewHolder {
-//
-//        final ProductItemGridBinding binding;
-//        CustomItemGridHolder(ProductItemGridBinding binding) {
-//            super(binding.getRoot());
-//            this.binding = binding;
-//        }
-//    }
 
     private static DiffUtil.ItemCallback<Product> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<Product>() {
