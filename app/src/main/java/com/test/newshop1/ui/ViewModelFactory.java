@@ -48,7 +48,7 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory{
         }  else if (modelClass.isAssignableFrom(ProfileViewModel.class)) {
             //noinspection unchecked
             return (T) new ProfileViewModel( mDataRepository);
-        } else if (modelClass.isAssignableFrom(OrdersActivity.class)) {
+        } else if (modelClass.isAssignableFrom(OrdersViewModel.class)) {
             //noinspection unchecked
             return (T) new OrdersViewModel( mDataRepository);
         }

@@ -60,6 +60,9 @@ public interface APIService {
     @POST("orders")
     Call<Order> postOrder(@Body Order order);
 
+    @GET("orders")
+    Call<List<Order>> getOrders(@Query("customer") int customerId);
+
     @POST("orders/{orderId}")
     Call<Order> updateOrder(@Path("orderId") String orderId, @Body Order order);
 }

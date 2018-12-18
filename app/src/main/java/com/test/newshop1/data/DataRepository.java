@@ -21,6 +21,7 @@ import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.data.remote.RemoteDataSource;
 import com.test.newshop1.ui.loginActivity.LoginStatus;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -41,7 +42,6 @@ public class DataRepository {
 
         mLocalDataSource = localDataSource;
         mRemoteDataSource = remoteDataSource;
-
 
     }
 
@@ -291,10 +291,29 @@ public class DataRepository {
     }
 
     private void saveOrderOnDB(Order order) {
-        mLocalDataSource.saveOrder(order);
+        mLocalDataSource.saveOrders(Collections.singletonList(order));
     }
 
     public void updateOrder(String orderId, Order order) {
         mRemoteDataSource.updateOrder(orderId, order);
+    }
+
+    public LiveData<List<Order>> getOrders(int customerId){
+        updateOrdersData(customerId);
+        return mLocalDataSource.getOrders(customerId);
+    }
+
+    private void updateOrdersData(int customerId) {
+        mRemoteDataSource.getOrders(customerId, new ResponseCallback<List<Order>>() {
+            @Override
+            public void onLoaded(List<Order> response) {
+                mLocalDataSource.saveOrders(response);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
     }
 }

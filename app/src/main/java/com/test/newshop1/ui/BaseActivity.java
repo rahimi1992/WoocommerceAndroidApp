@@ -23,6 +23,7 @@ import com.test.newshop1.ui.categoryActivity.CategoryActivity;
 import com.test.newshop1.ui.checkoutActivity.CheckoutActivity;
 import com.test.newshop1.ui.homeActivity.HomeActivity;
 import com.test.newshop1.ui.loginActivity.LoginActivity;
+import com.test.newshop1.ui.ordersActivity.OrdersActivity;
 import com.test.newshop1.ui.profileActivity.ProfileActivity;
 import com.test.newshop1.utilities.InjectorUtil;
 
@@ -136,9 +137,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
                 break;
             case R.id.nav_orders:
-                if (CheckoutActivity.isActive())
-                    break;
-                startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
+//                if (CheckoutActivity.isActive())
+//                    break;
+                startActivity(new Intent(getApplicationContext(), OrdersActivity.class));
 
                 break;
             case R.id.nav_social:

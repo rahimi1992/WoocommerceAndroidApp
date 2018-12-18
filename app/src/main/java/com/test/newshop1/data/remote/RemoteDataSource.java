@@ -105,6 +105,10 @@ public class RemoteDataSource {
         mService.postOrder(order).enqueue(new GenericCallback<Order>().create(callback));
     }
 
+    public void getOrders(int customerId, ResponseCallback<List<Order>> callback){
+        mService.getOrders(customerId).enqueue(new GenericCallback<List<Order>>().create(callback));
+    }
+
     public void updateOrder(String orderId, Order order) {
         mService.updateOrder(orderId, order).enqueue(new Callback<Order>() {
             @Override
