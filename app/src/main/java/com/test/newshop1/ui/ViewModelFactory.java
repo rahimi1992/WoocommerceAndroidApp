@@ -9,6 +9,8 @@ import com.test.newshop1.ui.categoryActivity.CategoryViewModel;
 import com.test.newshop1.ui.checkoutActivity.CheckoutViewModel;
 import com.test.newshop1.ui.detailActivity.DetailActivityViewModel;
 import com.test.newshop1.ui.loginActivity.LoginActivityViewModel;
+import com.test.newshop1.ui.ordersActivity.OrdersActivity;
+import com.test.newshop1.ui.ordersActivity.OrdersViewModel;
 import com.test.newshop1.ui.productListActivity.ProductListActivityViewModel;
 import com.test.newshop1.ui.profileActivity.ProfileViewModel;
 
@@ -46,6 +48,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory{
         }  else if (modelClass.isAssignableFrom(ProfileViewModel.class)) {
             //noinspection unchecked
             return (T) new ProfileViewModel( mDataRepository);
+        } else if (modelClass.isAssignableFrom(OrdersActivity.class)) {
+            //noinspection unchecked
+            return (T) new OrdersViewModel( mDataRepository);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
