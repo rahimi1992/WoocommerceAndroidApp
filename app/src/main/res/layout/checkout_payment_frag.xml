@@ -102,12 +102,13 @@
                         android:ems="10"
                         android:enabled="@{viewmodel.isCouponEnabled}"
                         android:hint="کد تخفیف"
-                        android:inputType="textPersonName" />
+                        android:textSize="@dimen/text_size_medium"
+                        android:paddingStart="10dp" />
 
                     <Button
                         android:id="@+id/discount_btn"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="27dp"
                         android:layout_margin="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/bg_accent_round_btn"
@@ -150,8 +151,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:paddingStart="4dp"
-                                android:text="جمغ فاکتور" />
+                                android:paddingStart="10dp"
+                                android:text="جمغ فاکتور"
+                                android:textSize="@dimen/text_size_medium" />
 
                             <TextView
                                 android:id="@+id/total"
@@ -159,6 +161,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingStart="4dp"
+                                android:textSize="@dimen/text_size_medium"
                                 android:text="@{viewmodel.totalPriceText}" />
                         </LinearLayout>
 
@@ -174,8 +177,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:paddingStart="4dp"
-                                android:text="هزینه ارسال" />
+                                android:paddingStart="10dp"
+                                android:text="هزینه ارسال"
+                                android:textSize="@dimen/text_size_medium" />
 
                             <TextView
                                 android:id="@+id/shipping_cost"
@@ -183,6 +187,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingStart="4dp"
+                                android:textSize="@dimen/text_size_medium"
                                 android:text="@{viewmodel.shippingCostText}" />
                         </LinearLayout>
 
@@ -191,6 +196,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:paddingStart="4dp"
                             android:paddingTop="0dp"
                             android:paddingBottom="0dp"
                             android:weightSum="4">
@@ -199,8 +205,9 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
-                                android:paddingStart="8dp"
-                                android:text="تخفیف" />
+                                android:paddingStart="10dp"
+                                android:text="تخفیف"
+                                android:textSize="@dimen/text_size_medium" />
 
                             <TextView
                                 android:id="@+id/discount"
@@ -208,12 +215,13 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingStart="4dp"
+                                android:textSize="@dimen/text_size_medium"
                                 android:text="@{viewmodel.discountText}" />
 
                             <Button
                                 android:id="@+id/remove_coupon_btn"
                                 android:layout_width="0dp"
-                                android:layout_height="30dp"
+                                android:layout_height="27dp"
                                 android:layout_margin="4dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/bg_accent_round_btn"
@@ -237,9 +245,10 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:paddingStart="4dp"
-                                android:textSize="18sp"
-                                android:text="قابل پرداخت" />
+                                android:paddingStart="8dp"
+                                android:text="قابل پرداخت"
+                                android:textColor="@color/primary_text"
+                                android:textSize="18sp" />
 
                             <TextView
                                 android:id="@+id/payment_amount"
@@ -247,6 +256,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="18sp"
+                                android:textColor="@color/primary_text"
                                 android:paddingStart="4dp"
 
                                 android:text="@{String.format(@string/currency, viewmodel.totalPayment)}"  />

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "48c31246990bdbe0b02a4891477a7ff7",
+    "identityHash": "33be3a27166dab50efd4563a78ea2399",
     "entities": [
       {
         "tableName": "product",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `slug` TEXT, `permalink` TEXT, `dateCreated` TEXT, `dateCreatedGmt` TEXT, `dateModified` TEXT, `dateModifiedGmt` TEXT, `type` TEXT, `status` TEXT, `featured` INTEGER, `catalogVisibility` TEXT, `description` TEXT, `shortDescription` TEXT, `sku` TEXT, `price` TEXT, `regularPrice` TEXT, `salePrice` TEXT, `images` TEXT, `relatedIds` TEXT, `categories` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `slug` TEXT, `permalink` TEXT, `dateCreated` TEXT, `dateCreatedGmt` TEXT, `dateModified` TEXT, `dateModifiedGmt` TEXT, `type` TEXT, `status` TEXT, `featured` INTEGER, `catalogVisibility` TEXT, `description` TEXT, `shortDescription` TEXT, `sku` TEXT, `price` TEXT, `regularPrice` TEXT, `salePrice` TEXT, `images` TEXT, `onSale` INTEGER, `relatedIds` TEXT, `categories` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -120,6 +120,12 @@
             "fieldPath": "images",
             "columnName": "images",
             "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "onSale",
+            "columnName": "onSale",
+            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -747,7 +753,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"48c31246990bdbe0b02a4891477a7ff7\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"33be3a27166dab50efd4563a78ea2399\")"
     ]
   }
 }

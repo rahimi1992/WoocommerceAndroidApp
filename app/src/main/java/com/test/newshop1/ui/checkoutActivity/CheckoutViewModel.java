@@ -393,7 +393,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
         paymentRequest.setMerchantID(merchantId);
         paymentRequest.setAmount(amount);
-        paymentRequest.setDescription("");
+        paymentRequest.setDescription("تست");
         paymentRequest.setCallbackURL("femeloapp1://app_" + order.getId());     /* Your App Scheme */
         paymentRequest.setMobile(order.getBilling().getPhone());            /* Optional Parameters */
         paymentRequest.setEmail(order.getBilling().getEmail());     /* Optional Parameters */

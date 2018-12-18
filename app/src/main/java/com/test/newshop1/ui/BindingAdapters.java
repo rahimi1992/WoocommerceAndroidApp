@@ -5,9 +5,11 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.test.newshop1.utilities.ImageUtil;
+import com.test.newshop1.utilities.PersianTextUtil;
 
 public class BindingAdapters {
     @BindingAdapter({"imageUrl", "error", "thumb"})
@@ -48,4 +50,14 @@ public class BindingAdapters {
     public static void setElevation(CardView view, boolean isSelected) {
         view.setCardElevation(isSelected ? 10 : 30);
     }
+
+    @BindingAdapter({"price", "regularPrice"})
+    public static void setBadgeText(TextView view, String price, String regularPrice) {
+
+        Double priceD = price.equals("")?0:Double.valueOf(price);
+        Double regularPriceD = regularPrice.equals("")?0:Double.valueOf(regularPrice);
+        String text = PersianTextUtil.toPer( Math.round(100.0 - priceD / regularPriceD * 100.0)) + "%";
+        view.setText(text);
+    }
+
 }

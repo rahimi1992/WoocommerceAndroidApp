@@ -82,6 +82,10 @@ public class Product implements Serializable {
     @TypeConverters(ImageConverter.class)
     private List<Image> images = null;
 
+    @SerializedName("on_sale")
+    @Expose
+    private Boolean onSale;
+
 //    @Ignore
 //    private final String thumbSrc;
 //
@@ -122,10 +126,7 @@ public class Product implements Serializable {
     @Expose
     @Ignore
     private String priceHtml;
-    @SerializedName("on_sale")
-    @Expose
-    @Ignore
-    private Boolean onSale;
+
     @SerializedName("purchasable")
     @Expose
     @Ignore
@@ -296,7 +297,7 @@ public class Product implements Serializable {
                    String dateCreatedGmt, String dateModified, String dateModifiedGmt, String type,
                    String status, Boolean featured, String catalogVisibility, String description,
                    String shortDescription, String sku, String price, String regularPrice, String salePrice,
-                   List<Image> images, List<Integer> relatedIds, List<SimpleCategory> categories) {
+                   List<Image> images, List<Integer> relatedIds, List<SimpleCategory> categories, Boolean onSale) {
         this.id = id;
         this.name = name;
         this.slug = slug;
@@ -318,6 +319,7 @@ public class Product implements Serializable {
         this.images = images;
         this.relatedIds = relatedIds;
         this.categories = categories;
+        this.onSale = onSale;
     }
 
     public Integer getId() {

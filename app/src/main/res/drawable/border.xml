@@ -7,12 +7,12 @@
 
         android:width="2dp"
 
-        android:color="@color/red" />
+        android:color="@color/white" />
     <corners
         android:radius="4dp"/>
 
     <solid
 
-        android:color="@color/transparent"/>
+        android:color="@color/white"/>
 
 </shape>

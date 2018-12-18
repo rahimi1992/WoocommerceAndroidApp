@@ -47,6 +47,7 @@
     <string name="empty_address_message">لطفا جزییات آدرس خود را وارد کنید</string>
     <string name="checkout_btn">ثبت سفارش</string>
     <string name="go_to_my_orders_btn">وضعیت سفارش ها</string>
+    <string name="feature_badge_text">ویزه</string>
 
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>

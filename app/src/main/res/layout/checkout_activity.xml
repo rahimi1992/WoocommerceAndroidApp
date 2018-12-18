@@ -29,7 +29,7 @@
         app:sv_selectedCircleColor="@color/colorAccent"
         app:sv_selectedCircleRadius="13dp"
         app:sv_selectedStepNumberColor="@color/colorPrimary"
-        app:sv_selectedTextColor="@color/colorPrimaryDark"
+        app:sv_selectedTextColor="@color/primary_text"
         app:sv_stepLineWidth="1dp"
         app:sv_stepNumberTextSize="12sp"
         app:sv_stepPadding="4dp"

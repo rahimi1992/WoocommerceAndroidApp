@@ -53,7 +53,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_weight="2"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:orientation="vertical"
                 android:padding="4dp"
                 android:paddingTop="8dp"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:gravity="center_vertical"
                     android:paddingTop="8dp"
                     android:text="@{product.name}"
@@ -75,7 +75,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1.5"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <TextView
@@ -88,7 +89,7 @@
                         android:gravity="bottom"
 
                         android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.price))}"
-                        android:textColor="#ff0000"
+                        android:textColor="@color/accent"
                         android:textSize="17sp" />
 
                     <RatingBar
@@ -108,14 +109,17 @@
 
                 <TextView
                     android:id="@+id/regular_price"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_weight="2"
-                    android:text="@{PersianTextUtil.toPer(product.regularPrice)}"
-                    android:textColor="@color/lightGray"
-                    android:textSize="16sp" />
+                    android:layout_weight="1.5"
+                    android:background="@drawable/strike_through"
+                    android:gravity="bottom"
+                    android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.regularPrice))}"
+                    app:invisibleIfFalse="@{product.onSale}"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <FrameLayout
@@ -125,7 +129,7 @@
                 android:layout_marginRight="-30dp"
                 android:background="@drawable/corner"
                 android:visibility="gone"
-                app:visibleGone="@{safeUnbox(product.featured)}">
+                app:visibleGone="@{safeUnbox(product.onSale)}">
 
                 <TextView
                     android:id="@+id/badge_TV"
@@ -135,7 +139,8 @@
                     android:layout_marginEnd="0dp"
                     android:gravity="center_horizontal"
                     android:rotation="-45"
-                    android:text="ویژه"
+                    app:price="@{product.price}"
+                    app:regularPrice="@{product.regularPrice}"
                     android:textColor="@color/red"
                     android:textColorHighlight="@color/accent"
                     android:textSize="16sp" />
