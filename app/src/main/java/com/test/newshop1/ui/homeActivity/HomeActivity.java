@@ -16,6 +16,8 @@ import com.test.newshop1.ui.BaseActivity;
 
 public class HomeActivity extends BaseActivity {
 
+    static boolean active = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +25,6 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -50,5 +51,18 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }
+
+    public static boolean isActive(){return active;}
 
 }

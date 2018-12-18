@@ -28,6 +28,7 @@ public class CategoryActivity extends BaseActivity {
     private static final String TAG = "CategoryActivity";
     private static int LAST_PARENT_ID = -1;
     private static String LAST_PARENT_NAME;
+    private static boolean active = false;
     private CategoryViewModel mViewModel;
     private CategoryRecyclerViewAdapter categoryAdapter;
     private StaggeredGridLayoutManager layoutManager;
@@ -120,5 +121,19 @@ public class CategoryActivity extends BaseActivity {
         }
         updateTitle();
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }
+
+    public static boolean isActive(){return active;}
 
 }

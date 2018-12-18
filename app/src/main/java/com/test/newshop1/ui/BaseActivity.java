@@ -28,7 +28,6 @@ import com.test.newshop1.utilities.InjectorUtil;
 
 public abstract class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "BaseActivity";
-
     private BaseActivityViewModel viewModel;
     private int lastLoggedInCustomerId = 0;
 
@@ -121,21 +120,26 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         switch (id) {
             case R.id.nav_home:
+                if (HomeActivity.isActive())
+                    break;
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-                //finish();
+
                 break;
             case R.id.nav_category:
-
+                if (CategoryActivity.isActive())
+                    break;
                 startActivity(new Intent(getApplicationContext(), CategoryActivity.class));
-                //finish();
                 break;
             case R.id.nav_cart:
+                if (CheckoutActivity.isActive())
+                    break;
                 startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
-                //finish();
                 break;
             case R.id.nav_orders:
+                if (CheckoutActivity.isActive())
+                    break;
                 startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
-                //finish();
+
                 break;
             case R.id.nav_social:
 

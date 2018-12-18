@@ -22,6 +22,7 @@ import com.zarinpal.ewallets.purchase.ZarinPal;
 
 public class CheckoutActivity extends AppCompatActivity {
     private static final String TAG = "CheckoutActivity";
+    private static boolean active = false;
 
     private StepView mStepView;
     private CheckoutViewModel mViewModel;
@@ -110,4 +111,19 @@ public class CheckoutActivity extends AppCompatActivity {
             mViewModel.goToPreviousStep();
         }
     }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
+    }
+
+    public static boolean isActive(){return active;}
 }
