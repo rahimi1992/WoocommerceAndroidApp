@@ -18,13 +18,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="0dp"
-
+        android:onClick="@{() -> listener.onItemClicked(product.id)}"
         android:padding="0dp"
         app:cardBackgroundColor="#eeeeee"
-        app:cardCornerRadius="2dp"
-        app:cardElevation="2dp"
-        android:onClick="@{() -> listener.onItemClicked(product.id)}">
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,10 +44,10 @@
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:scaleType="fitCenter"
-                app:imageUrl="@{product.images[0].src}"
-                app:thumb="@{true}"
                 app:error="@{@drawable/logo}"
-                app:srcCompat="@drawable/bg_white" />
+                app:imageUrl="@{product.images[0].src}"
+                app:srcCompat="@drawable/bg_white"
+                app:thumb="@{true}" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -89,7 +91,7 @@
                         android:gravity="bottom"
 
                         android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.price))}"
-                        android:textColor="@color/accent"
+                        android:textColor="@color/secondary_text"
                         android:textSize="17sp" />
 
                     <RatingBar
@@ -117,9 +119,9 @@
                     android:background="@drawable/strike_through"
                     android:gravity="bottom"
                     android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.regularPrice))}"
-                    app:invisibleIfFalse="@{product.onSale}"
                     android:textColor="@color/secondary_text"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    app:invisibleIfFalse="@{product.onSale}" />
             </LinearLayout>
 
             <FrameLayout
@@ -128,8 +130,8 @@
                 android:layout_height="48dp"
                 android:layout_marginRight="-30dp"
                 android:background="@drawable/corner"
-                android:visibility="gone"
-                app:visibleGone="@{safeUnbox(product.onSale)}">
+                android:visibility="invisible"
+                app:invisibleIfFalse="@{safeUnbox(product.onSale)}">
 
                 <TextView
                     android:id="@+id/badge_TV"
@@ -139,11 +141,11 @@
                     android:layout_marginEnd="0dp"
                     android:gravity="center_horizontal"
                     android:rotation="-45"
-                    app:price="@{product.price}"
-                    app:regularPrice="@{product.regularPrice}"
                     android:textColor="@color/red"
                     android:textColorHighlight="@color/accent"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    app:price="@{product.price}"
+                    app:regularPrice="@{product.regularPrice}" />
 
             </FrameLayout>
 
@@ -159,8 +161,7 @@
             android:backgroundTint="@color/lightGray"
             android:fadeScrollbars="true"
             android:padding="3dp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
 
     </android.support.v7.widget.CardView>
 

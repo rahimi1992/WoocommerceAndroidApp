@@ -8,8 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,6 +29,9 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
     public static final String PARENT_ID = "parent-id";
     private ProductListActivityViewModel viewModel;
     private LayerDrawable cartIcon;
+    private MenuItem toggleGridMenuItem;
+    private ProductListAdapter pagingAdapter;
+    private GridLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +42,9 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         ActivityProductListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_product_list);
         binding.setIsLoading(false);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new GridLayoutManager(this, 1);
         int parentId = getIntent().getIntExtra(PARENT_ID, 0);
-        ProductListAdapter pagingAdapter = new ProductListAdapter();
+        pagingAdapter = new ProductListAdapter(ProductListAdapter.LINEAR_VIEW_TYPE);
         pagingAdapter.setOnItemClickListener(this);
 
 
@@ -52,7 +54,7 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         viewModel.setParentId(parentId);
         viewModel.getProducts().observe(this, pagingAdapter::submitList);
 
-        binding.containerRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        //binding.containerRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         binding.containerRV.setLayoutManager(layoutManager);
         binding.containerRV.setAdapter(pagingAdapter);
     }
@@ -66,8 +68,9 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_cart, menu);
+        getMenuInflater().inflate(R.menu.menu_product_list, menu);
         cartIcon = (LayerDrawable) menu.findItem(R.id.cart_item).getIcon();
+        toggleGridMenuItem = menu.findItem(R.id.toggle_grid);
 
         viewModel.getCartItemCount().observe(this, this::setCount);
         return super.onCreateOptionsMenu(menu);
@@ -93,9 +96,32 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         switch (item.getItemId()){
             case R.id.cart_item:
                 startCheckout();
-
+                break;
+            case R.id.toggle_grid:
+                toggleGrid();
         }
         return true;
+    }
+
+    private void toggleGrid() {
+        switch (pagingAdapter.getItemViewType(0)) {
+            case ProductListAdapter.LINEAR_VIEW_TYPE:
+                pagingAdapter.setViewType(ProductListAdapter.GRID_VIEW_TYPE);
+                layoutManager.setSpanCount(2);
+                toggleGridMenuItem.setIcon(R.drawable.ic_list_view_large);
+                break;
+            case ProductListAdapter.GRID_VIEW_TYPE:
+            pagingAdapter.setViewType(ProductListAdapter.GRID_VIEW_TYPE_LARGE);
+            layoutManager.setSpanCount(1);
+            toggleGridMenuItem.setIcon(R.drawable.ic_list_view);
+            break;
+            case ProductListAdapter.GRID_VIEW_TYPE_LARGE:
+                pagingAdapter.setViewType(ProductListAdapter.LINEAR_VIEW_TYPE);
+                layoutManager.setSpanCount(1);
+                toggleGridMenuItem.setIcon(R.drawable.ic_grid_view);
+                break;
+        }
+
     }
 
     private void startCheckout() {
