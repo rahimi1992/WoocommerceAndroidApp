@@ -1,10 +1,10 @@
 package com.test.newshop1.data;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.DataSource;
-import android.arch.paging.LivePagedListBuilder;
-import android.arch.paging.PagedList;
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import android.util.Log;
 
 import com.test.newshop1.data.database.LocalDataSource;
@@ -59,7 +59,6 @@ public class DataRepository {
 
     public LiveData<PagedList<Product>> getProducts(int parentId){
 
-
         DataSource.Factory<Integer, Product> dataSourceFactory = mLocalDataSource.getProducts(parentId);
 
         PagedList.Config myPagingConfig = new PagedList.Config.Builder()
@@ -72,7 +71,21 @@ public class DataRepository {
         return new LivePagedListBuilder<>(dataSourceFactory, myPagingConfig)
                 .setBoundaryCallback(boundaryCallback)
                 .build();
+    }
 
+    public LiveData<PagedList<Product>> searchProducts(String query){
+
+        DataSource.Factory<Integer, Product> dataSourceFactory = mLocalDataSource.searchProducts(query);
+
+        PagedList.Config myPagingConfig = new PagedList.Config.Builder()
+                .setPageSize(20)
+                .setPrefetchDistance(30)
+                .build();
+
+        ProductBoundaryCallback boundaryCallback = new ProductBoundaryCallback(query, mLocalDataSource, mRemoteDataSource);
+        return new LivePagedListBuilder<>(dataSourceFactory, myPagingConfig)
+                .setBoundaryCallback(boundaryCallback)
+                .build();
     }
 
     public LiveData<List<Product>> getRelatedProducts(List<Integer> ids){

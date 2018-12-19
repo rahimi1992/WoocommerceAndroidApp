@@ -1,7 +1,7 @@
 package com.test.newshop1.data.database;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.DataSource;
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import android.util.Log;
 
 import com.test.newshop1.AppExecutors;
@@ -22,7 +22,6 @@ import com.test.newshop1.data.database.shoppingcart.CartItem;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LocalDataSource {
@@ -69,6 +68,11 @@ public class LocalDataSource {
     public DataSource.Factory<Integer, Product> getProducts(int parentId){
         return productDao.getProducts(parentId);
     }
+
+    public DataSource.Factory<Integer, Product> searchProducts(String query){
+        return productDao.searchProducts("%" + query + "%");
+    }
+
 
     public LiveData<List<Product>> getRelatedProducts(List<Integer> ids){
         return productDao.getRelatedProducts(ids);
@@ -191,5 +195,7 @@ public class LocalDataSource {
     public LiveData<List<Order>> getOrders(int customerId){
         return orderDao.getOrders(customerId);
     }
+
+
 
 }

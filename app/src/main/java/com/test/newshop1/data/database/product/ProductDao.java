@@ -1,11 +1,11 @@
 package com.test.newshop1.data.database.product;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.DataSource;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.OnConflictStrategy;
-import android.arch.persistence.room.Query;
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
 
 
 import java.util.List;
@@ -26,6 +26,9 @@ public interface ProductDao {
             "WHERE product_category_join.categoryId = :categoryId " +
             "ORDER BY dateCreated DESC")
     DataSource.Factory<Integer, Product> getProducts(int categoryId);
+
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query")
+    DataSource.Factory<Integer, Product> searchProducts(String query);
 
     @Query("SELECT * FROM product ORDER BY dateCreated DESC LIMIT :offset , :perPage")
     List<Product> getProducts(int perPage, int offset);

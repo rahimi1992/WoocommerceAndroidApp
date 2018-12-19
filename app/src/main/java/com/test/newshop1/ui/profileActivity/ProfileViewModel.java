@@ -1,6 +1,6 @@
 package com.test.newshop1.ui.profileActivity;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.test.newshop1.data.DataRepository;
 

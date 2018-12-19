@@ -1,8 +1,8 @@
 
 package com.test.newshop1.ui;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.support.annotation.StringRes;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.annotation.StringRes;
 
 public class SnackbarMessageText extends SingleLiveEvent<String> {
 

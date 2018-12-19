@@ -1,9 +1,9 @@
 package com.test.newshop1.data.database.product;
 
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Index;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 
 @Entity(tableName = "product_category_join",
         indices = {@Index(value = {"categoryId"})},

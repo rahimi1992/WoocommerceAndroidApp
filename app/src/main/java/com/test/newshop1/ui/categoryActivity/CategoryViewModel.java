@@ -1,7 +1,7 @@
 package com.test.newshop1.ui.categoryActivity;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.DataRepository;

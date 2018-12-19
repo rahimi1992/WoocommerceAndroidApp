@@ -13,7 +13,7 @@
             type="com.test.newshop1.data.database.customer.Customer"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,5 +49,5 @@
             android:text="@string/checkout_next_btn"
             bind:layout_constraintBottom_toBottomOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
