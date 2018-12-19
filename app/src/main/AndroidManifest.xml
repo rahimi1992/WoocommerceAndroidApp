@@ -25,14 +25,16 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".ui.searchActivity.SearchableActivity" />
         </activity>
         <activity
             android:name=".ui.categoryActivity.CategoryActivity"
             android:parentActivityName=".ui.homeActivity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.loginActivity.LoginActivity"
             android:label="@string/title_activity_login_acticity"
@@ -41,6 +43,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.test.newshop1.ui.homeActivity.HomeActivity" />
+
         </activity>
         <activity android:name=".ui.checkoutActivity.CheckoutActivity">
             <intent-filter>
@@ -53,7 +56,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.profileActivity.ProfileActivity" />
-        <activity android:name=".ui.ordersActivity.OrdersActivity"></activity>
+        <activity android:name=".ui.ordersActivity.OrdersActivity" />
+        <activity
+            android:name=".ui.searchActivity.SearchableActivity"
+            android:label="@string/title_activity_search"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
+
+        </activity>
+
+        <provider android:name=".ui.searchActivity.SuggestionProvider"
+            android:authorities="com.test.newshop1.SuggestionProvider" />
     </application>
 
 </manifest>

@@ -55,5 +55,8 @@
         <item>نحوه پرداخت</item>
         <item>تایید نهایی</item>
     </string-array>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="app_label">my shop</string>
+    <string name="search_hint">جستجو کنید</string>
 
 </resources>

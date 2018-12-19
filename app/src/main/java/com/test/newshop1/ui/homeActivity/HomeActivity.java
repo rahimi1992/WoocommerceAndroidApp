@@ -1,5 +1,8 @@
 package com.test.newshop1.ui.homeActivity;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +16,7 @@ import android.view.View;
 
 import com.test.newshop1.R;
 import com.test.newshop1.ui.BaseActivity;
+import com.test.newshop1.ui.productListActivity.ProductListActivity;
 
 public class HomeActivity extends BaseActivity {
 
@@ -31,13 +35,16 @@ public class HomeActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("جستجو");
-
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
 
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -45,6 +52,7 @@ public class HomeActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_search) {
+            //onSearchRequested();
             return true;
         }
 
