@@ -1,7 +1,10 @@
 
 package com.test.newshop1.data.database.product;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Fts3;
+import androidx.room.Fts4;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -17,13 +20,13 @@ import com.test.newshop1.data.database.product.converter.SimpleCategoryConverter
 import java.io.Serializable;
 import java.util.List;
 
-
 @Entity(tableName = "product", indices = {@Index(value = {"id"}, unique = true)})
 public class Product implements Serializable {
 
     @SerializedName("id")
     @Expose
     @PrimaryKey
+    @ColumnInfo(name = "id")
     private Integer id;
     @SerializedName("name")
     @Expose

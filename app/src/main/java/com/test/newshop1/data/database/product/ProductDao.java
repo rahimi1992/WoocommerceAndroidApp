@@ -27,6 +27,9 @@ public interface ProductDao {
             "ORDER BY dateCreated DESC")
     DataSource.Factory<Integer, Product> getProducts(int categoryId);
 
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query")
+    DataSource.Factory<Integer, Product> searchProducts(String query);
+
     @Query("SELECT * FROM product ORDER BY dateCreated DESC LIMIT :offset , :perPage")
     List<Product> getProducts(int perPage, int offset);
 

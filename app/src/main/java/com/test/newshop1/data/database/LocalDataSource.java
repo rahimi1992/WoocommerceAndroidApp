@@ -69,6 +69,11 @@ public class LocalDataSource {
         return productDao.getProducts(parentId);
     }
 
+    public DataSource.Factory<Integer, Product> searchProducts(String query){
+        return productDao.searchProducts("%" + query + "%");
+    }
+
+
     public LiveData<List<Product>> getRelatedProducts(List<Integer> ids){
         return productDao.getRelatedProducts(ids);
     }
@@ -190,5 +195,7 @@ public class LocalDataSource {
     public LiveData<List<Order>> getOrders(int customerId){
         return orderDao.getOrders(customerId);
     }
+
+
 
 }

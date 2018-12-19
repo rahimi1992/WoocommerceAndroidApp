@@ -19,6 +19,7 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
     private static final String TAG = "ProductBoundaryCallback";
 
     private final int parentId;
+    private final String searchQuery;
     private final LocalDataSource localDataSource;
     private final RemoteDataSource remoteDataSource;
     private static boolean isRequestInProgress = false;
@@ -27,6 +28,16 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
     ProductBoundaryCallback(int parentId, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
 
         this.parentId = parentId;
+        this.searchQuery = "";
+        this.localDataSource = localDataSource;
+        this.remoteDataSource = remoteDataSource;
+        lastRequestPage = new AtomicInteger(1);
+    }
+
+    ProductBoundaryCallback(String searchQuery, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
+
+        this.parentId = -1;
+        this.searchQuery = searchQuery;
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
         lastRequestPage = new AtomicInteger(1);
@@ -55,7 +66,7 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
             @Override
             public void onResponse(@NonNull Call<List<Product>> call, Response<List<Product>> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, "onResponse: lastPage: " + lastRequestPage.get() + " parent: " + parentId);
+                    Log.d(TAG, "onResponse: lastPage: " + lastRequestPage.get() + " parent: " + parentId + " response size: " + response.body().size());
                     lastRequestPage.incrementAndGet();
 
                     localDataSource.saveProductsAndJoins(response.body());
@@ -72,7 +83,7 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
             }
         };
         Log.d(TAG, "requestAndSaveData: new Request");
-        remoteDataSource.getProducts(parentId, lastRequestPage.get(), 30, callback);
+        remoteDataSource.getProducts(parentId, searchQuery, lastRequestPage.get(), 30, callback);
 
     }
 }

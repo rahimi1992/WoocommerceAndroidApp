@@ -23,7 +23,7 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
     private int viewType;
     private OnItemClickListener onItemClickListener;
 
-    ProductListAdapter(int viewType) {
+    public ProductListAdapter(int viewType) {
         super(DIFF_CALLBACK);
         this.viewType = viewType;
     }
@@ -68,6 +68,8 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+
         public abstract void bind(Product type);
     }
 

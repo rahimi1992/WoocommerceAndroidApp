@@ -54,11 +54,14 @@ public class RemoteDataSource {
     }
 
 
-    public void getProducts(int parentId, int page, int perPage, Callback<List<Product>> callback){
+    public void getProducts(int parentId, String searchQuery, int page, int perPage, Callback<List<Product>> callback){
         Map<String, String> query = new HashMap<>();
-        query.put("category" , String.valueOf(parentId));
+        if (parentId != -1) {
+            query.put("category", String.valueOf(parentId));
+        }
         query.put("page", String.valueOf(page));
         query.put("per_page", String.valueOf(perPage));
+        query.put("search", searchQuery);
         mService.getProducts(query).enqueue(callback);
     }
 
