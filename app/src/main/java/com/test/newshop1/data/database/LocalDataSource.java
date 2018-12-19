@@ -1,7 +1,7 @@
 package com.test.newshop1.data.database;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.DataSource;
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import android.util.Log;
 
 import com.test.newshop1.AppExecutors;
@@ -22,7 +22,6 @@ import com.test.newshop1.data.database.shoppingcart.CartItem;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LocalDataSource {

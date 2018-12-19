@@ -1,13 +1,11 @@
 package com.test.newshop1.ui.profileActivity;
 
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.test.newshop1.R;
-import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.ViewModelFactory;
-import com.test.newshop1.ui.loginActivity.LoginActivityViewModel;
 import com.test.newshop1.utilities.InjectorUtil;
 
 public class ProfileActivity extends AppCompatActivity {

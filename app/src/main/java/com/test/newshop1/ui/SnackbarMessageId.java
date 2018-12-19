@@ -1,10 +1,10 @@
 
 package com.test.newshop1.ui;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 public class SnackbarMessageId extends SingleLiveEvent<Integer> {
 

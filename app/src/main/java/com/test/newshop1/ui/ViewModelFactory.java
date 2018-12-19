@@ -1,15 +1,14 @@
 package com.test.newshop1.ui;
 
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProvider;
-import android.support.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.annotation.NonNull;
 
 import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.ui.categoryActivity.CategoryViewModel;
 import com.test.newshop1.ui.checkoutActivity.CheckoutViewModel;
 import com.test.newshop1.ui.detailActivity.DetailActivityViewModel;
 import com.test.newshop1.ui.loginActivity.LoginActivityViewModel;
-import com.test.newshop1.ui.ordersActivity.OrdersActivity;
 import com.test.newshop1.ui.ordersActivity.OrdersViewModel;
 import com.test.newshop1.ui.productListActivity.ProductListActivityViewModel;
 import com.test.newshop1.ui.profileActivity.ProfileViewModel;

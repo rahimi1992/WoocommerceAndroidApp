@@ -1,10 +1,10 @@
 package com.test.newshop1.data;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.paging.DataSource;
-import android.arch.paging.LivePagedListBuilder;
-import android.arch.paging.PagedList;
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 import android.util.Log;
 
 import com.test.newshop1.data.database.LocalDataSource;

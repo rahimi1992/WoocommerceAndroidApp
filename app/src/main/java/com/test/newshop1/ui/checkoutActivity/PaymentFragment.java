@@ -1,11 +1,11 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.icu.util.MeasureUnit;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,17 +13,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.databinding.CheckoutPaymentFragBinding;
-import com.test.newshop1.ui.ViewModelFactory;
-import com.test.newshop1.utilities.InjectorUtil;
 
 import java.util.List;
-import java.util.Objects;
 
 public class PaymentFragment extends Fragment {
     private static final String TAG = "PaymentFragment";

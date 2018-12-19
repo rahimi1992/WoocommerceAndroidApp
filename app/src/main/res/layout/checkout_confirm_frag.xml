@@ -10,7 +10,7 @@
             type="com.test.newshop1.ui.checkoutActivity.CheckoutViewModel"/>
     </data>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -40,5 +40,5 @@
             bind:layout_constraintStart_toStartOf="parent"
             bind:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

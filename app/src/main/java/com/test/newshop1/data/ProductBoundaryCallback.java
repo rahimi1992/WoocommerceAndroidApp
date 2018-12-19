@@ -1,7 +1,7 @@
 package com.test.newshop1.data;
 
-import android.arch.paging.PagedList;
-import android.support.annotation.NonNull;
+import androidx.paging.PagedList;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.test.newshop1.data.database.LocalDataSource;

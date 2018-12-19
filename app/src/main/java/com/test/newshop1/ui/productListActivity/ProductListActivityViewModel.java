@@ -1,11 +1,11 @@
 package com.test.newshop1.ui.productListActivity;
 
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Transformations;
-import android.arch.lifecycle.ViewModel;
-import android.arch.paging.PagedList;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
+import androidx.paging.PagedList;
 
 import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.data.database.product.Product;
