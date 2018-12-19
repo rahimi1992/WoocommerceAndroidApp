@@ -30,6 +30,7 @@ public class SearchableActivity extends AppCompatActivity {
                     SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
             doMySearch(query);
+
         }
     }
 
