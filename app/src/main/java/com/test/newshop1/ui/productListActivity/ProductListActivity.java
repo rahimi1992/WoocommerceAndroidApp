@@ -9,6 +9,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +27,10 @@ import com.test.newshop1.utilities.InjectorUtil;
 
 public class ProductListActivity extends AppCompatActivity implements OnItemClickListener {
 
+    private static final String TAG = "ProductListActivity";
+
     public static final String PARENT_ID = "parent-id";
+    public static final String SEARCH_QUERY = "search-q";
     private ProductListActivityViewModel viewModel;
     private LayerDrawable cartIcon;
     private MenuItem toggleGridMenuItem;
@@ -43,11 +47,12 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         binding.setIsLoading(false);
 
         layoutManager = new GridLayoutManager(this, 1);
-        int parentId = getIntent().getIntExtra(PARENT_ID, 0);
+        int parentId = getIntent().getIntExtra(PARENT_ID, -1);
+        String searchQuery = getIntent().getStringExtra(SEARCH_QUERY);
         pagingAdapter = new ProductListAdapter(ProductListAdapter.LINEAR_VIEW_TYPE);
         pagingAdapter.setOnItemClickListener(this);
 
-
+        Log.d(TAG, "onCreate: searchQuery: " + searchQuery + " is null? " + (searchQuery == null));
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
         viewModel = ViewModelProviders.of(this, factory).get(ProductListActivityViewModel.class);
 

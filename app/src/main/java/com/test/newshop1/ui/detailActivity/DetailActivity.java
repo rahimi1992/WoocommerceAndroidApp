@@ -172,12 +172,7 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         getMenuInflater().inflate(R.menu.menu_cart, menu);
         cartIcon = (LayerDrawable) menu.findItem(R.id.cart_item).getIcon();
 
-        viewModel.getCartItemCount().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(@Nullable Integer count) {
-                setCount(count);
-            }
-        });
+        viewModel.getCartItemCount().observe(this, this::setCount);
         return super.onCreateOptionsMenu(menu);
     }
 
