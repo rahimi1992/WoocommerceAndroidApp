@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SearchableActivity extends AppCompatActivity {
     private static final String TAG = "SearchableActivity";
 
+    String query;
 
     private SearchViewModel viewModel;
     @Override
@@ -44,18 +45,37 @@ public class SearchableActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
+            query = intent.getStringExtra(SearchManager.QUERY);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
                     SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
-            doMySearch(query);
+            doMySearch();
 
         }
 
 
     }
 
-    private void doMySearch(String query) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.expand_search, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        searchView.setSearchableInfo(
+                searchManager != null ? searchManager.getSearchableInfo(getComponentName()) : null);
+
+        searchView.setIconified(false);
+        searchView.setQuery(query,false);
+        searchView.clearFocus();
+
+        return true;
+    }
+
+    private void doMySearch() {
         viewModel.setSearchQuery(query);
     }
 

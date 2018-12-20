@@ -9,10 +9,11 @@ import android.view.MenuItem;
 import com.test.newshop1.R;
 import com.test.newshop1.ui.BaseActivity;
 
+import androidx.appcompat.widget.SearchView;
+
 public class HomeActivity extends BaseActivity {
 
-    static boolean active = false;
-
+    SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +26,24 @@ public class HomeActivity extends BaseActivity {
 
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
+        searchView =
                 (SearchView) menu.findItem(R.id.action_search).getActionView();
+
         searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+                searchManager != null ? searchManager.getSearchableInfo(getComponentName()) : null);
+        searchView.clearFocus();
 
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        if (searchView != null) {
+            searchView.clearFocus();
+        }
+
+        super.onResume();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

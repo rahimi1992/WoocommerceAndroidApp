@@ -61,6 +61,9 @@ public class BindingAdapters {
         Double priceD = price.equals("")?0:Double.valueOf(price);
         Double regularPriceD = regularPrice.equals("")?0:Double.valueOf(regularPrice);
         String text = PersianTextUtil.toPer( Math.round(100.0 - priceD / regularPriceD * 100.0)) + "%";
+        if (regularPriceD < priceD){
+            text = "";
+        }
         view.setText(text);
     }
 

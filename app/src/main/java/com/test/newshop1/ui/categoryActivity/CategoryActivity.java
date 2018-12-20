@@ -59,6 +59,19 @@ public class CategoryActivity extends BaseActivity {
         recyclerView.setAdapter(categoryAdapter);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        searchView.setSearchableInfo(
+                searchManager != null ? searchManager.getSearchableInfo(getComponentName()) : null);
+        return true;
+    }
 
     private void showSubCategories(int id) {
 
