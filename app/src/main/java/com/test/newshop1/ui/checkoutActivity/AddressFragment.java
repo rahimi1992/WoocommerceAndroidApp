@@ -33,6 +33,7 @@ public class AddressFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: called");
         binding = CheckoutAddressFragBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         root.findViewById(R.id.next_btn).setOnClickListener(view -> nextStep());
@@ -56,6 +57,7 @@ public class AddressFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated: called");
         super.onActivityCreated(savedInstanceState);
 
         mViewModel = CheckoutActivity.obtainViewModel(getActivity());
@@ -63,16 +65,18 @@ public class AddressFragment extends Fragment {
         mViewModel.getCustomerLD().observe(this, this::updateUI);
         binding.setViewModel(mViewModel);
 
+
     }
 
     private void updateUI(Customer customer) {
 
+        Log.d(TAG, "updateUI: called");
         isLoggedIn = customer != null;
         binding.setCustomer(customer);
-        Log.d(TAG, "updateUI: customer is null: " + (customer == null));
+        //Log.d(TAG, "updateUI: customer is null: " + (customer == null));
 //        Log.d(TAG, "updateUI: customer has billing: " + (customer.hasBilling()));
         if (customer != null) {
-            Log.d(TAG, "updateUI: updating billing Address" + customer.getFirstName());
+            Log.d(TAG, "updateUI: updating billing Address" );
             mViewModel.updateAddress(customer.getBilling());
         }
     }

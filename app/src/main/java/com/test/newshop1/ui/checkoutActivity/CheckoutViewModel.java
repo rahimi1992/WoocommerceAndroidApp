@@ -61,8 +61,10 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     private PaymentGateway selectedPaymentMethod;
     private LiveData<List<CartItem>> cartItemsLD;
     private List<CartItem> cartItems = new ArrayList<>();
+    private CartItem removedItem;
     private final SnackbarMessageId mSnackbarMessageId = new SnackbarMessageId();
     private final SnackbarMessageText mSnackbarMessageText = new SnackbarMessageText();
+
 
 
     private boolean isCouponValidated = false;
@@ -158,8 +160,13 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         return cartItemsLD;
     }
 
-    void deleteItem(int id) {
-        dataRepository.removeCartItem(id);
+    void deleteItem(int position) {
+        removedItem = cartItemsLD.getValue().get(position);
+        dataRepository.removeCartItem(removedItem.getId());
+    }
+
+    void undoRemove(){
+        dataRepository.addToCart(removedItem);
     }
 
     void addItem(int id){
@@ -251,6 +258,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         if (currentStep.getValue() != null) {
             switch (currentStep.getValue()) {
                 case ADDRESS:
+
                     currentStep.postValue(CheckoutStep.CART);
                     break;
                 case PAYMENT:
@@ -395,7 +403,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         paymentRequest.setMerchantID(merchantId);
         paymentRequest.setAmount(amount);
         paymentRequest.setDescription("تست");
-        paymentRequest.setCallbackURL("femeloapp1://app_" + order.getId());     /* Your App Scheme */
+        paymentRequest.setCallbackURL("new-shop-checkout://order_" + order.getId());     /* Your App Scheme */
         paymentRequest.setMobile(order.getBilling().getPhone());            /* Optional Parameters */
         paymentRequest.setEmail(order.getBilling().getEmail());     /* Optional Parameters */
 
@@ -461,4 +469,5 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         }
         setCurrentStep(CheckoutStep.PAYMENT);
     }
+
 }

@@ -17,6 +17,7 @@
         android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/checkout_fragments_top_mairgin"
         android:paddingTop="16dp"
         tools:context=".ui.checkout.CheckoutFragment">
 
@@ -37,8 +38,8 @@
             android:layout_margin="8dp"
             android:background="@drawable/bg_accent_round_btn"
             android:text="@string/login_or_sign_up"
-            bind:showIfNull="@{customer}"
-            bind:layout_constraintBottom_toTopOf="@+id/next_btn" />
+            bind:layout_constraintBottom_toTopOf="@+id/next_btn"
+            bind:showIfNull="@{customer}" />
 
         <Button
             android:id="@+id/next_btn"

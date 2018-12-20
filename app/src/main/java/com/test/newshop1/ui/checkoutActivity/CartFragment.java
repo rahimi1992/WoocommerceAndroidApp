@@ -94,7 +94,7 @@ public class CartFragment extends Fragment {
 //                }
                 Button deleteButton = viewItem.findViewById(R.id.delete_btn);
                 deleteButton.setOnClickListener(this::deleteItem);
-                deleteButton.setId(itemId);
+                deleteButton.setId(i);
                 Button minusButton = viewItem.findViewById(R.id.minus_btn);
                 minusButton.setOnClickListener(this::decreaseQuantity);
                 minusButton.setId(itemId);
@@ -142,6 +142,7 @@ public class CartFragment extends Fragment {
 
     public void deleteItem(View view) {
         mViewModel.deleteItem(view.getId());
+        SnackbarUtils.showSnackbar(getView(), "حذف شد", "بازگرداندن", v -> mViewModel.undoRemove());
     }
 
 

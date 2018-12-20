@@ -14,16 +14,17 @@
         android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/checkout_fragments_top_mairgin"
         tools:context=".ui.checkout.CheckoutFragment">
 
         <Button
             android:id="@+id/next_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="4dp"
             android:layout_margin="8dp"
-            android:text="@string/go_to_my_orders_btn"
             android:background="@drawable/bg_accent_round_btn"
+            android:elevation="4dp"
+            android:text="@string/go_to_my_orders_btn"
             bind:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
