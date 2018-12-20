@@ -58,6 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         super.setContentView(fullView);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -122,24 +123,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         switch (id) {
             case R.id.nav_home:
-                if (HomeActivity.isActive())
-                    break;
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
-
                 break;
             case R.id.nav_category:
-                if (CategoryActivity.isActive())
-                    break;
                 startActivity(new Intent(getApplicationContext(), CategoryActivity.class));
                 break;
             case R.id.nav_cart:
-                if (CheckoutActivity.isActive())
-                    break;
                 startActivity(new Intent(getApplicationContext(), CheckoutActivity.class));
                 break;
             case R.id.nav_orders:
-//                if (CheckoutActivity.isActive())
-//                    break;
                 startActivity(new Intent(getApplicationContext(), OrdersActivity.class));
 
                 break;

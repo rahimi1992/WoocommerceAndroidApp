@@ -16,9 +16,7 @@ public class HomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_home);
-
     }
 
     @Override
@@ -49,18 +47,5 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        active = true;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        active = false;
-    }
-
-    public static boolean isActive(){return active;}
 
 }

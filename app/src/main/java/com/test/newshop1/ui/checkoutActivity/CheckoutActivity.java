@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.shuhart.stepview.StepView;
 import com.test.newshop1.R;
+import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.SnackbarMessageId;
 import com.test.newshop1.ui.SnackbarMessageText;
 import com.test.newshop1.ui.ViewModelFactory;
@@ -19,9 +20,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
-public class CheckoutActivity extends AppCompatActivity {
+
+public class CheckoutActivity extends BaseActivity {
     private static final String TAG = "CheckoutActivity";
-    private static boolean active = false;
+
 
     private StepView mStepView;
     private CheckoutViewModel mViewModel;
@@ -32,7 +34,7 @@ public class CheckoutActivity extends AppCompatActivity {
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: called");
-        setContentView(R.layout.checkout_activity);
+        setContentView(R.layout.activity_checkout);
         parentLayout = findViewById(android.R.id.content);
         mStepView = findViewById(R.id.cart_step_view);
         //mStepView.go(0, false);
@@ -54,8 +56,10 @@ public class CheckoutActivity extends AppCompatActivity {
         });
         Uri data = getIntent().getData();
         zarinPal.verificationPayment(data, mViewModel);
-
         setupSnackBar();
+
+
+
     }
 
     private void setupSnackBar() {
@@ -112,17 +116,4 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        active = true;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        active = false;
-    }
-
-    public static boolean isActive(){return active;}
 }
