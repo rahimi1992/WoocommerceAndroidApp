@@ -1,16 +1,11 @@
 package com.test.newshop1.ui.categoryActivity;
 
-import androidx.lifecycle.ViewModelProviders;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.category.Category;
@@ -20,6 +15,13 @@ import com.test.newshop1.ui.productListActivity.ProductListActivity;
 import com.test.newshop1.utilities.InjectorUtil;
 
 import java.util.List;
+
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 public class CategoryActivity extends BaseActivity {
 

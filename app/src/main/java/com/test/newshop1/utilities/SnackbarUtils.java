@@ -16,8 +16,9 @@
 
 package com.test.newshop1.utilities;
 
-import com.google.android.material.snackbar.Snackbar;
 import android.view.View;
+
+import com.google.android.material.snackbar.Snackbar;
 
 /**
  * Provides a method to show a Snackbar.

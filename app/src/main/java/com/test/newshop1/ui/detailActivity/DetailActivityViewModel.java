@@ -1,18 +1,21 @@
 package com.test.newshop1.ui.detailActivity;
 
+import android.util.Log;
+
+import com.test.newshop1.R;
+import com.test.newshop1.data.DataRepository;
+import com.test.newshop1.data.ResponseCallback;
+import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.database.shoppingcart.CartItem;
+import com.test.newshop1.ui.SnackbarMessageId;
+import com.test.newshop1.utilities.ImageUtil;
+
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
-import android.util.Log;
-
-import com.test.newshop1.data.ResponseCallback;
-import com.test.newshop1.data.DataRepository;
-import com.test.newshop1.data.database.product.Product;
-import com.test.newshop1.data.database.shoppingcart.CartItem;
-import com.test.newshop1.utilities.ImageUtil;
-
-import java.util.List;
 
 
 public class DetailActivityViewModel extends ViewModel implements ResponseCallback<Product> {

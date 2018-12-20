@@ -2,10 +2,6 @@ package com.test.newshop1.ui.checkoutActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,15 +10,20 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.utilities.PersianTextUtil;
+import com.test.newshop1.utilities.SnackbarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CartFragment extends Fragment {

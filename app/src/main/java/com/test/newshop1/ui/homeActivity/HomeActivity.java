@@ -3,11 +3,6 @@ package com.test.newshop1.ui.homeActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.core.view.GravityCompat;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 

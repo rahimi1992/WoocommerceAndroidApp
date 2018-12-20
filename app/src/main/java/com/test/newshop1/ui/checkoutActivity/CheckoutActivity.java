@@ -1,11 +1,7 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,6 +15,9 @@ import com.test.newshop1.utilities.InjectorUtil;
 import com.test.newshop1.utilities.SnackbarUtils;
 import com.zarinpal.ewallets.purchase.ZarinPal;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 
 public class CheckoutActivity extends AppCompatActivity {
     private static final String TAG = "CheckoutActivity";

@@ -1,11 +1,5 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
-import androidx.databinding.ObservableBoolean;
-import androidx.databinding.ObservableField;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -31,6 +25,13 @@ import com.zarinpal.ewallets.purchase.ZarinPal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.databinding.ObservableBoolean;
+import androidx.databinding.ObservableField;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
 
 public class CheckoutViewModel extends ViewModel implements OnCallbackVerificationPaymentListener {
     private static final String TAG = "CheckoutViewModel";

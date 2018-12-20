@@ -7,14 +7,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,18 +15,29 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.rd.PageIndicatorView;
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.ui.OnItemClickListener;
+import com.test.newshop1.ui.SnackbarMessageId;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.ui.checkoutActivity.CheckoutActivity;
 import com.test.newshop1.utilities.BadgeDrawable;
 import com.test.newshop1.utilities.InjectorUtil;
 import com.test.newshop1.utilities.PersianTextUtil;
-import com.rd.PageIndicatorView;
+import com.test.newshop1.utilities.SnackbarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 
 public class DetailActivity extends AppCompatActivity implements ProductImageSliderAdapter.OnCallback, OnItemClickListener {

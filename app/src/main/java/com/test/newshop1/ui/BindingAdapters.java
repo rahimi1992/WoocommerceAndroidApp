@@ -1,8 +1,6 @@
 package com.test.newshop1.ui;
 
-import androidx.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
-import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +11,9 @@ import com.test.newshop1.utilities.ImageUtil;
 import com.test.newshop1.utilities.PersianTextUtil;
 
 import java.util.List;
+
+import androidx.cardview.widget.CardView;
+import androidx.databinding.BindingAdapter;
 
 public class BindingAdapters {
     @BindingAdapter({"imageUrl", "error", "thumb"})

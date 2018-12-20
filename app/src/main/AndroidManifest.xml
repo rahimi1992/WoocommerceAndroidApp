@@ -18,11 +18,12 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.detailActivity.DetailActivity"
-            android:theme="@style/AppTheme.TransparentTheme" />
+            android:theme="@style/AppTheme.TransparentTheme"/>
         <activity
             android:name=".ui.homeActivity.HomeActivity"
             android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -34,7 +35,11 @@
         <activity
             android:name=".ui.categoryActivity.CategoryActivity"
             android:parentActivityName=".ui.homeActivity.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleInstance">
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".ui.searchActivity.SearchableActivity" />
+        </activity>
         <activity
             android:name=".ui.loginActivity.LoginActivity"
             android:label="@string/title_activity_login_acticity"
@@ -45,22 +50,27 @@
                 android:value="com.test.newshop1.ui.homeActivity.HomeActivity" />
 
         </activity>
-        <activity android:name=".ui.checkoutActivity.CheckoutActivity">
+        <activity
+            android:name=".ui.checkoutActivity.CheckoutActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="femeloapp1" />
+                <data android:scheme="new-shop-checkout" />
             </intent-filter>
         </activity>
         <activity android:name=".ui.profileActivity.ProfileActivity" />
-        <activity android:name=".ui.ordersActivity.OrdersActivity" />
+        <activity android:name=".ui.ordersActivity.OrdersActivity"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".ui.searchActivity.SearchableActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
