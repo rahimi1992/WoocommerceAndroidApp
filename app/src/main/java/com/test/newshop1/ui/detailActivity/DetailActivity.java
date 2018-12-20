@@ -1,7 +1,5 @@
 package com.test.newshop1.ui.detailActivity;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -63,6 +61,7 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
 //        ActivityDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         Toolbar toolbar = findViewById(R.id.anim_toolbar);
@@ -95,6 +94,9 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         viewModel = ViewModelProviders.of(this, factory).get(DetailActivityViewModel.class);
         viewModel.getProduct(productId).observe(this, this::updateUI);
         viewModel.getRelatedProducts().observe(this, adapter::setProducts);
+        viewModel.getSnackbarMessageId().observe(this, (SnackbarMessageId.SnackbarObserver)
+                resourceId -> SnackbarUtils.showSnackbar(getWindow().getDecorView().getRootView(), getString(resourceId),
+                        "مشاهده سبد خرید", v -> startCheckout()));
 
         RecyclerView relatedRV = findViewById(R.id.related_RV);
 

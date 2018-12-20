@@ -22,7 +22,7 @@ public class DetailActivityViewModel extends ViewModel implements ResponseCallba
     private static final String TAG = "DetailActivityViewModel";
 
     private DataRepository dataRepository;
-
+    private SnackbarMessageId snackbarMessageId = new SnackbarMessageId();
     private MutableLiveData<Product> product;
 
     private final MutableLiveData<List<Integer>> relatedIds = new MutableLiveData<>();
@@ -39,6 +39,10 @@ public class DetailActivityViewModel extends ViewModel implements ResponseCallba
     public MutableLiveData<Product> getProduct(int productId) {
         dataRepository.getProduct(productId, this);
         return product;
+    }
+
+    public SnackbarMessageId getSnackbarMessageId() {
+        return snackbarMessageId;
     }
 
     @Override
@@ -58,6 +62,7 @@ public class DetailActivityViewModel extends ViewModel implements ResponseCallba
     }
 
     public void addToCart(){
+        snackbarMessageId.setValue(R.string.added_to_cart_message);
         dataRepository.addToCart(createCartItem(product.getValue()));
     }
 

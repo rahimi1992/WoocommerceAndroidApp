@@ -48,6 +48,7 @@
     <string name="checkout_btn">ثبت سفارش</string>
     <string name="go_to_my_orders_btn">وضعیت سفارش ها</string>
     <string name="feature_badge_text">ویزه</string>
+    <string name="added_to_cart_message">به سبد خرید اضافه شد</string>
 
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>

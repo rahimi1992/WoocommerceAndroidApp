@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.test.newshop1.utilities.PersianTextUtil" />
+
+        <variable
+            name="product"
+            type="com.test.newshop1.data.database.product.Product" />
+
+        <variable
+            name="listener"
+            type="com.test.newshop1.ui.OnItemClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="4dp"
+        android:background="@drawable/border"
+        android:onClick="@{() -> listener.onItemClicked(product.id)}"
+        app:cardBackgroundColor="#eeeeee"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+
+        <LinearLayout
+            android:id="@+id/item_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:background="@drawable/border"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:weightSum="6">
+
+            <FrameLayout
+                android:id="@+id/badge"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="-48dp"
+                android:background="@drawable/corner"
+                android:translationZ="10dp"
+                android:visibility="invisible"
+                app:invisibleIfFalse="@{safeUnbox(product.onSale)}">
+
+                <TextView
+                    android:id="@+id/badge_TV"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:gravity="center_horizontal"
+                    android:rotation="-45"
+                    android:textColor="@color/red"
+                    android:textColorHighlight="@color/accent"
+                    android:textSize="16sp"
+                    app:price="@{product.price}"
+                    app:regularPrice="@{product.regularPrice}" />
+
+            </FrameLayout>
+
+            <View
+                android:id="@+id/scrim"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_gravity="top"
+                android:background="@drawable/scrim"
+                android:translationZ="5dp"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_marginTop="-170dp"
+                android:adjustViewBounds="true"
+                android:cropToPadding="true"
+                android:scaleType="fitCenter"
+                app:error="@{@drawable/logo}"
+                app:imageUrl="@{product.images[0].src}"
+                app:srcCompat="@drawable/bg_white"
+                app:thumb="@{true}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:paddingStart="4dp"
+                    android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.price))}"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="17sp"
+                    android:transitionName="price_transition" />
+
+                <TextView
+                    android:id="@+id/regular_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/strike_through"
+                    android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.regularPrice))}"
+                    android:textColor="@color/secondary_text"
+                    android:textSize="14sp"
+                    android:transitionName="regular_price_transition"
+                    app:invisibleIfFalse="@{product.onSale}" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="4dp"
+                android:text="@{product.name}"
+                android:textColor="@color/black"
+                android:transitionName="title_transition" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="-5dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="5dp"
+                android:layoutDirection="ltr"
+                android:rating="3" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.Material.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:backgroundTint="@color/accent"
+            android:contentDescription="v"
+
+            android:fadeScrollbars="true"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="30dp"-->
+        <!--android:layout_gravity="top"-->
+        <!--android:layout_marginTop="140dp"-->
+        <!--android:background="@drawable/scrim_white"-->
+        <!--android:translationZ="5dp"-->
+        <!--android:visibility="invisible" />-->
+
+    </androidx.cardview.widget.CardView>
+</layout>

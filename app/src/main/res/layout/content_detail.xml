@@ -130,6 +130,13 @@
                 </com.test.newshop1.ui.detailActivity.CustomCardView>
 
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="محصولات مرتبط" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/related_RV"
                     android:layout_width="match_parent"

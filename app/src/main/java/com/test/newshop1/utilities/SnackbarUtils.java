@@ -31,4 +31,18 @@ public class SnackbarUtils {
         }
         Snackbar.make(v, snackbarText, Snackbar.LENGTH_LONG).show();
     }
+
+    public static void showSnackbar(View v, String snackbarText, String actionText, View.OnClickListener action) {
+        if (v == null || snackbarText == null) {
+            return;
+        }
+        Snackbar.make(v, snackbarText, Snackbar.LENGTH_LONG).setAction(actionText, action).show();
+    }
+
+    public static void showSnackbar(View v, String snackbarText, int actionTextResId, View.OnClickListener action) {
+        if (v == null || snackbarText == null) {
+            return;
+        }
+        Snackbar.make(v, snackbarText, Snackbar.LENGTH_LONG).setAction(actionTextResId, action).show();
+    }
 }

@@ -24,7 +24,7 @@ public class NormalProductListAdapter extends RecyclerView.Adapter<NormalProduct
     @Override
     public ProductHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return new ProductHolder(ProductItemGridBinding.inflate(inflater, parent, false));
+        return new ProductHolder(ProductItemGridFixBinding.inflate(inflater, parent, false));
     }
 
     @Override
@@ -52,9 +52,9 @@ public class NormalProductListAdapter extends RecyclerView.Adapter<NormalProduct
     }
 
     class ProductHolder extends RecyclerView.ViewHolder{
-        ProductItemGridBinding binding;
+        ProductItemGridFixBinding binding;
 
-        ProductHolder(@NonNull ProductItemGridBinding binding) {
+        ProductHolder(@NonNull ProductItemGridFixBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
