@@ -113,9 +113,12 @@ public class CategoryActivity extends BaseActivity {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         Log.d(TAG, "onBackPressed: " + LAST_PARENT_ID);
-        if (LAST_PARENT_ID == -1 || drawer.isDrawerOpen(GravityCompat.START))
-            super.onBackPressed();
-        else {
+        if (LAST_PARENT_ID == -1 || drawer.isDrawerOpen(GravityCompat.START)) {
+            finish();
+            overridePendingTransition(0, R.anim.fade_out);
+            //super.onBackPressed();
+
+        } else {
 
             showSubCategories(LAST_PARENT_ID);
             updateLastParent();

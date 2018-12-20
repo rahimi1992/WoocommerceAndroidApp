@@ -109,7 +109,8 @@ public class CheckoutActivity extends BaseActivity {
     public void onBackPressed() {
 
         if (mStepView.getCurrentStep() == 0) {
-            super.onBackPressed();
+            finish();
+            overridePendingTransition(0, R.anim.fade_out);
         } else {
             mViewModel.goToPreviousStep();
         }

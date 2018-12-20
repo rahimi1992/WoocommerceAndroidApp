@@ -149,6 +149,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                 return true;
 
         }
+        overridePendingTransition(R.anim.enter_from_left, R.anim.fade_out);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
