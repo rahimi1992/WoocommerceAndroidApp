@@ -21,6 +21,14 @@ import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.utilities.BadgeDrawable;
 import com.test.newshop1.utilities.InjectorUtil;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class ProductListActivity extends AppCompatActivity implements OnItemClickListener {
@@ -42,8 +50,11 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         super.onCreate(savedInstanceState);
 
 
-        ActivityProductListBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_product_list);
-        binding.setIsLoading(false);
+        setContentView( R.layout.activity_product_list);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         layoutManager = new GridLayoutManager(this, 1);
         int parentId = getIntent().getIntExtra(PARENT_ID, -1);
@@ -121,6 +132,17 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
                 break;
             case R.id.toggle_grid:
                 toggleGrid();
+                break;
+            case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)){
+                    TaskStackBuilder.create(this)
+                            .addNextIntentWithParentStack(upIntent)
+                            .startActivities();
+                } else {
+                    NavUtils.navigateUpTo(this, upIntent);
+                }
         }
         return true;
     }

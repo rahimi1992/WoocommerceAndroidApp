@@ -1,12 +1,6 @@
 package com.test.newshop1.ui.loginActivity;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +10,16 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.test.newshop1.R;
-import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.utilities.InjectorUtil;
 
-public class LoginActivity extends BaseActivity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProviders;
+
+public class LoginActivity extends AppCompatActivity {
 
     private LoginActivityViewModel mViewModel;
     private AutoCompleteTextView mEmailView;
@@ -31,8 +30,10 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
         mViewModel = ViewModelProviders.of(this, factory).get(LoginActivityViewModel.class);

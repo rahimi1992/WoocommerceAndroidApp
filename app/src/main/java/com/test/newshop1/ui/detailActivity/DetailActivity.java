@@ -32,6 +32,8 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
+import androidx.core.app.TaskStackBuilder;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,6 +69,8 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         Toolbar toolbar = findViewById(R.id.anim_toolbar);
 
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
 
@@ -186,6 +190,17 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         switch (item.getItemId()) {
             case R.id.cart_item:
                 startCheckout();
+                break;
+            case android.R.id.home:
+                Intent upIntent = NavUtils.getParentActivityIntent(this);
+                upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                if (NavUtils.shouldUpRecreateTask(this, upIntent)){
+                    TaskStackBuilder.create(this)
+                            .addNextIntentWithParentStack(upIntent)
+                            .startActivities();
+                } else {
+                    NavUtils.navigateUpTo(this, upIntent);
+                }
         }
         return true;
     }

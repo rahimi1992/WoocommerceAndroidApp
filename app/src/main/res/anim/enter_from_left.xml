@@ -4,7 +4,8 @@
     <translate
         android:fromXDelta="-50%" android:toXDelta="0%"
         android:fromYDelta="0%" android:toYDelta="0%"
-        android:duration="200"/>
+        android:duration="200"
+        android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
 
     <alpha
         android:duration="200"
