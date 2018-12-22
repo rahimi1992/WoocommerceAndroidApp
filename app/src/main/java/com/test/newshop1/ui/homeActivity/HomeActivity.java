@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.EditorInfo;
 
 import com.test.newshop1.R;
 import com.test.newshop1.ui.BaseActivity;
@@ -13,7 +14,7 @@ import androidx.appcompat.widget.SearchView;
 
 public class HomeActivity extends BaseActivity {
 
-    SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,22 +27,20 @@ public class HomeActivity extends BaseActivity {
 
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        searchView =
-                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
 
         searchView.setSearchableInfo(
                 searchManager != null ? searchManager.getSearchableInfo(getComponentName()) : null);
-        searchView.clearFocus();
+
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
         return true;
     }
 
     @Override
     protected void onResume() {
-        if (searchView != null) {
-            searchView.clearFocus();
-        }
 
+        supportInvalidateOptionsMenu();
         super.onResume();
     }
 
@@ -51,7 +50,6 @@ public class HomeActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_search) {
-            //onSearchRequested();
             return true;
         }
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.inputmethod.EditorInfo;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.category.Category;
@@ -70,7 +71,14 @@ public class CategoryActivity extends BaseActivity {
 
         searchView.setSearchableInfo(
                 searchManager != null ? searchManager.getSearchableInfo(getComponentName()) : null);
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        supportInvalidateOptionsMenu();
+        super.onResume();
     }
 
     private void showSubCategories(int id) {

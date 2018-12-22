@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.view.Menu;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import com.test.newshop1.R;
 import com.test.newshop1.ui.ViewModelFactory;
+import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.ui.productListActivity.ProductListAdapter;
 import com.test.newshop1.utilities.InjectorUtil;
 
@@ -20,7 +22,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SearchableActivity extends AppCompatActivity {
+public class SearchableActivity extends AppCompatActivity{
     private static final String TAG = "SearchableActivity";
 
     String query;
@@ -38,12 +40,22 @@ public class SearchableActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
 
         ProductListAdapter adapter = new ProductListAdapter(ProductListAdapter.LINEAR_VIEW_TYPE);
+        adapter.setOnItemClickListener(this::onItemClicked);
         RecyclerView recyclerView = findViewById(R.id.container);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         viewModel.getProducts().observe(this, adapter::submitList);
+        handleIntent(getIntent());
 
-        Intent intent = getIntent();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent){
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
             SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
@@ -52,8 +64,6 @@ public class SearchableActivity extends AppCompatActivity {
             doMySearch();
 
         }
-
-
     }
 
     @Override
@@ -67,12 +77,19 @@ public class SearchableActivity extends AppCompatActivity {
 
         searchView.setSearchableInfo(
                 searchManager != null ? searchManager.getSearchableInfo(getComponentName()) : null);
-
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         searchView.setIconified(false);
         searchView.setQuery(query,false);
         searchView.clearFocus();
 
         return true;
+    }
+
+
+    public void onItemClicked(int productId) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.PRODUCT_ID, productId);
+        startActivity(intent);
     }
 
     private void doMySearch() {

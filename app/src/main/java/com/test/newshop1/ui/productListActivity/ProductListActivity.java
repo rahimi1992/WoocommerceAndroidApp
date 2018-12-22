@@ -1,21 +1,19 @@
 package com.test.newshop1.ui.productListActivity;
 
 
-import androidx.lifecycle.ViewModelProviders;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import com.test.newshop1.R;
-import com.test.newshop1.databinding.ActivityProductListBinding;
 import com.test.newshop1.ui.OnItemClickListener;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.ui.checkoutActivity.CheckoutActivity;
@@ -36,6 +34,7 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
     private MenuItem toggleGridMenuItem;
     private ProductListAdapter pagingAdapter;
     private GridLayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +59,9 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         viewModel.getProducts().observe(this, pagingAdapter::submitList);
 
         //binding.containerRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        binding.containerRV.setLayoutManager(layoutManager);
-        binding.containerRV.setAdapter(pagingAdapter);
+        RecyclerView recyclerView = findViewById(R.id.container_RV);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(pagingAdapter);
     }
 
     @Override
@@ -78,8 +78,25 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         toggleGridMenuItem = menu.findItem(R.id.toggle_grid);
 
         viewModel.getCartItemCount().observe(this, this::setCount);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        searchView.setSearchableInfo(
+                searchManager != null ? searchManager.getSearchableInfo(getComponentName()) : null);
+        searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    protected void onResume() {
+        supportInvalidateOptionsMenu();
+        super.onResume();
+    }
+
 
     public void setCount(Integer count) {
 

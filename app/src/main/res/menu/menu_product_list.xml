@@ -6,13 +6,21 @@
         android:id="@+id/toggle_grid"
         android:icon="@drawable/ic_grid_view"
         android:title="toggle grid"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/cart_item"
         android:icon="@drawable/ic_actionbar_group"
         android:title="shopping cart"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_search"
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_search"
+        android:title="@string/action_search"
+
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
 
 </menu>

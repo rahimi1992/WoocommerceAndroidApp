@@ -1,9 +1,5 @@
 package com.test.newshop1.ui.productListActivity;
 
-import androidx.paging.PagedListAdapter;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +9,10 @@ import com.test.newshop1.databinding.ProductItemBinding;
 import com.test.newshop1.databinding.ProductItemGridBinding;
 import com.test.newshop1.ui.OnItemClickListener;
 
+import androidx.annotation.NonNull;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 
 public class ProductListAdapter extends PagedListAdapter<Product, ProductListAdapter.BaseViewHolder> {
@@ -28,7 +28,7 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         this.viewType = viewType;
     }
 
-    void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
