@@ -123,7 +123,7 @@ public class CartFragment extends Fragment {
             }
             viewItem = inflater.inflate(R.layout.cart_summary, linearLayout, false);
             TextView totalPriceTV = viewItem.findViewById(R.id.s_total_price);
-            totalPriceTV.setText(PersianTextUtil.toPer(price));
+            totalPriceTV.setText(getString(R.string.currency,PersianTextUtil.toPer(price)));
             linearLayout.addView(viewItem);
             emptyCartText.setVisibility(View.GONE);
             isCartEmpty = false;

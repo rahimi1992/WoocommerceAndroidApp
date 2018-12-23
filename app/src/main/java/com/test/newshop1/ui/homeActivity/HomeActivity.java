@@ -11,14 +11,20 @@ import com.test.newshop1.R;
 import com.test.newshop1.ui.BaseActivity;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.viewpager.widget.ViewPager;
 
 public class HomeActivity extends BaseActivity {
 
+
+    private String bannerImages[] = {"https://femelo.com/wp-content/uploads/2018/09/banner_products.jpg",
+            "https://femelo.com/wp-content/uploads/2018/06/Untitled.png"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(new BannerPagerAdapter(bannerImages));
     }
 
     @Override
