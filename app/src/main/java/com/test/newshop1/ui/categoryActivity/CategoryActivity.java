@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
+import com.google.android.material.tabs.TabLayout;
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.category.Category;
 import com.test.newshop1.ui.BaseActivity;
@@ -32,6 +34,7 @@ public class CategoryActivity extends BaseActivity {
     private CategoryViewModel mViewModel;
     private CategoryRecyclerViewAdapter categoryAdapter;
     private StaggeredGridLayoutManager layoutManager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class CategoryActivity extends BaseActivity {
         setContentView(R.layout.activity_category);
         getSupportActionBar().setTitle("");
 
+        tabLayout = findViewById(R.id.main_cat_tabs);
         RecyclerView recyclerView = findViewById(R.id.container_RV);
 
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
@@ -87,6 +91,8 @@ public class CategoryActivity extends BaseActivity {
 
         if (id == 0){
             for (Category category : subCategories) {
+
+                tabLayout.addTab(tabLayout.newTab().setText(category.getName()));
                 category.setSubCatTitles(mViewModel.getSubCatTitles(category.getId()));
             }
             layoutManager.setSpanCount(2);

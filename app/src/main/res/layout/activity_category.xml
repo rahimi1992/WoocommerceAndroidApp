@@ -17,10 +17,21 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/main_cat_tabs"
+            android:layout_width="match_parent"
+            app:tabMode="scrollable"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" >
+
+        </com.google.android.material.tabs.TabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_category" />
+    <include layout="@layout/content_category"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
