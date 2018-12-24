@@ -13,6 +13,7 @@
         android:background="@android:color/transparent"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -20,8 +21,8 @@
             android:background="?attr/colorPrimary"
             android:visibility="visible"
             app:layout_collapseMode="pin"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
+            app:layout_scrollFlags="enterAlwaysCollapsed"
+            app:popupTheme="@style/AppTheme.PopupOverlay"  />
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -37,9 +38,10 @@
                 android:id="@+id/main_view_pager_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:fitsSystemWindows="false"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/view_pager"

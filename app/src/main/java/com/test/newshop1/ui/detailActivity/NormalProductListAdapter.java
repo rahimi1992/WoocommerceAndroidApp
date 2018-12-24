@@ -17,7 +17,7 @@ public class NormalProductListAdapter extends RecyclerView.Adapter<NormalProduct
     private List<Product> products;
     private OnItemClickListener listener;
 
-    NormalProductListAdapter() {
+    public NormalProductListAdapter() {
     }
 
     @NonNull

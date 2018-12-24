@@ -2,6 +2,7 @@ package com.test.newshop1.ui;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,6 +80,12 @@ public class BindingAdapters {
             layout.addView(textView);
         }
 
+    }
+
+    @BindingAdapter({"firstItem"})
+    public static void setStartMargin(CardView view, boolean isFirst){
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        lp.setMarginStart(isFirst? 100 : 5);
     }
 
 }
