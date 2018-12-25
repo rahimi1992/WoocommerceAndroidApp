@@ -12,18 +12,22 @@ import com.test.newshop1.databinding.ProductItemSmallBinding;
 import com.test.newshop1.ui.OnItemClickListener;
 import com.test.newshop1.ui.productListActivity.ProductListAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 
-public class HomeProductListAdapter extends PagedListAdapter<Product, HomeProductListAdapter.ItemHolder> {
+public class HomeProductListAdapter extends RecyclerView.Adapter<HomeProductListAdapter.ItemHolder> {
 
     private OnItemClickListener onItemClickListener;
+    private List<Product> products;
 
     public HomeProductListAdapter() {
-        super(DIFF_CALLBACK);
+        products = new ArrayList<>();
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -42,12 +46,22 @@ public class HomeProductListAdapter extends PagedListAdapter<Product, HomeProduc
     @Override
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
 
-        Product product = getItem(position);
+        Product product = products.get(position);
         holder.bind(product);
 
     }
 
+    @Override
+    public int getItemCount() {
+        return products == null ? 0 : products.size();
+    }
 
+    void submitList(List<Product> products){
+        if (products != null && !products.isEmpty()) {
+            this.products = products;
+            notifyDataSetChanged();
+        }
+    }
 
     class ItemHolder extends RecyclerView.ViewHolder {
 

@@ -30,15 +30,26 @@ public interface ProductDao {
     @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query")
     DataSource.Factory<Integer, Product> searchProducts(String query);
 
-    @Query("SELECT * FROM product ORDER BY dateCreated DESC LIMIT :offset , :perPage")
-    List<Product> getProducts(int perPage, int offset);
 
-    @Query("SELECT * FROM product INNER JOIN product_category_join " +
-            "ON product.id = product_category_join.productId " +
-            "WHERE product_category_join.categoryId = :categoryId " +
-            "ORDER BY dateCreated DESC LIMIT :offset , :perPage")
-    List<Product> getProducts(int perPage, int offset, int categoryId);
 
+    @Query("SELECT * FROM product ORDER BY dateCreated DESC")
+    LiveData<List<Product>> getNewProducts();
+
+    @Query("SELECT * FROM product WHERE onSale = 'true' LIMIT :limit")
+    LiveData<List<Product>> getOnSaleProduct(int limit);
+
+    @Query("SELECT * FROM product WHERE featured = 'true' LIMIT :limit")
+    LiveData<List<Product>> getFeaturedProduct(int limit);
+
+
+//    @Query("SELECT * FROM product ORDER BY dateCreated DESC")
+//    DataSource.Factory<Integer, Product> getNewProducts();
+
+    @Query("SELECT * FROM product WHERE onSale = 'true'")
+    DataSource.Factory<Integer, Product> getOnSaleProduct();
+
+    @Query("SELECT * FROM product WHERE featured = 'true'")
+    DataSource.Factory<Integer, Product> getFeaturedProduct();
 
 //    @Query("SELECT * FROM product ORDER BY dateCreated DESC LIMIT :offset , :perPage")
 //    List<Product> getProducts(int perPage, int offset, int category);

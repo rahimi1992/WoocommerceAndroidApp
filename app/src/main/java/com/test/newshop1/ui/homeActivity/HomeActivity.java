@@ -9,14 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.test.newshop1.R;
+import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.utilities.InjectorUtil;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -36,93 +41,87 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         ViewPager viewPager = findViewById(R.id.view_pager);
+
         viewPager.setAdapter(new BannerPagerAdapter(bannerImages));
 
+        LinearLayout container = findViewById(R.id.container_ll);
+        View firstCardView = getLayoutInflater().inflate(R.layout.parallax_bg_recyclerview, container, false);
+        View secondCardView = getLayoutInflater().inflate(R.layout.parallax_bg_recyclerview, container, false);
+        container.addView(firstCardView);
+        container.addView(secondCardView);
+
+        RecyclerView firstRecyclerView = setupCardView(firstCardView);
+        RecyclerView secondRecyclerView = setupCardView(secondCardView);
+
+        HomeProductListAdapter firstAdapter = new HomeProductListAdapter();
+        firstRecyclerView.setAdapter(firstAdapter);
+
+        HomeProductListAdapter secondAdapter = new HomeProductListAdapter();
+        secondRecyclerView.setAdapter(secondAdapter);
 
 
-        RecyclerView recyclerView = findViewById(R.id.container_RV1);
-        HomeProductListAdapter adapter = new HomeProductListAdapter();
+        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
+        viewModel = ViewModelProviders.of(this, factory).get(HomeViewModel.class);
+
+        viewModel.getNewProducts().observe(this, new Observer<List<Product>>() {
+            @Override
+            public void onChanged(List<Product> products) {
+                Log.d(TAG, "onChanged: size: " + products.size());
+                firstAdapter.submitList(products);
+            }
+        });
+
+        viewModel.getOnSaleProducts().observe(this, secondAdapter::submitList);
+
+    }
+
+    private RecyclerView setupCardView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-        //(new LinearSnapHelper()).attachToRecyclerView(recyclerView);
+
+        recyclerView.addOnScrollListener(createOnScrollListener(layoutManager, view));
         recyclerView.addItemDecoration(new CustomItemDecoration());
         recyclerView.scrollToPosition(-1);
-        ImageView imageView = findViewById(R.id.bg_parallax_bg_iv1);
-        View cover = findViewById(R.id.bg_parallax_alpha_view1);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        //(new LinearSnapHelper()).attachToRecyclerView(recyclerView);
 
+        return recyclerView;
+    }
+
+    @NonNull
+    private RecyclerView.OnScrollListener createOnScrollListener(LinearLayoutManager layoutManager, View container) {
+
+        ImageView imageView = container.findViewById(R.id.bg_parallax_bg_iv);
+        View cover = container.findViewById(R.id.bg_parallax_alpha_view);
+        View title = container.findViewById(R.id.title);
+
+        return new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (layoutManager.findFirstVisibleItemPosition()==0) {
                     // Get view of the first item
                     View firstVisibleItem = layoutManager.findViewByPosition(layoutManager.findFirstVisibleItemPosition());
-                    float distanceFromLeft = firstVisibleItem.getLeft(); // distance from the left
-                    float translateX = (int) distanceFromLeft * 0.18f; // move x distance
+                    float density = getResources().getDisplayMetrics().density;
+                    int width = getResources().getDisplayMetrics().widthPixels;
+                    float distanceFromRight = firstVisibleItem.getLeft(); // distance from the left
+                    //Log.d(TAG, "onScrolled: width: "+ width + "distance from right: " + distanceFromRight);
+                    float translateX = (int) distanceFromRight *  0.12f; // move x distance
                     imageView.setTranslationX(translateX);
-
-
-                        float itemSize = firstVisibleItem.getWidth(); // view size
-                        float alpha = (Math.abs(distanceFromLeft) / itemSize * 0.20f); // view transparency
-
-                        //Set alpha to image to bring 'fade out' and 'fade in' effect
-                        imageView.setAlpha(1 - alpha);
-                        //Set alpha to color view to bring 'darker' and 'clearer' effect
-                        cover.setAlpha(alpha);
-
-                }
-            }
-        });
-
-
-        RecyclerView recyclerView2 = findViewById(R.id.container_RV2);
-        HomeProductListAdapter adapter2 = new HomeProductListAdapter();
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-        recyclerView2.setLayoutManager(layoutManager2);
-        recyclerView2.setAdapter(adapter2);
-        //(new LinearSnapHelper()).attachToRecyclerView(recyclerView);
-        recyclerView2.addItemDecoration(new CustomItemDecoration());
-        recyclerView2.scrollToPosition(-1);
-        ImageView imageView2 = findViewById(R.id.bg_parallax_bg_iv2);
-        View cover2 = findViewById(R.id.bg_parallax_alpha_view2);
-        recyclerView2.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (layoutManager2.findFirstVisibleItemPosition()==0) {
-                    // Get view of the first item
-                    View firstVisibleItem = layoutManager2.findViewByPosition(layoutManager2.findFirstVisibleItemPosition());
-                    float distanceFromLeft = firstVisibleItem.getLeft(); // distance from the left
-                    float translateX = (int) distanceFromLeft * 0.18f; // move x distance
-                    imageView2.setTranslationX(translateX);
-
+                    title.setTranslationX(translateX);
 
                     float itemSize = firstVisibleItem.getWidth(); // view size
-                    float alpha = (Math.abs(distanceFromLeft) / itemSize * 0.20f); // view transparency
-
+                    float alpha = (Math.abs(distanceFromRight) / width); // view transparency
+                    //Log.d(TAG, "onScrolled: alpha: " + alpha);
                     //Set alpha to image to bring 'fade out' and 'fade in' effect
-                    imageView2.setAlpha(1 - alpha);
+                    imageView.setAlpha(1 - alpha);
+                    title.setAlpha(1-alpha);
                     //Set alpha to color view to bring 'darker' and 'clearer' effect
-                    cover2.setAlpha(alpha);
+                    cover.setAlpha(alpha);
 
                 }
             }
-        });
-
-        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
-        viewModel = ViewModelProviders.of(this, factory).get(HomeViewModel.class);
-        viewModel.getProducts1().observe(this, adapter::submitList);
-        viewModel.setParent1(132);
-        viewModel.getProducts2().observe(this, adapter2::submitList);
-        viewModel.setParent2(120);
-
-
-
-
+        };
     }
 
     @Override

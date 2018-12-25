@@ -57,6 +57,7 @@ public class DataRepository {
     }
 
 
+
     public LiveData<PagedList<Product>> getProducts(int parentId){
 
         DataSource.Factory<Integer, Product> dataSourceFactory = mLocalDataSource.getProducts(parentId);
@@ -86,6 +87,18 @@ public class DataRepository {
         return new LivePagedListBuilder<>(dataSourceFactory, myPagingConfig)
                 .setBoundaryCallback(boundaryCallback)
                 .build();
+    }
+
+    public LiveData<List<Product>> getNewProducts(int limit){
+        return mLocalDataSource.getNewProducts(limit);
+    }
+
+    public LiveData<List<Product>> getFeaturedProducts(int limit){
+        return mLocalDataSource.getFeaturedProducts(limit);
+    }
+
+    public LiveData<List<Product>> getOnSaleProducts(int limit){
+        return mLocalDataSource.getOnSaleProducts(limit);
     }
 
     public LiveData<List<Product>> getRelatedProducts(List<Integer> ids){

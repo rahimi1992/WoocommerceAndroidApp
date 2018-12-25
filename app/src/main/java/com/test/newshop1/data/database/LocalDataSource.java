@@ -69,6 +69,32 @@ public class LocalDataSource {
         return productDao.getProducts(parentId);
     }
 
+    public LiveData<List<Product>> getNewProducts(int limit){
+        return productDao.getNewProducts();
+    }
+
+    public LiveData<List<Product>> getFeaturedProducts(int limit){
+        return productDao.getFeaturedProduct(limit);
+    }
+
+    public LiveData<List<Product>> getOnSaleProducts(int limit){
+        return productDao.getOnSaleProduct(limit);
+    }
+
+//    public DataSource.Factory<Integer, Product> getNewProducts(){
+//        return productDao.getNewProducts();
+//    }
+
+    public DataSource.Factory<Integer, Product> getFeaturedProducts(){
+        return productDao.getFeaturedProduct();
+    }
+
+    public DataSource.Factory<Integer, Product> getOnSaleProducts(){
+        return productDao.getOnSaleProduct();
+    }
+
+
+
     public DataSource.Factory<Integer, Product> searchProducts(String query){
         return productDao.searchProducts("%" + query + "%");
     }
