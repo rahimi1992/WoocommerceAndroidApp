@@ -13,7 +13,6 @@ import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
-import com.test.newshop1.ui.productListActivity.FilterType;
 
 import java.util.HashMap;
 import java.util.List;

@@ -20,7 +20,6 @@ import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.data.remote.RemoteDataSource;
 import com.test.newshop1.ui.loginActivity.LoginStatus;
-import com.test.newshop1.ui.productListActivity.FilterType;
 
 import java.util.Collections;
 import java.util.List;

@@ -7,7 +7,6 @@ import android.util.Log;
 import com.test.newshop1.data.database.LocalDataSource;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.data.remote.RemoteDataSource;
-import com.test.newshop1.ui.productListActivity.FilterType;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,7 +20,6 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
 
     private int parentId = -1;
     private String searchQuery = "";
-    private FilterType filter = null;
     private final LocalDataSource localDataSource;
     private final RemoteDataSource remoteDataSource;
     private static boolean isRequestInProgress = false;
@@ -43,13 +41,6 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
         lastRequestPage = new AtomicInteger(1);
     }
 
-    ProductBoundaryCallback(FilterType filterType, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
-
-        this.filter = filterType;
-        this.localDataSource = localDataSource;
-        this.remoteDataSource = remoteDataSource;
-        lastRequestPage = new AtomicInteger(1);
-    }
 
     public ProductBoundaryCallback(ProductListOptions options, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
 
