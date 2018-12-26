@@ -20,35 +20,23 @@ public interface ProductDao {
     void bulkInsert(List<Product> products);
 
 
+    @Query("SELECT * FROM product ORDER BY date DESC LIMIT :limit")
+    LiveData<List<Product>> getNewProducts(int limit);
 
-    @Query("SELECT * FROM product INNER JOIN product_category_join " +
-            "ON product.id = product_category_join.productId " +
-            "WHERE product_category_join.categoryId = :categoryId " +
-            "ORDER BY dateCreated DESC")
-    DataSource.Factory<Integer, Product> getProducts(int categoryId);
-
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query")
-    DataSource.Factory<Integer, Product> searchProducts(String query);
-
-
-
-    @Query("SELECT * FROM product ORDER BY dateCreated DESC")
-    LiveData<List<Product>> getNewProducts();
-
-    @Query("SELECT * FROM product WHERE onSale = 'true' LIMIT :limit")
+    @Query("SELECT * FROM product WHERE onSale = 1 ORDER BY date DESC LIMIT :limit")
     LiveData<List<Product>> getOnSaleProduct(int limit);
 
-    @Query("SELECT * FROM product WHERE featured = 'true' LIMIT :limit")
+    @Query("SELECT * FROM product WHERE featured = 1 ORDER BY date DESC LIMIT :limit")
     LiveData<List<Product>> getFeaturedProduct(int limit);
 
 
-//    @Query("SELECT * FROM product ORDER BY dateCreated DESC")
-//    DataSource.Factory<Integer, Product> getNewProducts();
+    @Query("SELECT * FROM product ORDER BY date DESC")
+    DataSource.Factory<Integer, Product> getNewProducts();
 
-    @Query("SELECT * FROM product WHERE onSale = 'true'")
+    @Query("SELECT * FROM product WHERE onSale = 1 ORDER BY date DESC")
     DataSource.Factory<Integer, Product> getOnSaleProduct();
 
-    @Query("SELECT * FROM product WHERE featured = 'true'")
+    @Query("SELECT * FROM product WHERE featured = 1 ORDER BY date DESC")
     DataSource.Factory<Integer, Product> getFeaturedProduct();
 
 //    @Query("SELECT * FROM product ORDER BY dateCreated DESC LIMIT :offset , :perPage")
@@ -60,4 +48,50 @@ public interface ProductDao {
 
     @Query("SELECT * FROM product WHERE id IN (:ids)")
     LiveData<List<Product>> getRelatedProducts(List<Integer> ids);
+
+    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+            "ON product.id = product_category_join.productId " +
+            "WHERE product_category_join.categoryId = :parentId " +
+            "ORDER BY cast(price as unsigned) DESC")
+    DataSource.Factory<Integer,Product> getProductsPriceOrderDESC(Integer parentId);
+
+    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+            "ON product.id = product_category_join.productId " +
+            "WHERE product_category_join.categoryId = :parentId " +
+            "ORDER BY cast(price as unsigned) ASC")
+    DataSource.Factory<Integer,Product> getProductsPriceOrderASC(Integer parentId);
+
+    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+            "ON product.id = product_category_join.productId " +
+            "WHERE product_category_join.categoryId = :parentId " +
+            "ORDER BY cast(sales as unsigned) DESC")
+    DataSource.Factory<Integer,Product> getProductsBestSellOrder(Integer parentId);
+
+    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+            "ON product.id = product_category_join.productId " +
+            "WHERE product_category_join.categoryId = :parentId " +
+            "ORDER BY date DESC")
+    DataSource.Factory<Integer,Product> getProductsDateOrder(Integer parentId);
+
+    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+            "ON product.id = product_category_join.productId " +
+            "WHERE product_category_join.categoryId = :parentId " +
+            "ORDER BY cast(rating as unsigned) DESC")
+    DataSource.Factory<Integer,Product> getProductsRatingOrder(Integer parentId);
+
+
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) DESC")
+    DataSource.Factory<Integer, Product> getProductsPriceOrderDESC(String query);
+
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) ASC")
+    DataSource.Factory<Integer, Product> getProductsPriceOrderASC(String query);
+
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(sales as unsigned) DESC")
+    DataSource.Factory<Integer, Product> getProductsBestSellOrder(String query);
+
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY date DESC")
+    DataSource.Factory<Integer, Product> getProductsDateOrder(String query);
+
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(rating as unsigned) DESC")
+    DataSource.Factory<Integer, Product> getProductsRatingOrder(String query);
 }

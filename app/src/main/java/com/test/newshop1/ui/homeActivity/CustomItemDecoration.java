@@ -2,6 +2,7 @@ package com.test.newshop1.ui.homeActivity;
 
 import android.graphics.Rect;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class CustomItemDecoration extends RecyclerView.ItemDecoration {
 
 
+    private ViewGroup.MarginLayoutParams layoutParams;
+
+    CustomItemDecoration(ViewGroup.MarginLayoutParams layoutParams) {
+        this.layoutParams = layoutParams;
+    }
 
     @Override
     public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
@@ -18,10 +24,12 @@ public class CustomItemDecoration extends RecyclerView.ItemDecoration {
 
 
         if (position == 0){
-            outRect.right = (int)(160 * density);
+            outRect.right = (int)(layoutParams.rightMargin * density);
         }
-        outRect.left = (int)(4 * density);
-        outRect.top = (int)(40 * density);
-        outRect.bottom = (int)(5 * density);
+        outRect.left = (int)(layoutParams.leftMargin * density);
+        outRect.top = (int)(layoutParams.topMargin * density);
+        outRect.bottom = (int)(layoutParams.bottomMargin * density);
+
+
     }
 }

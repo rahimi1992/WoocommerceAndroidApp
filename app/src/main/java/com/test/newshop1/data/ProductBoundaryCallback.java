@@ -7,6 +7,7 @@ import android.util.Log;
 import com.test.newshop1.data.database.LocalDataSource;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.data.remote.RemoteDataSource;
+import com.test.newshop1.ui.productListActivity.FilterType;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -18,8 +19,9 @@ import retrofit2.Response;
 public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product> {
     private static final String TAG = "ProductBoundaryCallback";
 
-    private final int parentId;
-    private final String searchQuery;
+    private int parentId = -1;
+    private String searchQuery = "";
+    private FilterType filter = null;
     private final LocalDataSource localDataSource;
     private final RemoteDataSource remoteDataSource;
     private static boolean isRequestInProgress = false;
@@ -28,7 +30,6 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
     ProductBoundaryCallback(int parentId, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
 
         this.parentId = parentId;
-        this.searchQuery = "";
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
         lastRequestPage = new AtomicInteger(1);
@@ -36,12 +37,34 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
 
     ProductBoundaryCallback(String searchQuery, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
 
-        this.parentId = -1;
         this.searchQuery = searchQuery;
         this.localDataSource = localDataSource;
         this.remoteDataSource = remoteDataSource;
         lastRequestPage = new AtomicInteger(1);
     }
+
+    ProductBoundaryCallback(FilterType filterType, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
+
+        this.filter = filterType;
+        this.localDataSource = localDataSource;
+        this.remoteDataSource = remoteDataSource;
+        lastRequestPage = new AtomicInteger(1);
+    }
+
+    public ProductBoundaryCallback(ProductListOptions options, LocalDataSource localDataSource, RemoteDataSource remoteDataSource) {
+
+        if (options.hasParentId()){
+            parentId = options.getParentId();
+        }
+
+        if (options.hasSearchQuery()){
+            searchQuery = options.getSearchQuery();
+        }
+        this.localDataSource = localDataSource;
+        this.remoteDataSource = remoteDataSource;
+        lastRequestPage = new AtomicInteger(1);
+    }
+
 
     @Override
     public void onZeroItemsLoaded() {

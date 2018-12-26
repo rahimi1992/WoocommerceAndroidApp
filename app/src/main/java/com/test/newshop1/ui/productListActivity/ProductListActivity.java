@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
 import com.test.newshop1.R;
+import com.test.newshop1.data.OrderBy;
 import com.test.newshop1.ui.OnItemClickListener;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.ui.checkoutActivity.CheckoutActivity;
@@ -33,10 +33,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ProductListActivity extends AppCompatActivity implements OnItemClickListener {
 
+    public static final String FILTER_ID = "filter-q";
     private static final String TAG = "ProductListActivity";
 
     public static final String PARENT_ID = "parent-id";
-    public static final String SEARCH_QUERY = "search-q";
     private ProductListActivityViewModel viewModel;
     private LayerDrawable cartIcon;
     private MenuItem toggleGridMenuItem;
@@ -58,16 +58,21 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
 
         layoutManager = new GridLayoutManager(this, 1);
         int parentId = getIntent().getIntExtra(PARENT_ID, -1);
-        String searchQuery = getIntent().getStringExtra(SEARCH_QUERY);
+        int filter = getIntent().getIntExtra(FILTER_ID, -1);
+
         pagingAdapter = new ProductListAdapter(ProductListAdapter.LINEAR_VIEW_TYPE);
         pagingAdapter.setOnItemClickListener(this);
 
-        Log.d(TAG, "onCreate: searchQuery: " + searchQuery + " is null? " + (searchQuery == null));
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
         viewModel = ViewModelProviders.of(this, factory).get(ProductListActivityViewModel.class);
 
+
+        viewModel.setOrderBy(OrderBy.RATING);
         viewModel.setParentId(parentId);
         viewModel.getProducts().observe(this, pagingAdapter::submitList);
+
+
+
 
         //binding.containerRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         RecyclerView recyclerView = findViewById(R.id.container_RV);

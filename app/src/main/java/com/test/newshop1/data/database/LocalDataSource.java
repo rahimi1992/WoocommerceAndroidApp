@@ -2,9 +2,13 @@ package com.test.newshop1.data.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
+import androidx.sqlite.db.SimpleSQLiteQuery;
+
 import android.util.Log;
+import android.widget.Switch;
 
 import com.test.newshop1.AppExecutors;
+import com.test.newshop1.data.ProductListOptions;
 import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.category.Category;
 import com.test.newshop1.data.database.category.CategoryDao;
@@ -65,12 +69,48 @@ public class LocalDataSource {
     }
 
 
-    public DataSource.Factory<Integer, Product> getProducts(int parentId){
-        return productDao.getProducts(parentId);
+    public DataSource.Factory<Integer, Product> getProducts(ProductListOptions options){
+
+
+        switch(options.getOrderBy()){
+            case DATE:
+                if (options.hasParentId()) {
+                    return productDao.getProductsDateOrder(options.getParentId());
+                } else {
+                    return productDao.getProductsDateOrder("%" + options.getSearchQuery() + "%");
+                }
+            case RATING:
+                if (options.hasParentId()) {
+                    return productDao.getProductsRatingOrder(options.getParentId());
+                } else {
+                    return productDao.getProductsRatingOrder("%" + options.getSearchQuery() + "%");
+                }
+            case BEST_SELL:
+                if (options.hasParentId()) {
+                    return productDao.getProductsBestSellOrder(options.getParentId());
+                } else {
+                    return productDao.getProductsBestSellOrder("%" + options.getSearchQuery() + "%");
+                }
+            case PRICE_ASC:
+                if (options.hasParentId()) {
+                    return productDao.getProductsPriceOrderASC(options.getParentId());
+                } else {
+                    return productDao.getProductsPriceOrderASC("%" + options.getSearchQuery() + "%");
+                }
+            case PRICE_DESC:
+                if (options.hasParentId()) {
+                    return productDao.getProductsPriceOrderDESC(options.getParentId());
+                } else {
+                    return productDao.getProductsPriceOrderDESC("%" + options.getSearchQuery() + "%");
+                }
+
+        }
+        return null;
+
     }
 
     public LiveData<List<Product>> getNewProducts(int limit){
-        return productDao.getNewProducts();
+        return productDao.getNewProducts(limit);
     }
 
     public LiveData<List<Product>> getFeaturedProducts(int limit){
@@ -84,20 +124,18 @@ public class LocalDataSource {
 //    public DataSource.Factory<Integer, Product> getNewProducts(){
 //        return productDao.getNewProducts();
 //    }
+//
+//    public DataSource.Factory<Integer, Product> getFeaturedProducts(){
+//        return productDao.getFeaturedProduct();
+//    }
+//
+//    public DataSource.Factory<Integer, Product> getOnSaleProducts(){
+//        return productDao.getOnSaleProduct();
+//    }
 
-    public DataSource.Factory<Integer, Product> getFeaturedProducts(){
-        return productDao.getFeaturedProduct();
-    }
-
-    public DataSource.Factory<Integer, Product> getOnSaleProducts(){
-        return productDao.getOnSaleProduct();
-    }
-
-
-
-    public DataSource.Factory<Integer, Product> searchProducts(String query){
-        return productDao.searchProducts("%" + query + "%");
-    }
+//    public DataSource.Factory<Integer, Product> searchProducts(String query){
+//        return productDao.searchProducts("%" + query + "%");
+//    }
 
 
     public LiveData<List<Product>> getRelatedProducts(List<Integer> ids){

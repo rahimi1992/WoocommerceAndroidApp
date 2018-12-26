@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "33be3a27166dab50efd4563a78ea2399",
+    "identityHash": "5fe408a385e370de593f50549b4a77cb",
     "entities": [
       {
         "tableName": "product",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `slug` TEXT, `permalink` TEXT, `dateCreated` TEXT, `dateCreatedGmt` TEXT, `dateModified` TEXT, `dateModifiedGmt` TEXT, `type` TEXT, `status` TEXT, `featured` INTEGER, `catalogVisibility` TEXT, `description` TEXT, `shortDescription` TEXT, `sku` TEXT, `price` TEXT, `regularPrice` TEXT, `salePrice` TEXT, `images` TEXT, `onSale` INTEGER, `relatedIds` TEXT, `categories` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER, `name` TEXT, `slug` TEXT, `permalink` TEXT, `date` TEXT, `dateCreatedGmt` TEXT, `dateModified` TEXT, `dateModifiedGmt` TEXT, `type` TEXT, `status` TEXT, `featured` INTEGER, `catalogVisibility` TEXT, `description` TEXT, `shortDescription` TEXT, `sku` TEXT, `price` TEXT, `regularPrice` TEXT, `salePrice` TEXT, `images` TEXT, `onSale` INTEGER, `relatedIds` TEXT, `categories` TEXT, `sales` INTEGER, `rating` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -34,7 +34,7 @@
           },
           {
             "fieldPath": "dateCreated",
-            "columnName": "dateCreated",
+            "columnName": "date",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -137,6 +137,18 @@
           {
             "fieldPath": "categories",
             "columnName": "categories",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "totalSales",
+            "columnName": "sales",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "averageRating",
+            "columnName": "rating",
             "affinity": "TEXT",
             "notNull": false
           }
@@ -754,7 +766,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"33be3a27166dab50efd4563a78ea2399\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5fe408a385e370de593f50549b4a77cb\")"
     ]
   }
 }

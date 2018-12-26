@@ -13,6 +13,7 @@ import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
+import com.test.newshop1.ui.productListActivity.FilterType;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +63,21 @@ public class RemoteDataSource {
         query.put("page", String.valueOf(page));
         query.put("per_page", String.valueOf(perPage));
         query.put("search", searchQuery);
+//        if (filterType != null){
+//            switch (filterType){
+//                case ON_SALES:
+//                    query.put("on_sale", "true");
+//                    break;
+//                case FEATURED:
+//                    query.put("featured", "true");
+//                    break;
+//                case NEWEST:
+//                    query.put("orderby", "date");
+//
+//            }
+//        }
+
+
         mService.getProducts(query).enqueue(callback);
     }
 

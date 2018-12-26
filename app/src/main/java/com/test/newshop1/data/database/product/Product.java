@@ -36,6 +36,7 @@ public class Product implements Serializable {
     @Expose
     private String permalink;
     @SerializedName("date_created")
+    @ColumnInfo(name = "date")
     @Expose
     private String dateCreated;
     @SerializedName("date_created_gmt")
@@ -107,6 +108,16 @@ public class Product implements Serializable {
     private List<SimpleCategory> categories = null;
 
 
+    @SerializedName("total_sales")
+    @ColumnInfo(name = "sales")
+    @Expose
+    private Integer totalSales;
+
+    @SerializedName("average_rating")
+    @Expose
+    @ColumnInfo(name = "rating")
+    private String averageRating;
+
     @SerializedName("date_on_sale_from")
     @Expose
     @Ignore
@@ -132,10 +143,6 @@ public class Product implements Serializable {
     @Expose
     @Ignore
     private Boolean purchasable;
-    @SerializedName("total_sales")
-    @Expose
-    @Ignore
-    private Integer totalSales;
     @SerializedName("virtual")
     @Expose
     @Ignore
@@ -228,10 +235,8 @@ public class Product implements Serializable {
     @Expose
     @Ignore
     private Boolean reviewsAllowed;
-    @SerializedName("average_rating")
-    @Expose
-    @Ignore
-    private String averageRating;
+
+
     @SerializedName("rating_count")
     @Expose
     @Ignore
@@ -298,7 +303,7 @@ public class Product implements Serializable {
                    String dateCreatedGmt, String dateModified, String dateModifiedGmt, String type,
                    String status, Boolean featured, String catalogVisibility, String description,
                    String shortDescription, String sku, String price, String regularPrice, String salePrice,
-                   List<Image> images, List<Integer> relatedIds, List<SimpleCategory> categories, Boolean onSale) {
+                   List<Image> images, List<Integer> relatedIds, List<SimpleCategory> categories, Boolean onSale, Integer totalSales, String averageRating) {
         this.id = id;
         this.name = name;
         this.slug = slug;
@@ -321,6 +326,8 @@ public class Product implements Serializable {
         this.relatedIds = relatedIds;
         this.categories = categories;
         this.onSale = onSale;
+        this.totalSales = totalSales;
+        this.averageRating = averageRating;
     }
 
     public Integer getId() {

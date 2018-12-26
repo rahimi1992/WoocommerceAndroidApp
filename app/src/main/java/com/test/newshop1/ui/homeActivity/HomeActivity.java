@@ -2,19 +2,24 @@ package com.test.newshop1.ui.homeActivity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.ViewModelFactory;
+import com.test.newshop1.ui.detailActivity.DetailActivity;
+import com.test.newshop1.ui.productListActivity.ProductListActivity;
 import com.test.newshop1.utilities.InjectorUtil;
 
 import java.util.List;
@@ -40,52 +45,70 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        ViewPager viewPager = findViewById(R.id.view_pager);
 
+        getSupportActionBar().setTitle("فروشگاه فیملو");
+
+        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new BannerPagerAdapter(bannerImages));
 
         LinearLayout container = findViewById(R.id.container_ll);
         View firstCardView = getLayoutInflater().inflate(R.layout.parallax_bg_recyclerview, container, false);
         View secondCardView = getLayoutInflater().inflate(R.layout.parallax_bg_recyclerview, container, false);
+        View thirdCardView = getLayoutInflater().inflate(R.layout.parallax_bg_recyclerview, container, false);
         container.addView(firstCardView);
         container.addView(secondCardView);
+        container.addView(thirdCardView);
 
-        RecyclerView firstRecyclerView = setupCardView(firstCardView);
-        RecyclerView secondRecyclerView = setupCardView(secondCardView);
+        RecyclerView firstRecyclerView = setupCardView(firstCardView, 0);
+        RecyclerView secondRecyclerView = setupCardView(secondCardView, 1);
+        RecyclerView thirdRecyclerView = setupCardView(thirdCardView, 2);
 
         HomeProductListAdapter firstAdapter = new HomeProductListAdapter();
         firstRecyclerView.setAdapter(firstAdapter);
+        firstAdapter.setOnItemClickListener(this::onItemClicked);
 
         HomeProductListAdapter secondAdapter = new HomeProductListAdapter();
         secondRecyclerView.setAdapter(secondAdapter);
+        secondAdapter.setOnItemClickListener(this::onItemClicked);
 
+        HomeProductListAdapter thirdAdapter = new HomeProductListAdapter();
+        thirdRecyclerView.setAdapter(thirdAdapter);
+        thirdAdapter.setOnItemClickListener(this::onItemClicked);
 
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
         viewModel = ViewModelProviders.of(this, factory).get(HomeViewModel.class);
 
-        viewModel.getNewProducts().observe(this, new Observer<List<Product>>() {
-            @Override
-            public void onChanged(List<Product> products) {
-                Log.d(TAG, "onChanged: size: " + products.size());
-                firstAdapter.submitList(products);
-            }
-        });
+        viewModel.getNewProducts().observe(this, firstAdapter::submitList);
 
         viewModel.getOnSaleProducts().observe(this, secondAdapter::submitList);
 
+        viewModel.getFeaturedProducts().observe(this, thirdAdapter::submitList);
+
     }
 
-    private RecyclerView setupCardView(View view) {
+    private RecyclerView setupCardView(View view, int position) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        ((TextView) view.findViewById(R.id.title)).setText(getResources().getStringArray(R.array.home_page_card_titles)[position]);
+        ((TextView) view.findViewById(R.id.second_title)).setText(getResources().getStringArray(R.array.home_page_card_titles)[position]);
+        view.findViewById(R.id.show_more).setOnClickListener(v -> showMore(position));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerView.addOnScrollListener(createOnScrollListener(layoutManager, view));
-        recyclerView.addItemDecoration(new CustomItemDecoration());
+        ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(0,0);
+        marginLayoutParams.setMargins(4, 40, 160, 5);
+        recyclerView.addItemDecoration(new CustomItemDecoration(marginLayoutParams));
         recyclerView.scrollToPosition(-1);
         //(new LinearSnapHelper()).attachToRecyclerView(recyclerView);
 
         return recyclerView;
+    }
+
+    private void showMore(int position) {
+        Intent intent = new Intent(this, ProductListActivity.class);
+        intent.putExtra(ProductListActivity.FILTER_ID, position);
+        startActivity(intent);
+
     }
 
     @NonNull
@@ -157,6 +180,12 @@ public class HomeActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onItemClicked(int productId) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.PRODUCT_ID, productId);
+        startActivity(intent);
     }
 
 

@@ -20,6 +20,7 @@ import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.data.remote.RemoteDataSource;
 import com.test.newshop1.ui.loginActivity.LoginStatus;
+import com.test.newshop1.ui.productListActivity.FilterType;
 
 import java.util.Collections;
 import java.util.List;
@@ -57,33 +58,17 @@ public class DataRepository {
     }
 
 
+    public LiveData<PagedList<Product>> getProducts(ProductListOptions options){
 
-    public LiveData<PagedList<Product>> getProducts(int parentId){
-
-        DataSource.Factory<Integer, Product> dataSourceFactory = mLocalDataSource.getProducts(parentId);
-
-        PagedList.Config myPagingConfig = new PagedList.Config.Builder()
-                .setPageSize(20)
-                .setPrefetchDistance(30)
-                .build();
-
-        ProductBoundaryCallback boundaryCallback = new ProductBoundaryCallback(parentId, mLocalDataSource, mRemoteDataSource);
-
-        return new LivePagedListBuilder<>(dataSourceFactory, myPagingConfig)
-                .setBoundaryCallback(boundaryCallback)
-                .build();
-    }
-
-    public LiveData<PagedList<Product>> searchProducts(String query){
-
-        DataSource.Factory<Integer, Product> dataSourceFactory = mLocalDataSource.searchProducts(query);
+        DataSource.Factory<Integer, Product> dataSourceFactory = mLocalDataSource.getProducts(options);
 
         PagedList.Config myPagingConfig = new PagedList.Config.Builder()
                 .setPageSize(20)
                 .setPrefetchDistance(30)
                 .build();
 
-        ProductBoundaryCallback boundaryCallback = new ProductBoundaryCallback(query, mLocalDataSource, mRemoteDataSource);
+        ProductBoundaryCallback boundaryCallback = new ProductBoundaryCallback(options, mLocalDataSource, mRemoteDataSource);
+
         return new LivePagedListBuilder<>(dataSourceFactory, myPagingConfig)
                 .setBoundaryCallback(boundaryCallback)
                 .build();
@@ -125,9 +110,7 @@ public class DataRepository {
 
             }
         });
-
     }
-
 
     public void getProduct(final int productId, ResponseCallback<Product> callBack) {
         mLocalDataSource.getProduct(productId, new ResponseCallback<Product>(){
@@ -342,4 +325,6 @@ public class DataRepository {
             }
         });
     }
+
+
 }
