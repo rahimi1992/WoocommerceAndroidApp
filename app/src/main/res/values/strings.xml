@@ -56,8 +56,16 @@
         <item>نحوه پرداخت</item>
         <item>تایید نهایی</item>
     </string-array>
+
+    <string-array name="home_page_card_titles">
+        <item>جدیدترین ها</item>
+        <item>تخفیف خورده</item>
+        <item>پیشنهاد ویژه</item>
+    </string-array>
+
     <string name="title_activity_search">SearchActivity</string>
     <string name="app_label">my shop</string>
     <string name="search_hint">جستجو کنید</string>
+    <string name="show_more"><![CDATA[لیست کامل >]]></string>
 
 </resources>
