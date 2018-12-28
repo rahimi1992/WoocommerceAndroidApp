@@ -1,11 +1,6 @@
 package com.test.newshop1.data.database;
 
-import androidx.lifecycle.LiveData;
-import androidx.paging.DataSource;
-import androidx.sqlite.db.SimpleSQLiteQuery;
-
 import android.util.Log;
-import android.widget.Switch;
 
 import com.test.newshop1.AppExecutors;
 import com.test.newshop1.data.ProductListOptions;
@@ -24,9 +19,11 @@ import com.test.newshop1.data.database.product.SimpleCategory;
 import com.test.newshop1.data.database.shoppingcart.CartDao;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 
 public class LocalDataSource {
     private static final String TAG = LocalDataSource.class.getSimpleName();
@@ -72,36 +69,43 @@ public class LocalDataSource {
     public DataSource.Factory<Integer, Product> getProducts(ProductListOptions options){
 
 
+        Log.d(TAG, "getProducts: called " + options.getParentId() + options.getSearchQuery());
         switch(options.getOrderBy()){
             case DATE:
                 if (options.hasParentId()) {
                     return productDao.getProductsDateOrder(options.getParentId());
                 } else {
-                    return productDao.getProductsDateOrder("%" + options.getSearchQuery() + "%");
+                    Log.d(TAG, "getProducts: no parent called " + options.getSearchQuery());
+                    return productDao.getProductsDateOrder("%" + options.getSearchQuery() + "%",
+                            options.hasLimit()?options.getLimit():1000);
                 }
             case RATING:
                 if (options.hasParentId()) {
                     return productDao.getProductsRatingOrder(options.getParentId());
                 } else {
-                    return productDao.getProductsRatingOrder("%" + options.getSearchQuery() + "%");
+                    return productDao.getProductsRatingOrder("%" + options.getSearchQuery() + "%",
+                            options.hasLimit()?options.getLimit():1000);
                 }
             case BEST_SELL:
                 if (options.hasParentId()) {
                     return productDao.getProductsBestSellOrder(options.getParentId());
                 } else {
-                    return productDao.getProductsBestSellOrder("%" + options.getSearchQuery() + "%");
+                    return productDao.getProductsBestSellOrder("%" + options.getSearchQuery() + "%",
+                            options.hasLimit()?options.getLimit():1000);
                 }
             case PRICE_ASC:
                 if (options.hasParentId()) {
                     return productDao.getProductsPriceOrderASC(options.getParentId());
                 } else {
-                    return productDao.getProductsPriceOrderASC("%" + options.getSearchQuery() + "%");
+                    return productDao.getProductsPriceOrderASC("%" + options.getSearchQuery() + "%",
+                            options.hasLimit()?options.getLimit():1000);
                 }
             case PRICE_DESC:
                 if (options.hasParentId()) {
                     return productDao.getProductsPriceOrderDESC(options.getParentId());
                 } else {
-                    return productDao.getProductsPriceOrderDESC("%" + options.getSearchQuery() + "%");
+                    return productDao.getProductsPriceOrderDESC("%" + options.getSearchQuery() + "%",
+                            options.hasLimit()?options.getLimit():1000);
                 }
 
         }
@@ -125,11 +129,11 @@ public class LocalDataSource {
 //        return productDao.getNewProducts();
 //    }
 //
-//    public DataSource.Factory<Integer, Product> getFeaturedProducts(){
+//    public DataSource.Factory<Integer, Product> getBestSellProducts(){
 //        return productDao.getFeaturedProduct();
 //    }
 //
-//    public DataSource.Factory<Integer, Product> getOnSaleProducts(){
+//    public DataSource.Factory<Integer, Product> getPopProducts(){
 //        return productDao.getOnSaleProduct();
 //    }
 

@@ -19,6 +19,15 @@ import androidx.paging.PagedList;
 public class HomeViewModel extends ViewModel {
 
     private DataRepository dataRepository;
+    private MutableLiveData<List<Category>> mainCats = new MutableLiveData<>();
+
+    private MutableLiveData<ProductListOptions> options1 = new MutableLiveData<>();
+    private MutableLiveData<ProductListOptions> options2 = new MutableLiveData<>();
+    private MutableLiveData<ProductListOptions> options3 = new MutableLiveData<>();
+
+    private LiveData<PagedList<Product>> mProducts1 = Transformations.switchMap(options1, (opt) -> dataRepository.getProducts(opt));
+    private LiveData<PagedList<Product>> mProducts2 = Transformations.switchMap(options2, (opt) -> dataRepository.getProducts(opt));
+    private LiveData<PagedList<Product>> mProducts3 = Transformations.switchMap(options3, (opt) -> dataRepository.getProducts(opt));
 
     public HomeViewModel(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
@@ -63,16 +72,16 @@ public class HomeViewModel extends ViewModel {
     }
 
 
-    public LiveData<List<Product>> getNewProducts() {
-        return dataRepository.getNewProducts(20);
+    LiveData<PagedList<Product>> getNewProducts() {
+        return mProducts1;
     }
 
-    public LiveData<List<Product>> getFeaturedProducts() {
-        return dataRepository.getFeaturedProducts(20);
+    LiveData<PagedList<Product>> getBestSellProducts() {
+        return mProducts2;
     }
 
-    public LiveData<List<Product>> getOnSaleProducts() {
-        return dataRepository.getOnSaleProducts(20);
+    LiveData<PagedList<Product>> getPopProducts() {
+        return mProducts3;
     }
 
 

@@ -63,15 +63,19 @@ public class HomeActivity extends BaseActivity {
         catRecyclerView.setAdapter(catAdapter);
 
 
-        HomeProductListAdapter firstAdapter = new HomeProductListAdapter();
+        RecyclerView firstRecyclerView = setupCardView(firstCardView, OrderBy.DATE, 0);
+        RecyclerView secondRecyclerView = setupCardView(secondCardView, OrderBy.BEST_SELL, 1);
+        RecyclerView thirdRecyclerView = setupCardView(thirdCardView, OrderBy.RATING, 2);
+
+        ProductListAdapter firstAdapter = new ProductListAdapter(ProductListAdapter.SMALL_VIEW_TYPE);
         firstRecyclerView.setAdapter(firstAdapter);
         firstAdapter.setOnItemClickListener(this::onItemClicked);
 
-        HomeProductListAdapter secondAdapter = new HomeProductListAdapter();
+        ProductListAdapter secondAdapter = new ProductListAdapter(ProductListAdapter.SMALL_VIEW_TYPE);
         secondRecyclerView.setAdapter(secondAdapter);
         secondAdapter.setOnItemClickListener(this::onItemClicked);
 
-        HomeProductListAdapter thirdAdapter = new HomeProductListAdapter();
+        ProductListAdapter thirdAdapter = new ProductListAdapter(ProductListAdapter.SMALL_VIEW_TYPE);
         thirdRecyclerView.setAdapter(thirdAdapter);
         thirdAdapter.setOnItemClickListener(this::onItemClicked);
 
@@ -82,17 +86,17 @@ public class HomeActivity extends BaseActivity {
 
         viewModel.getNewProducts().observe(this, firstAdapter::submitList);
 
-        viewModel.getOnSaleProducts().observe(this, secondAdapter::submitList);
+        viewModel.getPopProducts().observe(this, secondAdapter::submitList);
 
-        viewModel.getFeaturedProducts().observe(this, thirdAdapter::submitList);
+        viewModel.getBestSellProducts().observe(this, thirdAdapter::submitList);
 
     }
 
-    private RecyclerView setupCardView(View view, int position) {
+    private RecyclerView setupCardView(View view, OrderBy orderBy, int position) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         ((TextView) view.findViewById(R.id.title)).setText(getResources().getStringArray(R.array.home_page_card_titles)[position]);
         ((TextView) view.findViewById(R.id.second_title)).setText(getResources().getStringArray(R.array.home_page_card_titles)[position]);
-        view.findViewById(R.id.show_more).setOnClickListener(v -> showMore(position));
+        view.findViewById(R.id.show_more).setOnClickListener(v -> showMore(orderBy));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -106,9 +110,10 @@ public class HomeActivity extends BaseActivity {
         return recyclerView;
     }
 
-    private void showMore(int position) {
+    private void showMore(OrderBy orderBy) {
         Intent intent = new Intent(this, ProductListActivity.class);
-        intent.putExtra(ProductListActivity.FILTER_ID, position);
+
+        intent.putExtra(ProductListActivity.ORDER_BY, orderBy);
         startActivity(intent);
 
     }

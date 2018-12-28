@@ -1,14 +1,13 @@
 package com.test.newshop1.data.database.product;
 
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-
-
-import java.util.List;
 
 
 
@@ -80,18 +79,18 @@ public interface ProductDao {
     DataSource.Factory<Integer,Product> getProductsRatingOrder(Integer parentId);
 
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) DESC")
-    DataSource.Factory<Integer, Product> getProductsPriceOrderDESC(String query);
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) DESC LIMIT :limit")
+    DataSource.Factory<Integer, Product> getProductsPriceOrderDESC(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) ASC")
-    DataSource.Factory<Integer, Product> getProductsPriceOrderASC(String query);
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) ASC LIMIT :limit")
+    DataSource.Factory<Integer, Product> getProductsPriceOrderASC(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(sales as unsigned) DESC")
-    DataSource.Factory<Integer, Product> getProductsBestSellOrder(String query);
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(sales as unsigned) DESC LIMIT :limit")
+    DataSource.Factory<Integer, Product> getProductsBestSellOrder(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY date DESC")
-    DataSource.Factory<Integer, Product> getProductsDateOrder(String query);
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY date DESC LIMIT :limit")
+    DataSource.Factory<Integer, Product> getProductsDateOrder(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(rating as unsigned) DESC")
-    DataSource.Factory<Integer, Product> getProductsRatingOrder(String query);
+    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(rating as unsigned) DESC LIMIT :limit")
+    DataSource.Factory<Integer, Product> getProductsRatingOrder(String query, int limit);
 }

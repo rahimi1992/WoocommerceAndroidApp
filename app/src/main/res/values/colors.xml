@@ -19,7 +19,7 @@
 
 
     <color name="primary_dark">@color/md_grey_800</color>
-    <color name="primary_light">@color/md_grey_400</color>
+    <color name="primary_light">@color/md_grey_50</color>
     <color name="primary_text">#444</color>
     <color name="secondary_text">#777</color>
     <color name="icons">@color/md_cyan_A700</color>

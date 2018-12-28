@@ -89,7 +89,7 @@ public class ProductListActivityViewModel extends ViewModel implements ResponseC
 
     void setOrderBy(OrderBy orderBy){
         if (options.getValue() != null)
-            options.getValue().setOrderBy(orderBy);
+            options.setValue(options.getValue().setOrderBy(orderBy));
 
     }
 

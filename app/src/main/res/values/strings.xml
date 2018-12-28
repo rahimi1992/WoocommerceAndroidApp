@@ -6,7 +6,7 @@
     <string name="total_price_text">جمع فاکتور</string>
     <string name="payment_text">قابل پرداخت</string>
     <string name="payout_button_text">تکمیل سفارش</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home">فروشگاه فیملو</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title"> </string>
@@ -59,13 +59,15 @@
 
     <string-array name="home_page_card_titles">
         <item>جدیدترین ها</item>
-        <item>تخفیف خورده</item>
-        <item>پیشنهاد ویژه</item>
+        <item>پرفروش ترین ها</item>
+        <item>محبوب ترین ها</item>
     </string-array>
 
-    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_search">نتایج جستجو</string>
     <string name="app_label">my shop</string>
     <string name="search_hint">جستجو کنید</string>
     <string name="show_more"><![CDATA[لیست کامل >]]></string>
+    <string name="title_activity_category">همه دسته بندی ها</string>
+    <string name="order_by_text">مرتب سازی بر اساس</string>
 
 </resources>

@@ -16,10 +16,11 @@
 
         <activity
             android:name=".ui.productListActivity.ProductListActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.test.newshop1.ui.homeActivity.HomeActivity" />
+                android:value="com.test.newshop1.ui.categoryActivity.CategoryActivity" />
             <meta-data android:name="android.app.default_searchable"
                 android:value=".ui.searchActivity.SearchableActivity" />
         </activity>
@@ -47,6 +48,7 @@
 
         <activity
             android:name=".ui.categoryActivity.CategoryActivity"
+            android:label="@string/title_activity_category"
             android:parentActivityName=".ui.homeActivity.HomeActivity"
             android:launchMode="singleTask">
             <meta-data android:name="android.app.default_searchable"
@@ -88,6 +90,7 @@
         <activity
             android:name=".ui.searchActivity.SearchableActivity"
             android:label="@string/title_activity_search"
+            android:parentActivityName=".ui.homeActivity.HomeActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />

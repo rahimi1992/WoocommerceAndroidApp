@@ -70,8 +70,13 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         layoutManager = new GridLayoutManager(this, 1);
-        int parentId = getIntent().getIntExtra(PARENT_ID, -1);
-        int filter = getIntent().getIntExtra(FILTER_ID, -1);
+        parentId = getIntent().getIntExtra(PARENT_ID, -1);
+        OrderBy orderBy = (OrderBy) getIntent().getSerializableExtra(ORDER_BY);
+        if (orderBy == null){
+            orderBy = OrderBy.DATE;
+        }
+
+        Log.d(TAG, "onCreate: orderby" + orderBy);
 
         pagingAdapter = new ProductListAdapter(ProductListAdapter.LINEAR_VIEW_TYPE);
         pagingAdapter.setOnItemClickListener(this);
@@ -280,5 +285,24 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
     private void startCheckout() {
         Intent intent = new Intent(this, CheckoutActivity.class);
         startActivity(intent);
+    }
+
+    private void showProductList(int id, int position) {
+
+        Intent intent = new Intent(this, ProductListActivity.class);
+        catAdapter.selectItem(position);
+        if (lastSelectedSubCatPos != -1){
+            catAdapter.unSelectItem(lastSelectedSubCatPos);
+        }
+        if (lastSelectedSubCatPos != position){
+            lastSelectedSubCatPos = position;
+            intent.putExtra(ProductListActivity.PARENT_ID, id);
+        } else {
+            lastSelectedSubCatPos = -1;
+            intent.putExtra(ProductListActivity.PARENT_ID, parentId);
+        }
+
+        startActivity(intent);
+
     }
 }

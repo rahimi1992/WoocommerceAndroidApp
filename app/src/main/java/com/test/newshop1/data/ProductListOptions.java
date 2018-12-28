@@ -8,6 +8,7 @@ public class ProductListOptions implements Serializable {
     private Boolean onSale;
     private String searchQuery;
     private OrderBy orderBy;
+    private Integer limit;
 
 //    public ProductListOptions(int parentId, String searchQuery, OrderBy orderBy) {
 //        this.parentId = parentId;
@@ -24,40 +25,54 @@ public class ProductListOptions implements Serializable {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public ProductListOptions setParentId(Integer parentId) {
         this.parentId = parentId;
+        return this;
     }
 
     public String getSearchQuery() {
         return searchQuery;
     }
 
-    public void setSearchQuery(String searchQuery) {
+    public ProductListOptions setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;
+        return this;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public ProductListOptions setLimit(Integer limit) {
+        this.limit = limit;
+        return this;
     }
 
     public OrderBy getOrderBy() {
         return orderBy;
     }
 
-    public void setOrderBy(OrderBy orderBy) {
+    public ProductListOptions setOrderBy(OrderBy orderBy) {
         this.orderBy = orderBy;
+        return this;
     }
 
     public Boolean getFeatured() {
         return featured;
     }
 
-    public void setFeatured(Boolean featured) {
+    public ProductListOptions setFeatured(Boolean featured) {
         this.featured = featured;
+        return this;
     }
 
     public Boolean getOnSale() {
         return onSale;
     }
 
-    public void setOnSale(Boolean onSale) {
+    public ProductListOptions setOnSale(Boolean onSale) {
         this.onSale = onSale;
+        return this;
     }
 
     public boolean hasParentId(){
@@ -78,5 +93,9 @@ public class ProductListOptions implements Serializable {
 
     public boolean hasOrderBy(){
         return orderBy != null;
+    }
+
+    public boolean hasLimit(){
+        return limit != null;
     }
 }

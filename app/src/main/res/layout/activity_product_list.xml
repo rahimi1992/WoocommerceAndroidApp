@@ -17,14 +17,28 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <androidx.appcompat.widget.AppCompatSpinner
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/md_blue_grey_50"
+            android:theme="@android:style/Theme.Material.Light.DarkActionBar"
+            android:padding="8dp">
 
-        </androidx.appcompat.widget.AppCompatSpinner>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_by_text"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/order_by_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </androidx.appcompat.widget.AppCompatSpinner>
 
         </LinearLayout>
 

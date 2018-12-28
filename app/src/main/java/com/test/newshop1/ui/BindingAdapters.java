@@ -20,10 +20,11 @@ import androidx.databinding.BindingAdapter;
 public class BindingAdapters {
     @BindingAdapter({"imageUrl", "error", "thumb"})
     public static void loadImage(ImageView view, String url, Drawable error, boolean isThumb) {
-        if (isThumb)
-            url = ImageUtil.getThumb(url, ImageUtil.MEDIUM_SIZE);
-
-        Picasso.get().load(url).error(error).into(view);
+        if (url != null) {
+            if (isThumb)
+                url = ImageUtil.getThumb(url, ImageUtil.MEDIUM_SIZE);
+            Picasso.get().load(url).error(error).into(view);
+        }
     }
 
     @BindingAdapter("visibleGone")
@@ -60,13 +61,15 @@ public class BindingAdapters {
     @BindingAdapter({"price", "regularPrice"})
     public static void setBadgeText(TextView view, String price, String regularPrice) {
 
-        Double priceD = price.equals("")?0:Double.valueOf(price);
-        Double regularPriceD = regularPrice.equals("")?0:Double.valueOf(regularPrice);
-        String text = PersianTextUtil.toPer( Math.round(100.0 - priceD / regularPriceD * 100.0)) + "%";
-        if (regularPriceD < priceD){
-            text = "";
+        if (price != null && regularPrice != null) {
+            Double priceD = price.equals("") ? 0 : Double.valueOf(price);
+            Double regularPriceD = regularPrice.equals("") ? 0 : Double.valueOf(regularPrice);
+            String text = PersianTextUtil.toPer(Math.round(100.0 - priceD / regularPriceD * 100.0)) + "%";
+            if (regularPriceD < priceD) {
+                text = "";
+            }
+            view.setText(text);
         }
-        view.setText(text);
     }
 
     @BindingAdapter({"subTitles"})
@@ -87,6 +90,22 @@ public class BindingAdapters {
     public static void setStartMargin(CardView view, boolean isFirst){
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
         lp.setMarginStart(isFirst? 100 : 5);
+    }
+
+    @BindingAdapter({"setRating"})
+    public static void setRating(RatingBar view, String rating){
+        if (rating != null && !rating.isEmpty()){
+            view.setRating(Float.valueOf(rating));
+        }
+    }
+
+    @BindingAdapter({"isSelected", "selectedBgColor"})
+    public static void setSelectedBg(CardView view, boolean isSelected, int color){
+
+        if (isSelected){
+            //view.setCardBackgroundColor(ColorStateList.valueOf());
+        }
+
     }
 
 }

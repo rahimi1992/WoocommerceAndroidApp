@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="order_by_items">
+        <item>جدیدترین</item>
+        <item>محبوب ترین</item>
+        <item>پرفروش ترین</item>
+        <item>قیمت از کم به زیاد</item>
+        <item>قیمت از زیاد به کم</item>
+    </string-array>
+</resources>
