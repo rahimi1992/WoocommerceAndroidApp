@@ -1,16 +1,17 @@
 
 package com.test.newshop1.data.database.category;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
+import androidx.databinding.ObservableBoolean;
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 @Entity(tableName = "category" , indices = {@Index(value = {"id"})})
 public class Category {
@@ -48,6 +49,9 @@ public class Category {
     private Integer count;
 
     @Ignore
+    public ObservableBoolean isSelected = new ObservableBoolean(false);
+
+    @Ignore
     @SerializedName("_links")
     @Expose
     private Links links;
@@ -71,6 +75,10 @@ public class Category {
     public Category(Integer id, Integer parent) {
         this.id = id;
         this.parent = parent;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected.set(selected);
     }
 
     public Integer getId() {
@@ -108,6 +116,7 @@ public class Category {
     public Integer getCount() {
         return count;
     }
+
 
     public List<String> getSubCatTitles() {
         return subCatTitles;

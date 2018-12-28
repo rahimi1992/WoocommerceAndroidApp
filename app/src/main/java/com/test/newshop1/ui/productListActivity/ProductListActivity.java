@@ -7,33 +7,43 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.OrderBy;
+import com.test.newshop1.data.database.category.Category;
 import com.test.newshop1.ui.OnItemClickListener;
 import com.test.newshop1.ui.ViewModelFactory;
+import com.test.newshop1.ui.categoryActivity.SubCatRecyclerViewAdapter;
 import com.test.newshop1.ui.checkoutActivity.CheckoutActivity;
 import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.utilities.BadgeDrawable;
 import com.test.newshop1.utilities.InjectorUtil;
 
+import java.util.List;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.core.app.TaskStackBuilder;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
 public class ProductListActivity extends AppCompatActivity implements OnItemClickListener {
 
-    public static final String FILTER_ID = "filter-q";
+    public static final String ORDER_BY = "order-by";
     private static final String TAG = "ProductListActivity";
 
     public static final String PARENT_ID = "parent-id";
@@ -42,6 +52,9 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
     private MenuItem toggleGridMenuItem;
     private ProductListAdapter pagingAdapter;
     private GridLayoutManager layoutManager;
+    private SubCatRecyclerViewAdapter catAdapter;
+    private int lastSelectedSubCatPos = -1;
+    private int parentId;
 
 
     @Override
@@ -67,17 +80,108 @@ public class ProductListActivity extends AppCompatActivity implements OnItemClic
         viewModel = ViewModelProviders.of(this, factory).get(ProductListActivityViewModel.class);
 
 
-        viewModel.setOrderBy(OrderBy.RATING);
+
         viewModel.setParentId(parentId);
-        viewModel.getProducts().observe(this, pagingAdapter::submitList);
+        viewModel.getProducts().observe(this, products -> {
+            pagingAdapter.submitList(products);
+            Log.d(TAG, "onChanged: called");
+        });
 
-
+        viewModel.loadCategories().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isLoaded) {
+                if (isLoaded) {
+                    updateSubCats(parentId);
+                }
+            }
+        });
 
 
         //binding.containerRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        RecyclerView recyclerView = findViewById(R.id.container_RV);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(pagingAdapter);
+        RecyclerView productRecyclerView = findViewById(R.id.container_RV);
+        RecyclerView catRecyclerView = findViewById(R.id.sub_cat_container_RV);
+        catRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        catAdapter = new SubCatRecyclerViewAdapter(this::showProductList);
+        catAdapter.setViewType(SubCatRecyclerViewAdapter.SIMPLE_VIEW_TYPE);
+        catRecyclerView.setAdapter(catAdapter);
+        productRecyclerView.setLayoutManager(layoutManager);
+        productRecyclerView.setAdapter(pagingAdapter);
+
+        AppCompatSpinner spinner = findViewById(R.id.order_by_spinner);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.order_by_items, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        Log.d(TAG, "onItemSelected: order by date called");
+                        viewModel.setOrderBy(OrderBy.DATE);
+                        break;
+                    case 1:
+                        viewModel.setOrderBy(OrderBy.RATING);
+                        break;
+                    case 2:
+                        viewModel.setOrderBy(OrderBy.BEST_SELL);
+                        break;
+                    case 3:
+                        viewModel.setOrderBy(OrderBy.PRICE_ASC);
+                        break;
+                    case 4:
+                        viewModel.setOrderBy(OrderBy.PRICE_DESC);
+
+                }
+                pagingAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        String[] titles = getResources().getStringArray(R.array.home_page_card_titles);
+        switch (orderBy){
+            case DATE:
+                getSupportActionBar().setTitle(titles[0]);
+                spinner.setSelection(0);
+                break;
+            case RATING:
+                getSupportActionBar().setTitle(titles[1]);
+                spinner.setSelection(1);
+                break;
+            case BEST_SELL:
+                getSupportActionBar().setTitle(titles[2]);
+                spinner.setSelection(2);
+                break;
+        }
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int parentId = intent.getIntExtra(PARENT_ID, -1);
+        //updateSubCats(parentId);
+        if (parentId != -1) {
+            viewModel.setParentId(parentId);
+        }
+
+
+    }
+
+    private void updateSubCats(int parent) {
+
+        List<Category> subCategories = viewModel.getCategories(parent);
+        catAdapter.submitList(subCategories);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(viewModel.getCatName(parent));
+        }
+
     }
 
     @Override

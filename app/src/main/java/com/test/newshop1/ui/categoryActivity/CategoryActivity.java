@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -20,48 +19,62 @@ import com.test.newshop1.utilities.InjectorUtil;
 import java.util.List;
 
 import androidx.appcompat.widget.SearchView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
-public class CategoryActivity extends BaseActivity {
+public class CategoryActivity extends BaseActivity implements OnCatItemClickListener {
 
+    public static final String DEFAULT_SELECTED_CAT = "default-cat";
     private static final String TAG = "CategoryActivity";
-    private static int LAST_PARENT_ID = -1;
-    private static String LAST_PARENT_NAME;
     private CategoryViewModel mViewModel;
-    private CategoryRecyclerViewAdapter categoryAdapter;
-    private StaggeredGridLayoutManager layoutManager;
     private TabLayout tabLayout;
+    private ViewPager viewPager;
+    CategoryFragmentPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        getSupportActionBar().setTitle("");
+
 
         tabLayout = findViewById(R.id.main_cat_tabs);
-        RecyclerView recyclerView = findViewById(R.id.container_RV);
+        viewPager = findViewById(R.id.container_VP);
 
-        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
-        mViewModel = ViewModelProviders.of(this, factory).get(CategoryViewModel.class);
+        pagerAdapter = new CategoryFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setRotationY(180);
+
+        mViewModel = obtainViewModel(this);
         mViewModel.loadCategories().observe(this, isLoaded -> {
             if (isLoaded != null && isLoaded){
-                showSubCategories(0);
+                setupTabLayout(getIntent().getIntExtra(DEFAULT_SELECTED_CAT, 0));
             }
         });
 
-        categoryAdapter = new CategoryRecyclerViewAdapter();
-        categoryAdapter.setOnItemClickListener(category -> {
-            LAST_PARENT_ID = category.getParent();
-            LAST_PARENT_NAME = category.getName();
-            showSubCategories(category.getId());
-        });
-        layoutManager = new StaggeredGridLayoutManager(2, 1);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(categoryAdapter);
+
+    }
+
+    public static CategoryViewModel obtainViewModel(FragmentActivity activity) {
+
+        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(activity);
+
+        return ViewModelProviders.of(activity, factory).get(CategoryViewModel.class);
+    }
+
+    private void setupTabLayout(int selected) {
+        List<Category> mainCategories = mViewModel.getCategories(0);
+        for (Category category : mainCategories) {
+            pagerAdapter.addPages(category.getId(), category.getName());
+        }
+
+        viewPager.setCurrentItem(selected, true);
+
+        tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        viewPager.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -85,33 +98,6 @@ public class CategoryActivity extends BaseActivity {
         super.onResume();
     }
 
-    private void showSubCategories(int id) {
-
-        List<Category> subCategories = mViewModel.getCategories(id);
-
-        if (id == 0){
-            for (Category category : subCategories) {
-
-                tabLayout.addTab(tabLayout.newTab().setText(category.getName()));
-                category.setSubCatTitles(mViewModel.getSubCatTitles(category.getId()));
-            }
-            layoutManager.setSpanCount(2);
-        } else {
-            layoutManager.setSpanCount(1);
-        }
-
-        if (subCategories.size() < 1) {
-            updateLastParent();
-            showProductList(id);
-        } else {
-            updateTitle();
-            categoryAdapter.loadNewData(subCategories, true);
-        }
-    }
-
-    private void updateTitle() {
-        getSupportActionBar().setTitle(LAST_PARENT_NAME);
-    }
 
     private void showProductList(int id) {
 
@@ -122,34 +108,7 @@ public class CategoryActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        Log.d(TAG, "onBackPressed: " + LAST_PARENT_ID);
-        if (LAST_PARENT_ID == -1 || drawer.isDrawerOpen(GravityCompat.START)) {
-            finish();
-            overridePendingTransition(0, R.anim.fade_out);
-            //super.onBackPressed();
-
-        } else {
-
-            showSubCategories(LAST_PARENT_ID);
-            updateLastParent();
-        }
+    public void onItemClicked(int id, int position) {
+        showProductList(id);
     }
-
-    private void updateLastParent() {
-        Category parentCategory = mViewModel.getParent(LAST_PARENT_ID);
-        if (parentCategory != null) {
-            LAST_PARENT_ID = parentCategory.getParent();
-            LAST_PARENT_NAME = parentCategory.getName();
-        } else {
-            LAST_PARENT_ID = -1;
-            LAST_PARENT_NAME = "";
-        }
-        updateTitle();
-    }
-
-
 }

@@ -24,6 +24,13 @@
             android:layout_height="150dp"
             android:nestedScrollingEnabled="true"
             android:translationZ="-2dp" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/main_cat_container_RV"
+            android:layout_width="match_parent"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:background="@color/md_blue_grey_50"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

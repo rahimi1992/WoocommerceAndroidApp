@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.databinding.ProductItemBinding;
 import com.test.newshop1.databinding.ProductItemGridBinding;
+import com.test.newshop1.databinding.ProductItemSmallBinding;
 import com.test.newshop1.ui.OnItemClickListener;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,8 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
     public static final int LINEAR_VIEW_TYPE = 1;
     public static final int GRID_VIEW_TYPE = 2;
     public static final int GRID_VIEW_TYPE_LARGE = 3;
+    public static final int SMALL_VIEW_TYPE = 4;
+
     private int viewType;
     private OnItemClickListener onItemClickListener;
 
@@ -52,6 +55,8 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
             case GRID_VIEW_TYPE:
             case GRID_VIEW_TYPE_LARGE:
                 return new GridItemHolder(ProductItemGridBinding.inflate(inflater, viewGroup, false));
+            case SMALL_VIEW_TYPE:
+                return new SmallItemHolder(ProductItemSmallBinding.inflate(inflater, viewGroup, false));
         }
         return new LinearItemHolder(ProductItemBinding.inflate(inflater, viewGroup, false));
     }
@@ -69,7 +74,6 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
             ButterKnife.bind(this, itemView);
         }
 
-
         public abstract void bind(Product type);
     }
 
@@ -80,12 +84,13 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         LinearItemHolder(ProductItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.setListener(onItemClickListener);
+
         }
 
         @Override
         public void bind(Product product) {
             binding.setProduct(product);
-            binding.setListener(onItemClickListener);
         }
     }
 
@@ -96,12 +101,30 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         GridItemHolder(ProductItemGridBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.binding.setListener(onItemClickListener);
+
         }
 
         @Override
         public void bind(Product product) {
             binding.setProduct(product);
-            binding.setListener(onItemClickListener);
+        }
+    }
+
+    class SmallItemHolder extends BaseViewHolder {
+
+        private final ProductItemSmallBinding binding;
+
+        SmallItemHolder(ProductItemSmallBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            this.binding.setListener(onItemClickListener);
+
+        }
+
+        @Override
+        public void bind(Product product) {
+            binding.setProduct(product);
         }
     }
 

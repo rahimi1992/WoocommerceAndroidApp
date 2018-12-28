@@ -5,17 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.test.newshop1.R;
+import com.test.newshop1.data.OrderBy;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.ui.productListActivity.ProductListAdapter;
 import com.test.newshop1.utilities.InjectorUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
@@ -36,6 +41,9 @@ public class SearchableActivity extends AppCompatActivity{
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);}
+
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
         viewModel = ViewModelProviders.of(this, factory).get(SearchViewModel.class);
 
@@ -46,6 +54,42 @@ public class SearchableActivity extends AppCompatActivity{
         recyclerView.setAdapter(adapter);
         viewModel.getProducts().observe(this, adapter::submitList);
         handleIntent(getIntent());
+
+        AppCompatSpinner spinner = findViewById(R.id.order_by_spinner);
+
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.order_by_items, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        Log.d(TAG, "onItemSelected: order by date called");
+                        viewModel.setOrderBy(OrderBy.DATE);
+                        break;
+                    case 1:
+                        viewModel.setOrderBy(OrderBy.RATING);
+                        break;
+                    case 2:
+                        viewModel.setOrderBy(OrderBy.BEST_SELL);
+                        break;
+                    case 3:
+                        viewModel.setOrderBy(OrderBy.PRICE_ASC);
+                        break;
+                    case 4:
+                        viewModel.setOrderBy(OrderBy.PRICE_DESC);
+
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
     }
 

@@ -26,6 +26,16 @@
 
         </androidx.appcompat.widget.AppCompatSpinner>
 
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sub_cat_container_RV"
+            android:layout_width="match_parent"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:background="@color/md_blue_grey_50"
+            android:layout_height="wrap_content" />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <include layout="@layout/content_product_list" />

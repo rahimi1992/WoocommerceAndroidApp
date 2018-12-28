@@ -1,14 +1,14 @@
 package com.test.newshop1.ui.categoryActivity;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
-import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.DataRepository;
+import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.category.Category;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 public class CategoryViewModel extends ViewModel implements ResponseCallback<List<Category>> {
     private DataRepository dataRepository;
@@ -46,25 +46,5 @@ public class CategoryViewModel extends ViewModel implements ResponseCallback<Lis
         return categories;
     }
 
-    Category getParent(int lastParent) {
-        if (lastParent == 0)
-            return null;
-        else {
-            for (Category category : allCategories){
-                if (category.getId().equals(lastParent))
-                    return category;
-            }
-        }
-        return null;
 
-    }
-
-    List<String> getSubCatTitles(int parent) {
-        List<String> subCatTitles = new ArrayList<>();
-        for (Category category : allCategories){
-            if (category.getParent().equals(parent))
-                subCatTitles.add(category.getName());
-        }
-        return subCatTitles;
-    }
 }

@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,18 +14,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.test.newshop1.R;
-import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.OrderBy;
 import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.ViewModelFactory;
+import com.test.newshop1.ui.categoryActivity.CategoryActivity;
+import com.test.newshop1.ui.categoryActivity.SubCatRecyclerViewAdapter;
 import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.ui.productListActivity.ProductListActivity;
+import com.test.newshop1.ui.productListActivity.ProductListAdapter;
 import com.test.newshop1.utilities.InjectorUtil;
-
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,8 +45,6 @@ public class HomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        getSupportActionBar().setTitle("فروشگاه فیملو");
-
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new BannerPagerAdapter(bannerImages));
 
@@ -59,9 +56,12 @@ public class HomeActivity extends BaseActivity {
         container.addView(secondCardView);
         container.addView(thirdCardView);
 
-        RecyclerView firstRecyclerView = setupCardView(firstCardView, 0);
-        RecyclerView secondRecyclerView = setupCardView(secondCardView, 1);
-        RecyclerView thirdRecyclerView = setupCardView(thirdCardView, 2);
+        RecyclerView catRecyclerView = findViewById(R.id.main_cat_container_RV);
+        catRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        SubCatRecyclerViewAdapter catAdapter = new SubCatRecyclerViewAdapter(this::startCategoryActivity);
+        catAdapter.setViewType(SubCatRecyclerViewAdapter.SIMPLE_VIEW_TYPE);
+        catRecyclerView.setAdapter(catAdapter);
+
 
         HomeProductListAdapter firstAdapter = new HomeProductListAdapter();
         firstRecyclerView.setAdapter(firstAdapter);
@@ -77,6 +77,8 @@ public class HomeActivity extends BaseActivity {
 
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
         viewModel = ViewModelProviders.of(this, factory).get(HomeViewModel.class);
+
+        viewModel.getMainCats().observe(this, catAdapter::submitList);
 
         viewModel.getNewProducts().observe(this, firstAdapter::submitList);
 
@@ -186,6 +188,14 @@ public class HomeActivity extends BaseActivity {
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(DetailActivity.PRODUCT_ID, productId);
         startActivity(intent);
+    }
+
+    private void startCategoryActivity(int id, int position) {
+
+        Intent intent = new Intent(this, CategoryActivity.class);
+        intent.putExtra(CategoryActivity.DEFAULT_SELECTED_CAT, position);
+        startActivity(intent);
+
     }
 
 

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="com.test.newshop1.R" />
+        <variable
+            name="category"
+            type="com.test.newshop1.data.database.category.Category" />
+
+        <variable
+            name="listener"
+            type="com.test.newshop1.ui.categoryActivity.OnCatItemClickListener" />
+
+        <variable
+            name="position"
+            type="Integer"/>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="@{() -> listener.onItemClicked(category.id, position)}"
+        app:cardBackgroundColor="@{category.isSelected ? @color/accent : @color/primary_light}"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:padding="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="@{category.name}"
+            android:textAlignment="center"
+            android:textColor="@{category.isSelected ? @color/white : @color/primary_text}"
+            tools:ignore="RtlCompat"
+            tools:text="ttest" />
+
+    </androidx.cardview.widget.CardView>
+</layout>

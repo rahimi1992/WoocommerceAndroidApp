@@ -1,6 +1,9 @@
 package com.test.newshop1.ui.searchActivity;
 
+import android.util.Log;
+
 import com.test.newshop1.data.DataRepository;
+import com.test.newshop1.data.OrderBy;
 import com.test.newshop1.data.ProductListOptions;
 import com.test.newshop1.data.database.product.Product;
 
@@ -11,6 +14,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.paging.PagedList;
 
 public class SearchViewModel extends ViewModel {
+    private static final String TAG = "SearchViewModel";
 
     private MutableLiveData<ProductListOptions> options = new MutableLiveData<>();
     private DataRepository mRepository;
@@ -28,8 +32,14 @@ public class SearchViewModel extends ViewModel {
     }
 
     void setSearchQuery(String query) {
-        if (options.getValue() != null)
-            options.getValue().setSearchQuery(query);
+        if (options.getValue() != null) {
+            Log.d(TAG, "setSearchQuery: " + query);
+            options.setValue(options.getValue().setSearchQuery(query));
+        }
     }
 
+    void setOrderBy(OrderBy orderBy) {
+        if (options.getValue() != null)
+            options.setValue(options.getValue().setOrderBy(orderBy));
+    }
 }
