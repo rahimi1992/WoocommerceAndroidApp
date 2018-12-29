@@ -16,17 +16,17 @@
         <variable
             name="listener"
             type="com.test.newshop1.ui.OnItemClickListener" />
-
     </data>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="130dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
+        android:layout_margin="4dp"
         android:background="@drawable/border"
         android:onClick="@{() -> listener.onItemClicked(product.id)}"
         app:cardBackgroundColor="#eeeeee"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="4dp">
 
 
@@ -69,24 +69,42 @@
             <View
                 android:id="@+id/scrim"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
+                android:layout_height="170dp"
                 android:layout_gravity="top"
                 android:background="@drawable/scrim"
                 android:translationZ="5dp"
                 android:visibility="invisible" />
 
-            <ImageView
-                android:id="@+id/thumbnail"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="-120dp"
-                android:adjustViewBounds="true"
-                android:cropToPadding="true"
-                android:scaleType="fitCenter"
-                app:error="@{@drawable/logo}"
-                app:imageUrl="@{product.images[0].src}"
-                app:srcCompat="@drawable/bg_white"
-                app:thumb="@{true}" />
+                android:layout_height="170dp"
+                android:layout_marginTop="-170dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <ImageView
+                    android:id="@+id/thumbnail"
+                    android:layout_width="0dp"
+                    android:layout_height="170dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="true"
+                    android:scaleType="fitCenter"
+                    app:error="@{@drawable/logo}"
+                    app:imageUrl="@{product.images[0].src}"
+                    app:srcCompat="@drawable/bg_white"
+                    app:thumb="@{true}" />
+
+                <WebView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:paddingTop="20dp"
+                    android:padding="8dp"
+                    android:textSize="12sp"
+                    android:layout_weight="1"
+                    app:htmlContent="@{product.shortDescription}"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -99,22 +117,22 @@
                     android:layout_height="20dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="4dp"
-                    android:paddingStart="2dp"
+                    android:paddingStart="4dp"
                     android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.price))}"
                     android:textColor="@color/secondary_text"
-                    android:textSize="14sp"
+                    android:textSize="17sp"
                     android:transitionName="price_transition" />
 
                 <TextView
                     android:id="@+id/regular_price"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:background="@drawable/strike_through"
                     android:text="@{String.format(@string/currency, PersianTextUtil.toPer(product.regularPrice))}"
                     android:textColor="@color/secondary_text"
-                    android:textSize="12sp"
+                    android:textSize="14sp"
                     android:transitionName="regular_price_transition"
                     app:invisibleIfFalse="@{product.onSale}" />
 
@@ -144,6 +162,19 @@
                 app:setRating="@{product.averageRating}"/>
 
         </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@android:style/Widget.Material.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:backgroundTint="@color/accent"
+            android:contentDescription="v"
+
+            android:fadeScrollbars="true"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
         <!--<View-->
         <!--android:layout_width="match_parent"-->

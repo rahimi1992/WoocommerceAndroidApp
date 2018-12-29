@@ -3,6 +3,7 @@ package com.test.newshop1.ui;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -99,13 +100,15 @@ public class BindingAdapters {
         }
     }
 
-    @BindingAdapter({"isSelected", "selectedBgColor"})
-    public static void setSelectedBg(CardView view, boolean isSelected, int color){
+    @BindingAdapter({"htmlContent"})
+    public static void htmlContent(WebView view, String content){
 
-        if (isSelected){
-            //view.setCardBackgroundColor(ColorStateList.valueOf());
+        if (content != null && !content.isEmpty()){
+            view.loadDataWithBaseURL(null, "<html dir=\"rtl\" style=\"text-align:justify; width:100%;\" lang=\"\"><body>" + content + "</body></html>", "text/html", "utf-8", null);
         }
 
     }
+
+
 
 }

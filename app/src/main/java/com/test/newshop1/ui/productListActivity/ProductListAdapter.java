@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.databinding.ProductItemBinding;
 import com.test.newshop1.databinding.ProductItemGridBinding;
+import com.test.newshop1.databinding.ProductItemLargeBinding;
 import com.test.newshop1.databinding.ProductItemSmallBinding;
 import com.test.newshop1.ui.OnItemClickListener;
 
@@ -53,8 +54,10 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
             case LINEAR_VIEW_TYPE:
                 return new LinearItemHolder(ProductItemBinding.inflate(inflater, viewGroup, false));
             case GRID_VIEW_TYPE:
+                return new GridItemHolder(ProductItemGridBinding.inflate(inflater, viewGroup, false));
             case GRID_VIEW_TYPE_LARGE:
                 return new GridItemHolder(ProductItemGridBinding.inflate(inflater, viewGroup, false));
+                //return new LargeItemHolder(ProductItemLargeBinding.inflate(inflater, viewGroup, false));
             case SMALL_VIEW_TYPE:
                 return new SmallItemHolder(ProductItemSmallBinding.inflate(inflater, viewGroup, false));
         }
@@ -99,6 +102,23 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         private final ProductItemGridBinding binding;
 
         GridItemHolder(ProductItemGridBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            this.binding.setListener(onItemClickListener);
+
+        }
+
+        @Override
+        public void bind(Product product) {
+            binding.setProduct(product);
+        }
+    }
+
+    class LargeItemHolder extends BaseViewHolder {
+
+        private final ProductItemLargeBinding binding;
+
+        LargeItemHolder(ProductItemLargeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
             this.binding.setListener(onItemClickListener);

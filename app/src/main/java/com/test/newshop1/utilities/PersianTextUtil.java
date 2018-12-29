@@ -11,7 +11,10 @@ public class PersianTextUtil {
         if (text == null || text.length() == 0) {
             return " ";
         }
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N && comma) {
+
+//        DecimalFormat formatter = new DecimalFormat("#,###,###");
+
+        if (comma) {
             DecimalFormat formatter = new DecimalFormat("#,###,###");
             text = formatter.format(Integer.valueOf(text));
         }
