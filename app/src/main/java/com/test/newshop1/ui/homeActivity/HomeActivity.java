@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +25,9 @@ import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.ui.productListActivity.ProductListActivity;
 import com.test.newshop1.ui.productListActivity.ProductListAdapter;
 import com.test.newshop1.utilities.InjectorUtil;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
@@ -46,7 +51,12 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
 
         ViewPager viewPager = findViewById(R.id.view_pager);
+
         viewPager.setAdapter(new BannerPagerAdapter(bannerImages));
+
+        setupAutoSlide(viewPager, bannerImages.length);
+
+
 
         LinearLayout container = findViewById(R.id.container_ll);
         View firstCardView = getLayoutInflater().inflate(R.layout.parallax_bg_recyclerview, container, false);
@@ -92,6 +102,21 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    private void setupAutoSlide(ViewPager viewPager, int length) {
+        new Timer().schedule(new TimerTask() { // task to be scheduled
+            @Override
+            public void run() {
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    if (viewPager.getCurrentItem() == length-1) {
+                        viewPager.setCurrentItem(0, true);
+                    }else {
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+                    }
+                });
+            }
+        }, 1000, 5000);
+    }
+
     private RecyclerView setupCardView(View view, OrderBy orderBy, int position) {
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         ((TextView) view.findViewById(R.id.title)).setText(getResources().getStringArray(R.array.home_page_card_titles)[position]);
@@ -100,9 +125,9 @@ public class HomeActivity extends BaseActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        recyclerView.addOnScrollListener(createOnScrollListener(layoutManager, view));
+        //recyclerView.addOnScrollListener(createOnScrollListener(layoutManager, view));
         ViewGroup.MarginLayoutParams marginLayoutParams = new ViewGroup.MarginLayoutParams(0,0);
-        marginLayoutParams.setMargins(4, 40, 160, 5);
+        marginLayoutParams.setMargins(6, 40, 6, 6);
         recyclerView.addItemDecoration(new CustomItemDecoration(marginLayoutParams));
         recyclerView.scrollToPosition(-1);
         //(new LinearSnapHelper()).attachToRecyclerView(recyclerView);
@@ -146,7 +171,6 @@ public class HomeActivity extends BaseActivity {
                     //Set alpha to image to bring 'fade out' and 'fade in' effect
                     imageView.setAlpha(1 - alpha);
                     title.setAlpha(1-alpha);
-                    //Set alpha to color view to bring 'darker' and 'clearer' effect
                     cover.setAlpha(alpha);
 
                 }
