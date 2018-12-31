@@ -83,8 +83,12 @@
 
 
         <activity android:name=".ui.profileActivity.ProfileActivity" />
+
+
         <activity android:name=".ui.ordersActivity.OrdersActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            android:label="@string/title_activity_orders"
+            android:parentActivityName=".ui.homeActivity.HomeActivity"/>
 
 
         <activity
