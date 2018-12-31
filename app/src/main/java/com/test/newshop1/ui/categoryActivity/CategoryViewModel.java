@@ -39,9 +39,11 @@ public class CategoryViewModel extends ViewModel implements ResponseCallback<Lis
 
     List<Category> getCategories(int parent){
         List<Category> categories = new ArrayList<>();
-        for (Category category : allCategories){
-            if (category.getParent().equals(parent))
-                categories.add(category);
+        if (allCategories != null) {
+            for (Category category : allCategories) {
+                if (category.getParent().equals(parent))
+                    categories.add(category);
+            }
         }
         return categories;
     }

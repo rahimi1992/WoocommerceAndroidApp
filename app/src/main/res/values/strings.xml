@@ -69,5 +69,6 @@
     <string name="show_more"><![CDATA[لیست کامل >]]></string>
     <string name="title_activity_category">همه دسته بندی ها</string>
     <string name="order_by_text">مرتب سازی بر اساس</string>
+    <string name="title_activity_orders">پیگیری سفارشات</string>
 
 </resources>
