@@ -16,6 +16,6 @@ public interface OrderDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void Insert(List<Order> order);
 
-    @Query("SELECT * FROM `order` WHERE customerId = :customerId")
+    @Query("SELECT * FROM `order` WHERE customerId = :customerId order by dateCreated DESC")
     LiveData<List<Order>> getOrders(int customerId);
 }

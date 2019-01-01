@@ -1,6 +1,7 @@
 package com.test.newshop1.ui;
 
 import android.graphics.drawable.Drawable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -10,6 +11,10 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.test.newshop1.R;
+import com.test.newshop1.data.database.order.Order;
+import com.test.newshop1.data.database.shoppingcart.CartItem;
+import com.test.newshop1.utilities.CalendarUtils;
 import com.test.newshop1.utilities.ImageUtil;
 import com.test.newshop1.utilities.PersianTextUtil;
 
@@ -108,6 +113,39 @@ public class BindingAdapters {
         }
 
     }
+
+    @BindingAdapter({"jalaliDate"})
+    public static void setJalaliDate(TextView view, String rawDate){
+        String[] date = rawDate.split("-");
+        int year = Integer.valueOf(date[0]);
+        int month = Integer.valueOf(date[1]);
+        int day = Integer.valueOf(date[2].substring(0, 2));
+
+        CalendarUtils calendar = new CalendarUtils(year, month, day);
+        String dateJalali = calendar.getIranianDate();
+
+        view.setText(dateJalali);
+    }
+
+    @BindingAdapter({"orderItems"})
+    public static void setOrderItems(LinearLayout container, List<CartItem> items){
+
+        container.removeAllViews();
+        LayoutInflater inflater = LayoutInflater.from(container.getContext());
+        for (CartItem item : items) {
+            View view = inflater.inflate(R.layout.order_item_detail, container, false);
+            TextView name = view.findViewById(R.id.name);
+            TextView count = view.findViewById(R.id.count);
+            TextView price = view.findViewById(R.id.price);
+
+            name.setText(item.getName());
+            count.setText(String.valueOf(item.getQuantity()));
+            price.setText(PersianTextUtil.toPer(item.getTotal()));
+            container.addView(view);
+        }
+
+    }
+
 
 
 
