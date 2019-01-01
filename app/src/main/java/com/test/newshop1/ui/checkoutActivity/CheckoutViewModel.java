@@ -356,9 +356,9 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
         Order order = new Order(Order.PENDING, customer.getId(),
                 "", billingObservableField.get(), customer.getShipping(),
-                selectedPaymentMethod.getTitle(), selectedPaymentMethod.getMethodTitle(), cartItems,"");
+                selectedPaymentMethod.getId(), selectedPaymentMethod.getMethodTitle(), cartItems,"");
 
-        ShippingLine shippingLine = new ShippingLine(selectedShippingMethod.getTitle(), selectedPaymentMethod.getId(),String.valueOf(shippingCost));
+        ShippingLine shippingLine = new ShippingLine(selectedShippingMethod.getTitle(), String.valueOf(selectedShippingMethod.getId()),String.valueOf(shippingCost));
         order.setShippingLines(Collections.singletonList(shippingLine));
         dataRepository.saveOrder(order, new ResponseCallback<Order>() {
             @Override

@@ -254,10 +254,7 @@ public class LocalDataSource {
     }
 
     public void saveOrders(List<Order> orders) {
-        executors.diskIO().execute(() -> {
-
-            orderDao.Insert(orders);
-        });
+        executors.diskIO().execute(() -> orderDao.Insert(orders));
     }
 
     public LiveData<List<Order>> getOrders(int customerId){

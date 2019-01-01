@@ -105,7 +105,7 @@ public class CartFragment extends Fragment {
                 TextView qtyTV = viewItem.findViewById(R.id.qty);
                 qtyTV.setText(PersianTextUtil.toPer(item.getQuantity()));
                 TextView priceTV = viewItem.findViewById(R.id.item_price);
-                String itemPriceText = PersianTextUtil.toPer(item.getQuantity()) + " x " + PersianTextUtil.toPer(item.getTotal());
+                String itemPriceText = PersianTextUtil.toPer(item.getQuantity()) + "\n" + PersianTextUtil.toPer(item.getTotal());
                 priceTV.setText(itemPriceText);
                 //priceTV.setTypeface(font_yekan);
                 CircleImageView image = viewItem.findViewById(R.id.thumbnail);
@@ -119,7 +119,7 @@ public class CartFragment extends Fragment {
 //                    viewItem.findViewById(R.id.cart_header).setVisibility(View.VISIBLE);
 //                }
                 linearLayout.addView(viewItem);
-                price += Integer.valueOf(item.getTotal()) * item.getQuantity();
+                price += Integer.valueOf(item.getTotal());
             }
             viewItem = inflater.inflate(R.layout.cart_summary, linearLayout, false);
             TextView totalPriceTV = viewItem.findViewById(R.id.s_total_price);
