@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="?actionBarSize"
 
         android:layout_marginEnd="16dp"
         android:elevation="4dp"
@@ -27,7 +27,7 @@
         app:sv_doneStepLineColor="@color/colorAccent"
         app:sv_doneStepMarkColor="@color/colorPrimaryDark"
         app:sv_doneTextColor="@color/colorAccent"
-        app:sv_nextStepLineColor="@color/primary_light"
+        app:sv_nextStepLineColor="@color/colorPrimary"
         app:sv_nextTextColor="@color/colorPrimary"
         app:sv_selectedCircleColor="@color/colorAccent"
         app:sv_selectedCircleRadius="13dp"
@@ -46,6 +46,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cart_step_view"
         tools:context=".ui.checkoutActivity.CheckoutActivity" />
 
 

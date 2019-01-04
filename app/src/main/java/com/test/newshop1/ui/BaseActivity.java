@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.test.newshop1.R;
@@ -136,11 +137,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                 break;
             case R.id.nav_social:
-
+                Toast.makeText(this, "Not Implemented", Toast.LENGTH_SHORT).show();
                 //TODO
                 break;
             case R.id.nav_contact:
-
+                Toast.makeText(this, "Not Implemented", Toast.LENGTH_SHORT).show();
                 //TODO
                 break;
 

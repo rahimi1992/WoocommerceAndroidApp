@@ -3,8 +3,11 @@ package com.test.newshop1.ui.categoryActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 
@@ -13,7 +16,9 @@ import com.test.newshop1.R;
 import com.test.newshop1.data.database.category.Category;
 import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.ViewModelFactory;
+import com.test.newshop1.ui.checkoutActivity.CheckoutActivity;
 import com.test.newshop1.ui.productListActivity.ProductListActivity;
+import com.test.newshop1.utilities.BadgeDrawable;
 import com.test.newshop1.utilities.InjectorUtil;
 
 import java.util.List;
@@ -27,10 +32,11 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
 
     public static final String DEFAULT_SELECTED_CAT = "default-cat";
     private static final String TAG = "CategoryActivity";
-    private CategoryViewModel mViewModel;
+    private CategoryViewModel viewModel;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     CategoryFragmentPagerAdapter pagerAdapter;
+    private LayerDrawable cartIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +52,8 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
         viewPager.setAdapter(pagerAdapter);
         viewPager.setRotationY(180);
 
-        mViewModel = obtainViewModel(this);
-        mViewModel.loadCategories().observe(this, isLoaded -> {
+        viewModel = obtainViewModel(this);
+        viewModel.loadCategories().observe(this, isLoaded -> {
             if (isLoaded != null && isLoaded){
                 setupTabLayout(getIntent().getIntExtra(DEFAULT_SELECTED_CAT, 0));
             }
@@ -64,7 +70,7 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
     }
 
     private void setupTabLayout(int selected) {
-        List<Category> mainCategories = mViewModel.getCategories(0);
+        List<Category> mainCategories = viewModel.getCategories(0);
         for (Category category : mainCategories) {
             pagerAdapter.addPages(category.getId(), category.getName());
         }
@@ -81,6 +87,9 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home, menu);
 
+        cartIcon = (LayerDrawable) menu.findItem(R.id.cart_item).getIcon();
+        viewModel.getCartItemCount().observe(this, this::setCount);
+
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
@@ -93,9 +102,39 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.cart_item:
+                startCheckout();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onResume() {
         supportInvalidateOptionsMenu();
         super.onResume();
+    }
+
+    public void setCount(Integer count) {
+
+        BadgeDrawable badge;
+        Drawable reuse = cartIcon.findDrawableByLayerId(R.id.ic_group_count);
+        if (reuse instanceof BadgeDrawable) {
+            badge = (BadgeDrawable) reuse;
+        } else {
+            badge = new BadgeDrawable(this);
+        }
+
+        badge.setCount(count ==null?"0": String.valueOf(count));
+        cartIcon.mutate();
+        cartIcon.setDrawableByLayerId(R.id.ic_group_count, badge);
+    }
+
+    private void startCheckout() {
+        Intent intent = new Intent(this, CheckoutActivity.class);
+        startActivity(intent);
     }
 
 

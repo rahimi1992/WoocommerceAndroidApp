@@ -82,7 +82,7 @@
                 android:layout_marginTop="-170dp"
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:error="@{@drawable/logo}"
                 app:imageUrl="@{product.images[0].src}"
                 app:srcCompat="@drawable/bg_white"

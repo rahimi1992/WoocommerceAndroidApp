@@ -3,6 +3,8 @@ package com.test.newshop1.ui.homeActivity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,9 +23,11 @@ import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.ViewModelFactory;
 import com.test.newshop1.ui.categoryActivity.CategoryActivity;
 import com.test.newshop1.ui.categoryActivity.SubCatRecyclerViewAdapter;
+import com.test.newshop1.ui.checkoutActivity.CheckoutActivity;
 import com.test.newshop1.ui.detailActivity.DetailActivity;
 import com.test.newshop1.ui.productListActivity.ProductListActivity;
 import com.test.newshop1.ui.productListActivity.ProductListAdapter;
+import com.test.newshop1.utilities.BadgeDrawable;
 import com.test.newshop1.utilities.InjectorUtil;
 
 import java.util.Timer;
@@ -44,6 +48,7 @@ public class HomeActivity extends BaseActivity {
             "https://femelo.com/wp-content/uploads/2018/06/Untitled.png"};
 
     private HomeViewModel viewModel;
+    private LayerDrawable cartIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,6 +187,9 @@ public class HomeActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home, menu);
 
+        cartIcon = (LayerDrawable) menu.findItem(R.id.cart_item).getIcon();
+        viewModel.getCartItemCount().observe(this, this::setCount);
+
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
@@ -201,16 +209,38 @@ public class HomeActivity extends BaseActivity {
         super.onResume();
     }
 
+    public void setCount(Integer count) {
+
+        BadgeDrawable badge;
+        Drawable reuse = cartIcon.findDrawableByLayerId(R.id.ic_group_count);
+        if (reuse instanceof BadgeDrawable) {
+            badge = (BadgeDrawable) reuse;
+        } else {
+            badge = new BadgeDrawable(this);
+        }
+
+        badge.setCount(count ==null?"0": String.valueOf(count));
+        cartIcon.mutate();
+        cartIcon.setDrawableByLayerId(R.id.ic_group_count, badge);
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        int id = item.getItemId();
+        switch (item.getItemId()){
+            case R.id.cart_item:
+                startCheckout();
+                break;
+            case R.id.action_search:
+                return true;
 
-        if (id == R.id.action_search) {
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startCheckout() {
+        Intent intent = new Intent(this, CheckoutActivity.class);
+        startActivity(intent);
     }
 
     public void onItemClicked(int productId) {

@@ -93,6 +93,7 @@
                     android:theme="@android:style/Theme.Material.Light"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                     app:titleTextAppearance="@style/Toolbar.TitleText"
+
                     app:titleTextColor="@color/darkGray" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

@@ -7,6 +7,7 @@ import com.test.newshop1.data.database.category.Category;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -46,6 +47,10 @@ public class CategoryViewModel extends ViewModel implements ResponseCallback<Lis
             }
         }
         return categories;
+    }
+
+    LiveData<Integer> getCartItemCount() {
+        return dataRepository.getCartItemCount();
     }
 
 

@@ -3,12 +3,12 @@ package com.test.newshop1.ui.checkoutActivity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.shuhart.stepview.StepView;
 import com.test.newshop1.R;
-import com.test.newshop1.ui.BaseActivity;
 import com.test.newshop1.ui.SnackbarMessageId;
 import com.test.newshop1.ui.SnackbarMessageText;
 import com.test.newshop1.ui.ViewModelFactory;
@@ -16,12 +16,15 @@ import com.test.newshop1.utilities.InjectorUtil;
 import com.test.newshop1.utilities.SnackbarUtils;
 import com.zarinpal.ewallets.purchase.ZarinPal;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 
-public class CheckoutActivity extends BaseActivity {
+public class CheckoutActivity extends AppCompatActivity {
     private static final String TAG = "CheckoutActivity";
 
 
@@ -35,6 +38,15 @@ public class CheckoutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: called");
         setContentView(R.layout.activity_checkout);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_clear);
+        }
+
         parentLayout = findViewById(android.R.id.content);
         mStepView = findViewById(R.id.cart_step_view);
         //mStepView.go(0, false);
@@ -116,5 +128,12 @@ public class CheckoutActivity extends BaseActivity {
         }
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

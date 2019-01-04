@@ -71,6 +71,9 @@ public class HomeViewModel extends ViewModel {
 
     }
 
+    LiveData<Integer> getCartItemCount() {
+        return dataRepository.getCartItemCount();
+    }
 
     LiveData<PagedList<Product>> getNewProducts() {
         return mProducts1;
