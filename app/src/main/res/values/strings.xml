@@ -14,7 +14,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">جستجو</string>
-    <string name="title_activity_login_acticity">LoginActicity</string>
+    <string name="title_activity_login_activity">ورود و ثبت نام</string>
 
     <string name="prompt_email">ایمیل</string>
     <string name="prompt_password">رمز عبور</string>
@@ -50,8 +50,12 @@
     <string name="feature_badge_text">ویزه</string>
     <string name="added_to_cart_message">به سبد خرید اضافه شد</string>
 
-    <string name="not_paid_text">پرداخت نشده</string>
-    <string name="paid_text">پرداخت موفق</string>
+    <string name="pending_text">در انتظار پرداخت</string>
+    <string name="processing_text">در حال انجام</string>
+    <string name="completed_text">ارسال شده</string>
+    <string name="cancelled_text">لغو شده</string>
+    <string name="default_status_text">نامشخص</string>
+
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>
         <item>آدرس</item>
@@ -72,5 +76,7 @@
     <string name="title_activity_category">همه دسته بندی ها</string>
     <string name="order_by_text">مرتب سازی بر اساس</string>
     <string name="title_activity_orders">پیگیری سفارشات</string>
+    <string name="title_activity_payment">PaymentActivity</string>
+    <string name="title_activity_checkout">تکمیل خرید</string>
 
 </resources>

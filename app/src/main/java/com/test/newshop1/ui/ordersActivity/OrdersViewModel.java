@@ -1,16 +1,19 @@
 package com.test.newshop1.ui.ordersActivity;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
+import android.util.Log;
 
 import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.data.database.order.Order;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
+import androidx.lifecycle.ViewModel;
+
 public class OrdersViewModel extends ViewModel {
+    private static final String TAG = "OrdersViewModel";
 
     private DataRepository dataRepository;
     private MutableLiveData<Integer> customerId = new MutableLiveData<>();
@@ -30,5 +33,7 @@ public class OrdersViewModel extends ViewModel {
     LiveData<List<Order>> getOrders() {
         return orders;
     }
+
+
 
 }

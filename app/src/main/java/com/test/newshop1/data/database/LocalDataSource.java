@@ -262,5 +262,7 @@ public class LocalDataSource {
     }
 
 
-
+    public LiveData<Order> getOrder(String orderId) {
+        return orderDao.getOrder(orderId);
+    }
 }

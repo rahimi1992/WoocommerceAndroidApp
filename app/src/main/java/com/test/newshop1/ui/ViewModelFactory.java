@@ -1,9 +1,5 @@
 package com.test.newshop1.ui;
 
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
-
 import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.ui.categoryActivity.CategoryViewModel;
 import com.test.newshop1.ui.checkoutActivity.CheckoutViewModel;
@@ -11,9 +7,14 @@ import com.test.newshop1.ui.detailActivity.DetailActivityViewModel;
 import com.test.newshop1.ui.homeActivity.HomeViewModel;
 import com.test.newshop1.ui.loginActivity.LoginActivityViewModel;
 import com.test.newshop1.ui.ordersActivity.OrdersViewModel;
+import com.test.newshop1.ui.paymentActivity.PaymentViewModel;
 import com.test.newshop1.ui.productListActivity.ProductListActivityViewModel;
 import com.test.newshop1.ui.profileActivity.ProfileViewModel;
 import com.test.newshop1.ui.searchActivity.SearchViewModel;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory{
 
@@ -26,7 +27,6 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory{
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-
 
         if (modelClass.isAssignableFrom(CategoryViewModel.class)) {
             //noinspection unchecked
@@ -58,6 +58,9 @@ public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory{
         } else if (modelClass.isAssignableFrom(HomeViewModel.class)) {
             //noinspection unchecked
             return (T) new HomeViewModel( mDataRepository);
+        } else if (modelClass.isAssignableFrom(PaymentViewModel.class)) {
+            //noinspection unchecked
+            return (T) new PaymentViewModel( mDataRepository);
         }
 
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());

@@ -1,10 +1,6 @@
 package com.test.newshop1.data;
 
 
-import androidx.lifecycle.LiveData;
-import androidx.paging.DataSource;
-import androidx.paging.LivePagedListBuilder;
-import androidx.paging.PagedList;
 import android.util.Log;
 
 import com.test.newshop1.data.database.LocalDataSource;
@@ -23,6 +19,12 @@ import com.test.newshop1.ui.loginActivity.LoginStatus;
 
 import java.util.Collections;
 import java.util.List;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.paging.DataSource;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 
 public class DataRepository {
@@ -326,4 +328,26 @@ public class DataRepository {
     }
 
 
+    public LiveData<Order> getOrder(String orderId) {
+        return mLocalDataSource.getOrder(orderId);
+    }
+
+    public LiveData<PaymentGateway> getPayment(String id) {
+
+        MutableLiveData<PaymentGateway> paymentGateway = new MutableLiveData<>();
+        mRemoteDataSource.getPayment(id, new ResponseCallback<PaymentGateway>() {
+            @Override
+            public void onLoaded(PaymentGateway response) {
+                paymentGateway.postValue(response);
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+        });
+
+        return paymentGateway;
+
+    }
 }

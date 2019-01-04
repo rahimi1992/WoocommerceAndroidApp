@@ -50,6 +50,9 @@ public interface APIService {
     @GET("payment_gateways")
     Call<List<PaymentGateway>> getPayments();
 
+    @GET("payment_gateways/{id}")
+    Call<PaymentGateway> getPayment(@Path("id") String id);
+
     @GET("shipping/zones/2/methods")
     Call<List<ShippingMethod>> getShippingMethods();
 

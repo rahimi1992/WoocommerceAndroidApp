@@ -1,5 +1,6 @@
 package com.test.newshop1.ui;
 
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,9 +80,9 @@ public class BindingAdapters {
     }
 
     @BindingAdapter({"subTitles"})
-    public static void setSubTitles(LinearLayout layout, List<String> titles){
+    public static void setSubTitles(LinearLayout layout, List<String> titles) {
         layout.removeAllViews();
-        if (titles == null || titles.isEmpty()){
+        if (titles == null || titles.isEmpty()) {
             return;
         }
         for (String title : titles) {
@@ -93,29 +94,29 @@ public class BindingAdapters {
     }
 
     @BindingAdapter({"firstItem"})
-    public static void setStartMargin(CardView view, boolean isFirst){
+    public static void setStartMargin(CardView view, boolean isFirst) {
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        lp.setMarginStart(isFirst? 100 : 5);
+        lp.setMarginStart(isFirst ? 100 : 5);
     }
 
     @BindingAdapter({"setRating"})
-    public static void setRating(RatingBar view, String rating){
-        if (rating != null && !rating.isEmpty()){
+    public static void setRating(RatingBar view, String rating) {
+        if (rating != null && !rating.isEmpty()) {
             view.setRating(Float.valueOf(rating));
         }
     }
 
     @BindingAdapter({"htmlContent"})
-    public static void htmlContent(WebView view, String content){
+    public static void htmlContent(WebView view, String content) {
 
-        if (content != null && !content.isEmpty()){
+        if (content != null && !content.isEmpty()) {
             view.loadDataWithBaseURL(null, "<html dir=\"rtl\" style=\"text-align:justify; width:100%;\" lang=\"\"><body>" + content + "</body></html>", "text/html", "utf-8", null);
         }
 
     }
 
     @BindingAdapter({"jalaliDate"})
-    public static void setJalaliDate(TextView view, String rawDate){
+    public static void setJalaliDate(TextView view, String rawDate) {
         String[] date = rawDate.split("-");
         int year = Integer.valueOf(date[0]);
         int month = Integer.valueOf(date[1]);
@@ -128,25 +129,49 @@ public class BindingAdapters {
     }
 
     @BindingAdapter({"orderItems"})
-    public static void setOrderItems(LinearLayout container, List<CartItem> items){
+    public static void setOrderItems(LinearLayout container, List<CartItem> items) {
 
         container.removeAllViews();
         LayoutInflater inflater = LayoutInflater.from(container.getContext());
-        for (CartItem item : items) {
-            View view = inflater.inflate(R.layout.order_item_detail, container, false);
-            TextView name = view.findViewById(R.id.name);
-            TextView count = view.findViewById(R.id.count);
-            TextView price = view.findViewById(R.id.price);
+        if (items != null)
+            for (CartItem item : items) {
+                View view = inflater.inflate(R.layout.order_item_detail, container, false);
+                TextView name = view.findViewById(R.id.name);
+                TextView count = view.findViewById(R.id.count);
+                TextView price = view.findViewById(R.id.price);
 
-            name.setText(item.getName());
-            count.setText(String.valueOf(item.getQuantity()));
-            price.setText(PersianTextUtil.toPer(item.getTotal()));
-            container.addView(view);
-        }
+                name.setText(item.getName());
+                count.setText(String.valueOf(item.getQuantity()));
+                price.setText(PersianTextUtil.toPer(item.getTotal()));
+                container.addView(view);
+            }
 
     }
 
+    @BindingAdapter({"orderStatus"})
+    public static void setOrderStatus(TextView view, String status) {
+        String text = "";
+        Resources resource = view.getContext().getResources();
+        if (status != null)
+            switch (status) {
+                case Order.PENDING:
+                    text = resource.getString(R.string.pending_text);
+                    break;
+                case Order.PROCESSING:
+                    text = resource.getString(R.string.processing_text);
+                    break;
+                case Order.COMPLETED:
+                    text = resource.getString(R.string.completed_text);
+                    break;
+                case Order.CANCELLED:
+                    text = resource.getString(R.string.cancelled_text);
+                    break;
+                default:
+                    text = resource.getString(R.string.default_status_text);
+            }
 
+        view.setText(text);
+    }
 
 
 }

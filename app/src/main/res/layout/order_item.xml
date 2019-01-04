@@ -10,6 +10,9 @@
         <variable
             name="order"
             type="com.test.newshop1.data.database.order.Order" />
+        <variable
+            name="paymentListener"
+            type="com.test.newshop1.ui.ordersActivity.OrderRecyclerAdapter.OnPaymentButtonClicked"/>
     </data>
 
     <androidx.cardview.widget.CardView
@@ -110,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.8"
                     android:padding="8dp"
-                    android:text="وضعیت پرداخت"
+                    android:text="وضعیت سفارش"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/normal_text_size" />
 
@@ -120,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight=".6"
                     android:padding="8dp"
-                    android:text="@{order.status.equals(Order.PENDING) ? @string/not_paid_text : @string/paid_text}"
+                    app:orderStatus="@{order.status}"
                     android:textSize="@dimen/normal_text_size" />
 
                 <Button
@@ -129,6 +132,8 @@
                     android:layout_weight=".6"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_accent_round_btn"
+                    app:invisibleIfFalse="@{order.status.equals(Order.PENDING)}"
+                    android:onClick="@{() -> paymentListener.onClicked(order)}"
                     android:text="پرداخت"/>
 
 

@@ -1,6 +1,5 @@
 package com.test.newshop1.data.remote;
 
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.test.newshop1.data.ResponseCallback;
@@ -20,6 +19,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import androidx.annotation.NonNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -143,6 +143,10 @@ public class RemoteDataSource {
                 call.clone().enqueue(this);
             }
         });
+    }
+
+    public void getPayment(String id, ResponseCallback<PaymentGateway> callback) {
+        mService.getPayment(id).enqueue(new GenericCallback<PaymentGateway>().create(callback));
     }
 
     private class GenericCallback<T>{

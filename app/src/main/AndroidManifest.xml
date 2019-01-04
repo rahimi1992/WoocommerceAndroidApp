@@ -12,8 +12,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-
-
         <activity
             android:name=".ui.productListActivity.ProductListActivity"
             android:label="@string/app_name"
@@ -21,56 +19,49 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.test.newshop1.ui.categoryActivity.CategoryActivity" />
-            <meta-data android:name="android.app.default_searchable"
+            <meta-data
+                android:name="android.app.default_searchable"
                 android:value=".ui.searchActivity.SearchableActivity" />
         </activity>
-
-
         <activity
             android:name=".ui.detailActivity.DetailActivity"
-            android:theme="@style/AppTheme.TransparentTheme"
-            android:parentActivityName=".ui.productListActivity.ProductListActivity"/>
-
-
+            android:parentActivityName=".ui.productListActivity.ProductListActivity"
+            android:theme="@style/AppTheme.TransparentTheme" />
         <activity
             android:name=".ui.homeActivity.HomeActivity"
             android:label="@string/title_activity_home"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <meta-data android:name="android.app.default_searchable"
+            <meta-data
+                android:name="android.app.default_searchable"
                 android:value=".ui.searchActivity.SearchableActivity" />
         </activity>
-
-
         <activity
             android:name=".ui.categoryActivity.CategoryActivity"
             android:label="@string/title_activity_category"
-            android:parentActivityName=".ui.homeActivity.HomeActivity"
-            android:launchMode="singleTask">
-            <meta-data android:name="android.app.default_searchable"
+            android:launchMode="singleTask"
+            android:parentActivityName=".ui.homeActivity.HomeActivity">
+            <meta-data
+                android:name="android.app.default_searchable"
                 android:value=".ui.searchActivity.SearchableActivity" />
         </activity>
-
-
         <activity
             android:name=".ui.loginActivity.LoginActivity"
-            android:label="@string/title_activity_login_acticity"
+            android:label="@string/title_activity_login_activity"
             android:parentActivityName=".ui.homeActivity.HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.test.newshop1.ui.homeActivity.HomeActivity" />
-
         </activity>
-
-
         <activity
             android:name=".ui.checkoutActivity.CheckoutActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".ui.homeActivity.HomeActivity">
+            android:label="@string/title_activity_checkout"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -80,32 +71,39 @@
                 <data android:scheme="new-shop-checkout" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".ui.profileActivity.ProfileActivity" />
-
-
-        <activity android:name=".ui.ordersActivity.OrdersActivity"
-            android:launchMode="singleInstance"
+        <activity
+            android:name=".ui.ordersActivity.OrdersActivity"
             android:label="@string/title_activity_orders"
-            android:parentActivityName=".ui.homeActivity.HomeActivity"/>
-
-
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.homeActivity.HomeActivity" />
         <activity
             android:name=".ui.searchActivity.SearchableActivity"
             android:label="@string/title_activity_search"
-            android:parentActivityName=".ui.homeActivity.HomeActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.homeActivity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
 
-        <provider android:name=".ui.searchActivity.SuggestionProvider"
+        <provider
+            android:name=".ui.searchActivity.SuggestionProvider"
             android:authorities="com.test.newshop1.SuggestionProvider" />
+
+        <activity
+            android:name=".ui.paymentActivity.PaymentActivity"
+            android:label="@string/title_activity_payment"
+            android:parentActivityName=".ui.ordersActivity.OrdersActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.test.newshop1.ui.ordersActivity.OrdersActivity" />
+        </activity>
     </application>
 
 </manifest>
