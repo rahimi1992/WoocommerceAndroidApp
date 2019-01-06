@@ -44,8 +44,8 @@ public class HomeActivity extends BaseActivity {
     private static final String TAG = "HomeActivity";
 
 
-    private String bannerImages[] = {"https://femelo.com/wp-content/uploads/2018/09/banner_products.jpg",
-            "https://femelo.com/wp-content/uploads/2018/06/Untitled.png"};
+    private String bannerImages[] = {"https://femelo.com/wp-content/uploads/2018/09/spring-nail-polish-colors-1316.jpg",
+            "https://femelo.com/wp-content/uploads/2018/09/banner_products.jpg","test"};
 
     private HomeViewModel viewModel;
     private LayerDrawable cartIcon;
@@ -57,7 +57,7 @@ public class HomeActivity extends BaseActivity {
 
         ViewPager viewPager = findViewById(R.id.view_pager);
 
-        viewPager.setAdapter(new BannerPagerAdapter(bannerImages));
+        viewPager.setAdapter(new BannerPagerAdapter(bannerImages, this::onBannerClicked));
 
         setupAutoSlide(viewPager, bannerImages.length);
 
@@ -119,7 +119,7 @@ public class HomeActivity extends BaseActivity {
                     }
                 });
             }
-        }, 1000, 5000);
+        }, 5000, 4000);
     }
 
     private RecyclerView setupCardView(View view, OrderBy orderBy, int position) {
@@ -257,5 +257,21 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    private void onBannerClicked(int position){
+        Intent intent = new Intent(this, ProductListActivity.class);
+
+        switch (position){
+            case 0:
+                intent.putExtra(ProductListActivity.PARENT_ID, 1159);
+                break;
+            case 1:
+                intent.putExtra(ProductListActivity.PARENT_ID, 135);
+                break;
+            case 2:
+                intent.putExtra(ProductListActivity.PARENT_ID, 124);
+
+        }
+        startActivity(intent);
+    }
 
 }

@@ -105,7 +105,7 @@ public class CartFragment extends Fragment {
                 TextView qtyTV = viewItem.findViewById(R.id.qty);
                 qtyTV.setText(PersianTextUtil.toPer(item.getQuantity()));
                 TextView priceTV = viewItem.findViewById(R.id.item_price);
-                String itemPriceText = PersianTextUtil.toPer(item.getQuantity()) + "\n" + PersianTextUtil.toPer(item.getTotal());
+                String itemPriceText = getString(R.string.currency,PersianTextUtil.toPer(Integer.valueOf(item.getTotal())/item.getQuantity()));
                 priceTV.setText(itemPriceText);
                 //priceTV.setTypeface(font_yekan);
                 CircleImageView image = viewItem.findViewById(R.id.thumbnail);
