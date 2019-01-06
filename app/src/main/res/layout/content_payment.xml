@@ -8,6 +8,10 @@
         <variable
             name="order"
             type="com.test.newshop1.data.database.order.Order" />
+
+        <variable
+            name="viewModel"
+            type="com.test.newshop1.ui.paymentActivity.PaymentViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,12 +67,15 @@
         </androidx.cardview.widget.CardView>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/paymentBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_accent_round_btn"
+            android:enabled="@{!viewModel.initializing}"
+            android:onClick="@{() -> viewModel.startPayment(order)}"
             android:text="پرداخت"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

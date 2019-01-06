@@ -58,8 +58,8 @@ public class OrdersFragment extends Fragment {
 
         Intent intent = new Intent(getActivity(), PaymentActivity.class);
         intent.putExtra(PaymentActivity.ORDER_ID, String.valueOf(order.getId()));
-        //startActivity(intent);
+        startActivity(intent);
         Log.d(TAG, "onPaymentButtonClicked: " + order.getId());
-        Toast.makeText(getActivity(), "Not Implemented", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "Not Implemented", Toast.LENGTH_SHORT).show();
     }
 }

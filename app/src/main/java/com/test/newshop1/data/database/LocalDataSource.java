@@ -58,7 +58,7 @@ public class LocalDataSource {
         Log.d(TAG, "Getting the network data source");
         if (sInstance == null) {
             synchronized (LOCK) {
-                sInstance = new LocalDataSource( database, executors);
+                sInstance = new LocalDataSource(database, executors);
                 Log.d(TAG, "Made new network data source");
             }
         }
@@ -66,46 +66,46 @@ public class LocalDataSource {
     }
 
 
-    public DataSource.Factory<Integer, Product> getProducts(ProductListOptions options){
+    public DataSource.Factory<Integer, Product> getProducts(ProductListOptions options) {
 
 
         Log.d(TAG, "getProducts: called " + options.getParentId() + options.getSearchQuery());
-        switch(options.getOrderBy()){
+        switch (options.getOrderBy()) {
             case DATE:
                 if (options.hasParentId()) {
                     return productDao.getProductsDateOrder(options.getParentId());
                 } else {
                     Log.d(TAG, "getProducts: no parent called " + options.getSearchQuery());
                     return productDao.getProductsDateOrder("%" + options.getSearchQuery() + "%",
-                            options.hasLimit()?options.getLimit():1000);
+                            options.hasLimit() ? options.getLimit() : 1000);
                 }
             case RATING:
                 if (options.hasParentId()) {
                     return productDao.getProductsRatingOrder(options.getParentId());
                 } else {
                     return productDao.getProductsRatingOrder("%" + options.getSearchQuery() + "%",
-                            options.hasLimit()?options.getLimit():1000);
+                            options.hasLimit() ? options.getLimit() : 1000);
                 }
             case BEST_SELL:
                 if (options.hasParentId()) {
                     return productDao.getProductsBestSellOrder(options.getParentId());
                 } else {
                     return productDao.getProductsBestSellOrder("%" + options.getSearchQuery() + "%",
-                            options.hasLimit()?options.getLimit():1000);
+                            options.hasLimit() ? options.getLimit() : 1000);
                 }
             case PRICE_ASC:
                 if (options.hasParentId()) {
                     return productDao.getProductsPriceOrderASC(options.getParentId());
                 } else {
                     return productDao.getProductsPriceOrderASC("%" + options.getSearchQuery() + "%",
-                            options.hasLimit()?options.getLimit():1000);
+                            options.hasLimit() ? options.getLimit() : 1000);
                 }
             case PRICE_DESC:
                 if (options.hasParentId()) {
                     return productDao.getProductsPriceOrderDESC(options.getParentId());
                 } else {
                     return productDao.getProductsPriceOrderDESC("%" + options.getSearchQuery() + "%",
-                            options.hasLimit()?options.getLimit():1000);
+                            options.hasLimit() ? options.getLimit() : 1000);
                 }
 
         }
@@ -113,15 +113,15 @@ public class LocalDataSource {
 
     }
 
-    public LiveData<List<Product>> getNewProducts(int limit){
+    public LiveData<List<Product>> getNewProducts(int limit) {
         return productDao.getNewProducts(limit);
     }
 
-    public LiveData<List<Product>> getFeaturedProducts(int limit){
+    public LiveData<List<Product>> getFeaturedProducts(int limit) {
         return productDao.getFeaturedProduct(limit);
     }
 
-    public LiveData<List<Product>> getOnSaleProducts(int limit){
+    public LiveData<List<Product>> getOnSaleProducts(int limit) {
         return productDao.getOnSaleProduct(limit);
     }
 
@@ -142,7 +142,7 @@ public class LocalDataSource {
 //    }
 
 
-    public LiveData<List<Product>> getRelatedProducts(List<Integer> ids){
+    public LiveData<List<Product>> getRelatedProducts(List<Integer> ids) {
         return productDao.getRelatedProducts(ids);
     }
 
@@ -159,7 +159,7 @@ public class LocalDataSource {
     private List<ProductCategoryJoin> createJoinList(Product product) {
         List<ProductCategoryJoin> joins = new ArrayList<>();
         int productId = product.getId();
-        for (SimpleCategory category : product.getCategories()){
+        for (SimpleCategory category : product.getCategories()) {
             joins.add(new ProductCategoryJoin(productId, category.getId()));
         }
         return joins;
@@ -175,9 +175,9 @@ public class LocalDataSource {
         executors.diskIO().execute(runnable);
     }
 
-    private Runnable createCallBackRunnable(final Product product, final ResponseCallback<Product> callBack){
+    private Runnable createCallBackRunnable(final Product product, final ResponseCallback<Product> callBack) {
         return () -> {
-            if (product ==null ) {
+            if (product == null) {
                 callBack.onDataNotAvailable();
             } else {
                 callBack.onLoaded(product);
@@ -185,31 +185,31 @@ public class LocalDataSource {
         };
     }
 
-    public void addToCart(final CartItem item){
+    public void addToCart(final CartItem item) {
         executors.diskIO().execute(() -> {
             CartItem cartItem = cartDao.getCartItemByPId(item.getProductId(), item.getVariationId());
-            if (cartItem != null){
+            if (cartItem != null) {
                 cartDao.increaseItem(cartItem.getId());
-            }else{
+            } else {
                 cartDao.insetItem(item);
             }
 
         });
     }
 
-    public void removeFromCart(final int itemId){
+    public void removeFromCart(final int itemId) {
         executors.diskIO().execute(() -> cartDao.removeItem(itemId));
     }
 
-    public LiveData<List<CartItem>> getCartItem(){
+    public LiveData<List<CartItem>> getCartItem() {
         return cartItemsLiveData;
     }
 
-    public LiveData<Integer> getTotalPrice(){
+    public LiveData<Integer> getTotalPrice() {
         return cartDao.getTotalPrice();
     }
 
-    public void addItem(final int itemId){
+    public void addItem(final int itemId) {
         executors.diskIO().execute(() -> cartDao.increaseItem(itemId));
     }
 
@@ -221,7 +221,7 @@ public class LocalDataSource {
         return cartItemCount;
     }
 
-    public void getCategories(final ResponseCallback<List<Category>> callBack){
+    public void getCategories(final ResponseCallback<List<Category>> callBack) {
         Log.d(TAG, "getCategories: loading categories");
         Runnable runnable = () -> {
             final List<Category> categories = categoryDao.getCategories();
@@ -237,7 +237,7 @@ public class LocalDataSource {
         executors.diskIO().execute(runnable);
     }
 
-    public void saveCategories(final List<Category> categories){
+    public void saveCategories(final List<Category> categories) {
         executors.diskIO().execute(() -> categoryDao.bulkInsert(categories));
     }
 
@@ -245,7 +245,7 @@ public class LocalDataSource {
         executors.diskIO().execute(() -> customerDao.insert(customer));
     }
 
-    public LiveData<Customer> getLoggedInCustomer(){
+    public LiveData<Customer> getLoggedInCustomer() {
         return customerDao.getLastCustomer(true);
     }
 
@@ -254,10 +254,13 @@ public class LocalDataSource {
     }
 
     public void saveOrders(List<Order> orders) {
-        executors.diskIO().execute(() -> orderDao.Insert(orders));
+        executors.diskIO().execute(() -> {
+            orderDao.removeAll();
+            orderDao.Insert(orders);
+        });
     }
 
-    public LiveData<List<Order>> getOrders(int customerId){
+    public LiveData<List<Order>> getOrders(int customerId) {
         return orderDao.getOrders(customerId);
     }
 

@@ -61,7 +61,13 @@
         <activity
             android:name=".ui.checkoutActivity.CheckoutActivity"
             android:label="@string/title_activity_checkout"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"/>
+        <activity android:name=".ui.profileActivity.ProfileActivity" />
+        <activity
+            android:name=".ui.ordersActivity.OrdersActivity"
+            android:label="@string/title_activity_orders"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.homeActivity.HomeActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -71,12 +77,6 @@
                 <data android:scheme="new-shop-checkout" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.profileActivity.ProfileActivity" />
-        <activity
-            android:name=".ui.ordersActivity.OrdersActivity"
-            android:label="@string/title_activity_orders"
-            android:launchMode="singleTop"
-            android:parentActivityName=".ui.homeActivity.HomeActivity" />
         <activity
             android:name=".ui.searchActivity.SearchableActivity"
             android:label="@string/title_activity_search"

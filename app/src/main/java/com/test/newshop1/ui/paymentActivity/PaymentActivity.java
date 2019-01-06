@@ -26,7 +26,9 @@ public class PaymentActivity extends AppCompatActivity {
     private static final String TAG = "PaymentActivity";
     public static final String ORDER_ID = "order-id";
 
-    ActivityPaymentBinding binding;
+    private ActivityPaymentBinding binding;
+    private Order order;
+    private PaymentViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,8 @@ public class PaymentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
-        PaymentViewModel viewModel = ViewModelProviders.of(this, factory).get(PaymentViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(PaymentViewModel.class);
+        binding.setViewModel(viewModel);
 
         String orderId = getIntent().getStringExtra(ORDER_ID);
 
@@ -54,27 +57,22 @@ public class PaymentActivity extends AppCompatActivity {
                 Toast.makeText(PaymentActivity.this, "خطا در برقراری ارتباط", Toast.LENGTH_LONG).show();
             }
         });
-        Uri data = getIntent().getData();
-        zarinPal.verificationPayment(data, (isPaymentSuccess, refID, paymentRequest) -> {
 
-            Log.d(TAG, "onCallbackResultVerificationPayment: called");
-            String orderId1 = paymentRequest.getCallBackURL().split("_")[1];
-            if (isPaymentSuccess) {
-                Log.d(TAG, "onCallbackResultVerificationPayment: trying to set payment to true: " + orderId1);
-                //dataRepository.updateOrder(orderId, new Order(true));
-            } else {
 
-            }
 
-        });
+        //findViewById(R.id.paymentBtn).setOnClickListener(v -> viewModel.startPayment(order));
+
     }
 
     private void updateUi(Order order) {
         if (order != null){
             Log.d(TAG, "updateUi: " + order.getId());
+            this.order = order;
+            viewModel.setPaymentMethodId(order.getPaymentMethod());
             binding.setOrder(order);
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

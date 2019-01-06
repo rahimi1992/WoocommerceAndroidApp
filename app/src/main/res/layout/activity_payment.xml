@@ -6,6 +6,10 @@
         <variable
             name="order"
             type="com.test.newshop1.data.database.order.Order"/>
+
+        <variable
+            name="viewModel"
+            type="com.test.newshop1.ui.paymentActivity.PaymentViewModel"/>
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -29,7 +33,8 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include layout="@layout/content_payment"
-            app:order="@{order}"/>
+            app:order="@{order}"
+            app:viewModel="@{viewModel}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -332,22 +332,7 @@ public class DataRepository {
         return mLocalDataSource.getOrder(orderId);
     }
 
-    public LiveData<PaymentGateway> getPayment(String id) {
-
-        MutableLiveData<PaymentGateway> paymentGateway = new MutableLiveData<>();
-        mRemoteDataSource.getPayment(id, new ResponseCallback<PaymentGateway>() {
-            @Override
-            public void onLoaded(PaymentGateway response) {
-                paymentGateway.postValue(response);
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-
-            }
-        });
-
-        return paymentGateway;
-
+    public void getPayment(String id, ResponseCallback<PaymentGateway> callback) {
+        mRemoteDataSource.getPayment(id,callback);
     }
 }
