@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.database.product.SimpleProduct;
 import com.test.newshop1.databinding.ProductItemBinding;
 import com.test.newshop1.databinding.ProductItemGridBinding;
 import com.test.newshop1.databinding.ProductItemLargeBinding;
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.ButterKnife;
 
-public class ProductListAdapter extends PagedListAdapter<Product, ProductListAdapter.BaseViewHolder> {
+public class ProductListAdapter extends PagedListAdapter<SimpleProduct, ProductListAdapter.BaseViewHolder> {
 
     public static final int LINEAR_VIEW_TYPE = 1;
     public static final int GRID_VIEW_TYPE = 2;
@@ -66,7 +67,7 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
 
     @Override
     public void onBindViewHolder(@NonNull BaseViewHolder holder, int position) {
-        Product product = getItem(position);
+        SimpleProduct product = getItem(position);
         holder.bind(product);
 
     }
@@ -77,7 +78,7 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
             ButterKnife.bind(this, itemView);
         }
 
-        public abstract void bind(Product type);
+        public abstract void bind(SimpleProduct type);
     }
 
     class LinearItemHolder extends BaseViewHolder {
@@ -92,7 +93,7 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         }
 
         @Override
-        public void bind(Product product) {
+        public void bind(SimpleProduct product) {
             binding.setProduct(product);
         }
     }
@@ -109,7 +110,7 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         }
 
         @Override
-        public void bind(Product product) {
+        public void bind(SimpleProduct product) {
             binding.setProduct(product);
         }
     }
@@ -126,7 +127,7 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         }
 
         @Override
-        public void bind(Product product) {
+        public void bind(SimpleProduct product) {
             binding.setProduct(product);
         }
     }
@@ -143,23 +144,23 @@ public class ProductListAdapter extends PagedListAdapter<Product, ProductListAda
         }
 
         @Override
-        public void bind(Product product) {
+        public void bind(SimpleProduct product) {
             binding.setProduct(product);
         }
     }
 
 
-    private static DiffUtil.ItemCallback<Product> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Product>() {
+    private static DiffUtil.ItemCallback<SimpleProduct> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<SimpleProduct>() {
 
                 @Override
-                public boolean areItemsTheSame(Product oldConcert, Product newConcert) {
+                public boolean areItemsTheSame(SimpleProduct oldConcert, SimpleProduct newConcert) {
                     return oldConcert.getId().equals(newConcert.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(Product oldConcert,
-                                                  @NonNull Product newConcert) {
+                public boolean areContentsTheSame(SimpleProduct oldConcert,
+                                                  @NonNull SimpleProduct newConcert) {
                     return oldConcert.equals(newConcert);
                 }
             };

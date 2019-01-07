@@ -11,7 +11,7 @@
 
         <variable
             name="product"
-            type="com.test.newshop1.data.database.product.Product" />
+            type="com.test.newshop1.data.database.product.SimpleProduct" />
 
         <variable
             name="listener"

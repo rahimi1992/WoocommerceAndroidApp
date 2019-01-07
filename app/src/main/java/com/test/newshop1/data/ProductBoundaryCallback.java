@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.test.newshop1.data.database.LocalDataSource;
 import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.database.product.SimpleProduct;
 import com.test.newshop1.data.remote.RemoteDataSource;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product> {
+public class ProductBoundaryCallback extends PagedList.BoundaryCallback<SimpleProduct> {
     private static final String TAG = "ProductBoundaryCallback";
 
     private int parentId = -1;
@@ -64,7 +65,7 @@ public class ProductBoundaryCallback extends PagedList.BoundaryCallback<Product>
 
 
     @Override
-    public void onItemAtEndLoaded(@NonNull Product itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull SimpleProduct itemAtEnd) {
         requestAndSaveData();
     }
 

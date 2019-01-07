@@ -48,49 +48,49 @@ public interface ProductDao {
     @Query("SELECT * FROM product WHERE id IN (:ids)")
     LiveData<List<Product>> getRelatedProducts(List<Integer> ids);
 
-    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product INNER JOIN product_category_join " +
             "ON product.id = product_category_join.productId " +
             "WHERE product_category_join.categoryId = :parentId " +
             "ORDER BY cast(price as unsigned) DESC")
-    DataSource.Factory<Integer,Product> getProductsPriceOrderDESC(Integer parentId);
+    DataSource.Factory<Integer,SimpleProduct> getProductsPriceOrderDESC(Integer parentId);
 
-    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product INNER JOIN product_category_join " +
             "ON product.id = product_category_join.productId " +
             "WHERE product_category_join.categoryId = :parentId " +
             "ORDER BY cast(price as unsigned) ASC")
-    DataSource.Factory<Integer,Product> getProductsPriceOrderASC(Integer parentId);
+    DataSource.Factory<Integer,SimpleProduct> getProductsPriceOrderASC(Integer parentId);
 
-    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product INNER JOIN product_category_join " +
             "ON product.id = product_category_join.productId " +
             "WHERE product_category_join.categoryId = :parentId " +
             "ORDER BY cast(sales as unsigned) DESC")
-    DataSource.Factory<Integer,Product> getProductsBestSellOrder(Integer parentId);
+    DataSource.Factory<Integer,SimpleProduct> getProductsBestSellOrder(Integer parentId);
 
-    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product INNER JOIN product_category_join " +
             "ON product.id = product_category_join.productId " +
             "WHERE product_category_join.categoryId = :parentId " +
             "ORDER BY date DESC")
-    DataSource.Factory<Integer,Product> getProductsDateOrder(Integer parentId);
+    DataSource.Factory<Integer,SimpleProduct> getProductsDateOrder(Integer parentId);
 
-    @Query("SELECT * FROM product INNER JOIN product_category_join " +
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product INNER JOIN product_category_join " +
             "ON product.id = product_category_join.productId " +
             "WHERE product_category_join.categoryId = :parentId " +
             "ORDER BY cast(rating as unsigned) DESC")
-    DataSource.Factory<Integer,Product> getProductsRatingOrder(Integer parentId);
+    DataSource.Factory<Integer,SimpleProduct> getProductsRatingOrder(Integer parentId);
 
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) DESC LIMIT :limit")
-    DataSource.Factory<Integer, Product> getProductsPriceOrderDESC(String query, int limit);
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) DESC LIMIT :limit")
+    DataSource.Factory<Integer, SimpleProduct> getProductsPriceOrderDESC(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) ASC LIMIT :limit")
-    DataSource.Factory<Integer, Product> getProductsPriceOrderASC(String query, int limit);
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(price as unsigned) ASC LIMIT :limit")
+    DataSource.Factory<Integer, SimpleProduct> getProductsPriceOrderASC(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(sales as unsigned) DESC LIMIT :limit")
-    DataSource.Factory<Integer, Product> getProductsBestSellOrder(String query, int limit);
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(sales as unsigned) DESC LIMIT :limit")
+    DataSource.Factory<Integer, SimpleProduct> getProductsBestSellOrder(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY date DESC LIMIT :limit")
-    DataSource.Factory<Integer, Product> getProductsDateOrder(String query, int limit);
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY date DESC LIMIT :limit")
+    DataSource.Factory<Integer, SimpleProduct> getProductsDateOrder(String query, int limit);
 
-    @Query("SELECT * FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(rating as unsigned) DESC LIMIT :limit")
-    DataSource.Factory<Integer, Product> getProductsRatingOrder(String query, int limit);
+    @Query("SELECT id, name, featured, price, regularPrice, images, onSale, sales, rating FROM product WHERE description LIKE :query OR name LIKE :query ORDER BY cast(rating as unsigned) DESC LIMIT :limit")
+    DataSource.Factory<Integer, SimpleProduct> getProductsRatingOrder(String query, int limit);
 }

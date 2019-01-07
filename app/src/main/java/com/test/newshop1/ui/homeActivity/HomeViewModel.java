@@ -6,6 +6,7 @@ import com.test.newshop1.data.ProductListOptions;
 import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.category.Category;
 import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.database.product.SimpleProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +26,9 @@ public class HomeViewModel extends ViewModel {
     private MutableLiveData<ProductListOptions> options2 = new MutableLiveData<>();
     private MutableLiveData<ProductListOptions> options3 = new MutableLiveData<>();
 
-    private LiveData<PagedList<Product>> mProducts1 = Transformations.switchMap(options1, (opt) -> dataRepository.getProducts(opt));
-    private LiveData<PagedList<Product>> mProducts2 = Transformations.switchMap(options2, (opt) -> dataRepository.getProducts(opt));
-    private LiveData<PagedList<Product>> mProducts3 = Transformations.switchMap(options3, (opt) -> dataRepository.getProducts(opt));
+    private LiveData<PagedList<SimpleProduct>> mProducts1 = Transformations.switchMap(options1, (opt) -> dataRepository.getProducts(opt));
+    private LiveData<PagedList<SimpleProduct>> mProducts2 = Transformations.switchMap(options2, (opt) -> dataRepository.getProducts(opt));
+    private LiveData<PagedList<SimpleProduct>> mProducts3 = Transformations.switchMap(options3, (opt) -> dataRepository.getProducts(opt));
 
     public HomeViewModel(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
@@ -75,15 +76,15 @@ public class HomeViewModel extends ViewModel {
         return dataRepository.getCartItemCount();
     }
 
-    LiveData<PagedList<Product>> getNewProducts() {
+    LiveData<PagedList<SimpleProduct>> getNewProducts() {
         return mProducts1;
     }
 
-    LiveData<PagedList<Product>> getBestSellProducts() {
+    LiveData<PagedList<SimpleProduct>> getBestSellProducts() {
         return mProducts2;
     }
 
-    LiveData<PagedList<Product>> getPopProducts() {
+    LiveData<PagedList<SimpleProduct>> getPopProducts() {
         return mProducts3;
     }
 

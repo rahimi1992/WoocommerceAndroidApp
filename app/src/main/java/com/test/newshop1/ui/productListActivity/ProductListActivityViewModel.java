@@ -7,6 +7,7 @@ import com.test.newshop1.data.ProductListOptions;
 import com.test.newshop1.data.ResponseCallback;
 import com.test.newshop1.data.database.category.Category;
 import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.database.product.SimpleProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ public class ProductListActivityViewModel extends ViewModel implements ResponseC
     private List<Category> allCategories;
 
 
-    private LiveData<PagedList<Product>> mProducts = Transformations.switchMap(options, (opt) -> mRepository.getProducts(opt));
+    private LiveData<PagedList<SimpleProduct>> mProducts = Transformations.switchMap(options, (opt) -> mRepository.getProducts(opt));
     public ProductListActivityViewModel(DataRepository repository) {
 
         mRepository = repository;
@@ -71,7 +72,7 @@ public class ProductListActivityViewModel extends ViewModel implements ResponseC
 
     }
 
-    LiveData<PagedList<Product>> getProducts(){
+    LiveData<PagedList<SimpleProduct>> getProducts(){
         return mProducts;
     }
 

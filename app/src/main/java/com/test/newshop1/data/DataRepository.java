@@ -12,6 +12,7 @@ import com.test.newshop1.data.database.customer.LoginResponse;
 import com.test.newshop1.data.database.order.Order;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.database.product.SimpleProduct;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 import com.test.newshop1.data.remote.RemoteDataSource;
@@ -59,9 +60,9 @@ public class DataRepository {
     }
 
 
-    public LiveData<PagedList<Product>> getProducts(ProductListOptions options){
+    public LiveData<PagedList<SimpleProduct>> getProducts(ProductListOptions options){
 
-        DataSource.Factory<Integer, Product> dataSourceFactory = mLocalDataSource.getProducts(options);
+        DataSource.Factory<Integer, SimpleProduct> dataSourceFactory = mLocalDataSource.getProducts(options);
 
         PagedList.Config myPagingConfig = new PagedList.Config.Builder()
                 .setPageSize(20)

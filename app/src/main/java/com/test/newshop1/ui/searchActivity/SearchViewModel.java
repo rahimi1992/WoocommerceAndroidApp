@@ -6,6 +6,7 @@ import com.test.newshop1.data.DataRepository;
 import com.test.newshop1.data.OrderBy;
 import com.test.newshop1.data.ProductListOptions;
 import com.test.newshop1.data.database.product.Product;
+import com.test.newshop1.data.database.product.SimpleProduct;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -19,7 +20,7 @@ public class SearchViewModel extends ViewModel {
     private MutableLiveData<ProductListOptions> options = new MutableLiveData<>();
     private DataRepository mRepository;
 
-    private final LiveData<PagedList<Product>> mProducts = Transformations.switchMap(options, (options) -> mRepository.getProducts(options));
+    private final LiveData<PagedList<SimpleProduct>> mProducts = Transformations.switchMap(options, (options) -> mRepository.getProducts(options));
 
     public SearchViewModel(DataRepository repository) {
 
@@ -27,7 +28,7 @@ public class SearchViewModel extends ViewModel {
         options.setValue(new ProductListOptions());
     }
 
-    LiveData<PagedList<Product>> getProducts(){
+    LiveData<PagedList<SimpleProduct>> getProducts(){
         return mProducts;
     }
 

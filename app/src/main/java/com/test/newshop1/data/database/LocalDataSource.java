@@ -16,6 +16,7 @@ import com.test.newshop1.data.database.product.ProductCategoryJoin;
 import com.test.newshop1.data.database.product.ProductCategoryJoinDao;
 import com.test.newshop1.data.database.product.ProductDao;
 import com.test.newshop1.data.database.product.SimpleCategory;
+import com.test.newshop1.data.database.product.SimpleProduct;
 import com.test.newshop1.data.database.shoppingcart.CartDao;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
 
@@ -66,7 +67,7 @@ public class LocalDataSource {
     }
 
 
-    public DataSource.Factory<Integer, Product> getProducts(ProductListOptions options) {
+    public DataSource.Factory<Integer, SimpleProduct> getProducts(ProductListOptions options) {
 
 
         Log.d(TAG, "getProducts: called " + options.getParentId() + options.getSearchQuery());

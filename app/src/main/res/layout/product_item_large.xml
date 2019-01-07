@@ -11,7 +11,7 @@
 
         <variable
             name="product"
-            type="com.test.newshop1.data.database.product.Product" />
+            type="com.test.newshop1.data.database.product.SimpleProduct" />
 
         <variable
             name="listener"
@@ -101,8 +101,7 @@
                     android:paddingTop="20dp"
                     android:padding="8dp"
                     android:textSize="12sp"
-                    android:layout_weight="1"
-                    app:htmlContent="@{product.shortDescription}"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
