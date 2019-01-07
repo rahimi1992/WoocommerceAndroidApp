@@ -276,7 +276,6 @@ public class Order {
         this.paid = paid;
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -343,5 +342,9 @@ public class Order {
 
     public void setShippingLines(List<ShippingLine> shippingLines) {
         this.shippingLines = shippingLines;
+    }
+
+    public void setCustomerNote(String customerNote) {
+        this.customerNote = customerNote;
     }
 }

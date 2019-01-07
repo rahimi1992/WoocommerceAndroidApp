@@ -265,6 +265,29 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="15dp"
+                    app:cardElevation="4dp">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:backgroundTint="@color/md_grey_100"
+                        android:inputType="textPostalAddress|textCapSentences|textMultiLine"
+                        android:padding="8dp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:singleLine="false"
+                        android:hint="یادداشت خریدار برای ما..."
+                        android:text="@={viewmodel.customerNote}"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/text_size_medium"/>
+                </androidx.cardview.widget.CardView>
+
 
             </LinearLayout>
 
