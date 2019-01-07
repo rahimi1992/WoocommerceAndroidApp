@@ -305,6 +305,7 @@ public class DataRepository {
     }
 
     public void updateOrder(String orderId, Order order) {
+        mLocalDataSource.updateOrderStatus(orderId);
         mRemoteDataSource.updateOrder(orderId, order);
     }
 

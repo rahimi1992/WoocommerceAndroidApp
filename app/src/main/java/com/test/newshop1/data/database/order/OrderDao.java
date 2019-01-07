@@ -24,4 +24,7 @@ public interface OrderDao {
 
     @Query("SELECT * FROM `order` WHERE id = :orderId")
     LiveData<Order> getOrder(String orderId);
+
+    @Query("UPDATE `order` SET status = 'processing' WHERE id = :orderId")
+    void updateOrder(String orderId);
 }

@@ -268,4 +268,8 @@ public class LocalDataSource {
     public LiveData<Order> getOrder(String orderId) {
         return orderDao.getOrder(orderId);
     }
+
+    public void updateOrderStatus(String orderId) {
+        executors.diskIO().execute(() -> orderDao.updateOrder(orderId));
+    }
 }
