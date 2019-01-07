@@ -4,7 +4,6 @@ public enum CheckoutStep {
 
     CART,
     ADDRESS,
-    PAYMENT,
-    CONFIRM
+    PAYMENT
 
 }

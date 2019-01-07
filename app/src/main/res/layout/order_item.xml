@@ -121,7 +121,7 @@
                     android:id="@+id/payment"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".6"
+                    android:layout_weight=".7"
                     android:padding="8dp"
                     app:orderStatus="@{order.status}"
                     android:textSize="@dimen/normal_text_size" />
@@ -129,7 +129,7 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="27dp"
-                    android:layout_weight=".6"
+                    android:layout_weight=".5"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/bg_accent_round_btn"
                     app:invisibleIfFalse="@{order.status.equals(Order.PENDING)}"

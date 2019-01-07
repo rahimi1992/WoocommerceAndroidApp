@@ -59,8 +59,7 @@
     <string-array name="cart_step_titles">
         <item>سبد خرید</item>
         <item>آدرس</item>
-        <item>نحوه پرداخت</item>
-        <item>تایید نهایی</item>
+        <item>مرحله نهایی</item>
     </string-array>
 
     <string-array name="home_page_card_titles">

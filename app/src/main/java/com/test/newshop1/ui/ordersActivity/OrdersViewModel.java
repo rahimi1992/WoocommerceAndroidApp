@@ -35,5 +35,8 @@ public class OrdersViewModel extends ViewModel {
     }
 
 
+    public void updateOrder(String orderId){
+        dataRepository.updateOrder(orderId, new Order(true));
+    }
 
 }

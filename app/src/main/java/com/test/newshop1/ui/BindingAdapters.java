@@ -152,26 +152,30 @@ public class BindingAdapters {
     public static void setOrderStatus(TextView view, String status) {
         String text = "";
         Resources resource = view.getContext().getResources();
+        int color = resource.getColor(R.color.primary_text);
         if (status != null)
             switch (status) {
                 case Order.PENDING:
                     text = resource.getString(R.string.pending_text);
                     break;
                 case Order.PROCESSING:
+                    color = resource.getColor(R.color.md_green_600);
                     text = resource.getString(R.string.processing_text);
                     break;
                 case Order.COMPLETED:
+                    color = resource.getColor(R.color.md_green_A400);
                     text = resource.getString(R.string.completed_text);
                     break;
                 case Order.CANCELLED:
+                    color = resource.getColor(R.color.red);
                     text = resource.getString(R.string.cancelled_text);
                     break;
                 default:
                     text = resource.getString(R.string.default_status_text);
             }
 
+        view.setTextColor(color);
         view.setText(text);
     }
-
 
 }

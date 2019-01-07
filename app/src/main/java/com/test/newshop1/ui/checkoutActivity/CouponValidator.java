@@ -134,7 +134,7 @@ public class CouponValidator {
     private Float calculateCartTotal(List<CartItem> items) {
         Float total = (float) 0;
         for (CartItem item : items) {
-            total += item.getQuantity() * Float.valueOf(item.getTotal());
+            total += Float.valueOf(item.getTotal());
         }
         return total;
     }
@@ -151,11 +151,7 @@ public class CouponValidator {
 
     private void calcFixedCartDiscount(Coupon coupon) {
         Float discountAmount = Float.valueOf(coupon.getAmount());
-        if (discountAmount < cartTotal){
-            this.discountAmount = discountAmount;
-        } else {
-            this.discountAmount = cartTotal;
-        }
+        this.discountAmount = discountAmount < cartTotal ? discountAmount : cartTotal;
 
     }
 

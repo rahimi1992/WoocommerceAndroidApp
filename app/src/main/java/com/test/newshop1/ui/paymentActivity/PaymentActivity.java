@@ -58,10 +58,6 @@ public class PaymentActivity extends AppCompatActivity {
             }
         });
 
-
-
-        //findViewById(R.id.paymentBtn).setOnClickListener(v -> viewModel.startPayment(order));
-
     }
 
     private void updateUi(Order order) {

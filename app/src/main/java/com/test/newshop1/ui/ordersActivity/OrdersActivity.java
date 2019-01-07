@@ -7,17 +7,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 import androidx.core.app.TaskStackBuilder;
+import androidx.lifecycle.ViewModelProviders;
 
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.test.newshop1.R;
+import com.test.newshop1.ui.ViewModelFactory;
+import com.test.newshop1.utilities.InjectorUtil;
 import com.zarinpal.ewallets.purchase.ZarinPal;
 
 public class OrdersActivity extends AppCompatActivity {
     private static final String TAG = "OrdersActivity";
-
+    private OrdersViewModel viewModel;
 
 
     @Override
@@ -31,6 +35,9 @@ public class OrdersActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
+        viewModel = ViewModelProviders.of(this,factory).get(OrdersViewModel.class);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -53,13 +60,14 @@ public class OrdersActivity extends AppCompatActivity {
         zarinPal.verificationPayment(data, (isPaymentSuccess, refID, paymentRequest) -> {
 
             Log.d(TAG, "onCallbackResultVerificationPayment: called");
-            String orderId1 = paymentRequest.getCallBackURL().split("_")[1];
+            String orderId = paymentRequest.getCallBackURL().split("_")[1];
             if (isPaymentSuccess) {
-                Log.d(TAG, "onCallbackResultVerificationPayment: trying to set payment to true: " + orderId1);
-                //dataRepository.updateOrder(orderId, new Order(true));
+                Log.d(TAG, "onCallbackResultVerificationPayment: trying to set payment to true: " + orderId);
+                Toast.makeText(this, "پرداخت موفق", Toast.LENGTH_SHORT).show();
+                viewModel.updateOrder(orderId);
             } else {
                 Log.d(TAG, "onCallbackResultVerificationPayment: Not successful");
-
+                Toast.makeText(this, "پرداخت ناموفق", Toast.LENGTH_SHORT).show();
             }
         });
     }

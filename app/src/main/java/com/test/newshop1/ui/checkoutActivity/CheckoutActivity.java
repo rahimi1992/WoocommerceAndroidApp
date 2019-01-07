@@ -59,15 +59,7 @@ public class CheckoutActivity extends AppCompatActivity {
 
         ZarinPal zarinPal = ZarinPal.getPurchase(this);
         mViewModel.setZarinPal(zarinPal);
-        mViewModel.setOnPaymentReadyListener((status, authority, paymentGatewayUri, intent) -> {
-            if (status == 100) {
-                startActivity(intent);
-            } else {
-                Toast.makeText(CheckoutActivity.this, "خطا در برقراری ارتباط", Toast.LENGTH_LONG).show();
-            }
-        });
-        Uri data = getIntent().getData();
-        zarinPal.verificationPayment(data, mViewModel);
+
         setupSnackBar();
 
 
@@ -105,11 +97,6 @@ public class CheckoutActivity extends AppCompatActivity {
                 transaction.replace(R.id.container, PaymentFragment.newInstance());
                 //transaction.addToBackStack(null);
 
-                break;
-            case CONFIRM:
-                mStepView.go(3, false);
-                transaction.replace(R.id.container, ConfirmFragment.newInstance());
-                //transaction.addToBackStack(null);
                 break;
         }
 

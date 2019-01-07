@@ -1,7 +1,8 @@
 package com.test.newshop1.ui.checkoutActivity;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.widget.RadioGroup;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.payment.PaymentGateway;
+import com.test.newshop1.ui.paymentActivity.PaymentActivity;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.databinding.CheckoutPaymentFragBinding;
 
@@ -67,8 +69,24 @@ public class PaymentFragment extends Fragment {
         mViewModel.getValidShippingMethods().observe(this, this::updateShippingMethods);
         mViewModel.getValidPayments().observe(this, this::updatePayments);
         mViewModel.getTotalPrice().observe(this, aFloat -> mViewModel.setTotalPrice(aFloat));
+        mViewModel.getPaymentEvent().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                startPayment(integer);
+            }
+        });
         mViewModel.loadCoupon("");
         binding.getRoot().findViewById(R.id.discount_btn).setOnClickListener(v -> mViewModel.loadCoupon(couponET.getText().toString()));
+    }
+
+
+    private void startPayment(Integer orderId){
+        Log.d(TAG, "startPayment: called " + orderId);
+        if (orderId != null) {
+            Intent intent = new Intent(getActivity(), PaymentActivity.class);
+            intent.putExtra(PaymentActivity.ORDER_ID, String.valueOf(orderId));
+            startActivity(intent);
+        }
     }
 
 

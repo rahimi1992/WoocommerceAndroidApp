@@ -14,6 +14,7 @@ import com.test.newshop1.data.database.order.ShippingLine;
 import com.test.newshop1.data.database.payment.PaymentGateway;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.data.database.shoppingcart.CartItem;
+import com.test.newshop1.ui.SingleLiveEvent;
 import com.test.newshop1.ui.SnackbarMessageId;
 import com.test.newshop1.ui.SnackbarMessageText;
 import com.test.newshop1.utilities.PersianTextUtil;
@@ -33,7 +34,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-public class CheckoutViewModel extends ViewModel implements OnCallbackVerificationPaymentListener {
+public class CheckoutViewModel extends ViewModel {
     private static final String TAG = "CheckoutViewModel";
 
     public ObservableField<String> shippingCostText = new ObservableField<>();
@@ -41,6 +42,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     public ObservableField<String> discountText = new ObservableField<>();
     public ObservableField<String> totalPayment = new ObservableField<>();
     public ObservableField<String> orderingMessage = new ObservableField<>();
+    public ObservableField<String> customerNote = new ObservableField<>();
     public ObservableBoolean loadingCoupon = new ObservableBoolean(false);
     public ObservableBoolean isCouponEnabled = new ObservableBoolean(true);
     public ObservableBoolean isPaymentSelected = new ObservableBoolean(false);
@@ -62,6 +64,7 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     private LiveData<List<CartItem>> cartItemsLD;
     private List<CartItem> cartItems = new ArrayList<>();
     private CartItem removedItem;
+    private SingleLiveEvent<Integer> paymentEvent = new SingleLiveEvent<>();
     private final SnackbarMessageId mSnackbarMessageId = new SnackbarMessageId();
     private final SnackbarMessageText mSnackbarMessageText = new SnackbarMessageText();
 
@@ -70,7 +73,6 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     private boolean isCouponValidated = false;
 
     private ZarinPal zarinPal;
-    private OnCallbackRequestPaymentListener onPaymentReadyListener;
 
     public CheckoutViewModel(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
@@ -99,18 +101,14 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
 
     }
 
+    public SingleLiveEvent<Integer> getPaymentEvent() {
+        return paymentEvent;
+    }
+
     void setSelectedPaymentMethod(PaymentGateway selectedPaymentMethod) {
 
         isPaymentSelected.set(selectedPaymentMethod != null);
         this.selectedPaymentMethod = selectedPaymentMethod;
-    }
-
-    public ShippingMethod getSelectedShippingMethod() {
-        return selectedShippingMethod;
-    }
-
-    public PaymentGateway getSelectedPaymentMethod() {
-        return selectedPaymentMethod;
     }
 
     void setTotalPrice(Integer totalPrice) {
@@ -264,9 +262,6 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
                 case PAYMENT:
                     currentStep.postValue(CheckoutStep.ADDRESS);
                     break;
-                case CONFIRM:
-                    currentStep.postValue(CheckoutStep.PAYMENT);
-                    break;
             }
         }
     }
@@ -357,12 +352,14 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
         Order order = new Order(Order.PENDING, customer.getId(),
                 "", billingObservableField.get(), customer.getShipping(),
                 selectedPaymentMethod.getId(), selectedPaymentMethod.getMethodTitle(), cartItems,"");
+        order.setCustomerNote(customerNote.get());
 
         ShippingLine shippingLine = new ShippingLine(selectedShippingMethod.getTitle(), String.valueOf(selectedShippingMethod.getId()),String.valueOf(shippingCost));
         order.setShippingLines(Collections.singletonList(shippingLine));
         dataRepository.saveOrder(order, new ResponseCallback<Order>() {
             @Override
             public void onLoaded(Order response) {
+
                 goToPayment(response);
             }
 
@@ -376,56 +373,16 @@ public class CheckoutViewModel extends ViewModel implements OnCallbackVerificati
     private void goToPayment(Order order) {
         switch (selectedPaymentMethod.getId()) {
             case "WC_ZPal":
-                zarinPalPayment(order);
+                paymentEvent.setValue(order.getId());
                 orderingMessage.set("در حال انتقال به صفحه پرداخت");
 
                 break;
             case "cod":
+                dataRepository.updateOrder(String.valueOf(order.getId()), new Order(true));
                 orderingMessage.set("سفارش شما با موفقیت ثبت شد");
                 break;
         }
-        setCurrentStep(CheckoutStep.CONFIRM);
-    }
-
-    private void zarinPalPayment(Order order) {
-
-        zarinPal.startPayment(createPaymentRequest(order), onPaymentReadyListener);
-    }
-
-    private PaymentRequest createPaymentRequest(Order order) {
-
-//        int amount = Integer.valueOf(order.getTotal());
-        int amount = 100;
-
-        String merchantId = selectedPaymentMethod.getSettings().getMerchantcode().getValue();
-
-        PaymentRequest paymentRequest = ZarinPal.getPaymentRequest();
-        paymentRequest.setMerchantID(merchantId);
-        paymentRequest.setAmount(amount);
-        paymentRequest.setDescription("تست");
-        paymentRequest.setCallbackURL("new-shop-checkout://order_" + order.getId());     /* Your App Scheme */
-        paymentRequest.setMobile(order.getBilling().getPhone());            /* Optional Parameters */
-        paymentRequest.setEmail(order.getBilling().getEmail());     /* Optional Parameters */
-
-        return paymentRequest;
-    }
-
-    public void setOnPaymentReadyListener(OnCallbackRequestPaymentListener onPaymentReadyListener) {
-        this.onPaymentReadyListener = onPaymentReadyListener;
-    }
-
-    @Override
-    public void onCallbackResultVerificationPayment(boolean isPaymentSuccess, String refID, PaymentRequest paymentRequest) {
-        currentStep.setValue(CheckoutStep.CONFIRM);
-        Log.d(TAG, "onCallbackResultVerificationPayment: called");
-        String orderId = paymentRequest.getCallBackURL().split("_")[1];
-        if (isPaymentSuccess) {
-            Log.d(TAG, "onCallbackResultVerificationPayment: trying to set payment to true: " + orderId);
-            dataRepository.updateOrder(orderId, new Order(true));
-        } else {
-
-        }
-
+        //setCurrentStep(CheckoutStep.CONFIRM);
     }
 
     private void connectionError(){
