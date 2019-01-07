@@ -10,7 +10,6 @@ import android.view.animation.Transformation;
 import android.widget.Button;
 
 public class CustomCardView extends CardView {
-    private static final String TAG = "CustomCardView";
     private boolean expand = false;
     public CustomCardView(Context context) {
         super(context);
@@ -68,7 +67,7 @@ public class CustomCardView extends CardView {
     private void collapse(int collapsedHeight, final Button b) {
         final int initialHeight = getMeasuredHeight();
 
-        final int distanceToCollapse = (int) (initialHeight - collapsedHeight);
+        final int distanceToCollapse = (initialHeight - collapsedHeight);
 
         Animation a = new Animation() {
             @Override

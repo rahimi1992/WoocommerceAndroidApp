@@ -16,22 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SubCatFragment extends Fragment {
 
-    // TODO: Customize parameter argument names
     private static final String ARG_PARENT_ID = "parent-id";
-    // TODO: Customize parameters
     private int parentId = 1;
     private OnCatItemClickListener mListener;
-    private CategoryViewModel viewModel;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public SubCatFragment() {
     }
 
-    // TODO: Customize parameter initialization
-    @SuppressWarnings("unused")
     public static SubCatFragment newInstance(int parentId) {
         SubCatFragment fragment = new SubCatFragment();
         Bundle args = new Bundle();
@@ -54,9 +45,8 @@ public class SubCatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sub_cat_list, container, false);
 
-        viewModel = CategoryActivity.obtainViewModel(getActivity());
+        CategoryViewModel viewModel = CategoryActivity.obtainViewModel(getActivity());
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -88,7 +78,6 @@ public class SubCatFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
 
 
 }

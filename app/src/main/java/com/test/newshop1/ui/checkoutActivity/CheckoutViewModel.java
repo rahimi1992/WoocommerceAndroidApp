@@ -1,7 +1,6 @@
 package com.test.newshop1.ui.checkoutActivity;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.DataRepository;
@@ -18,10 +17,6 @@ import com.test.newshop1.ui.SingleLiveEvent;
 import com.test.newshop1.ui.SnackbarMessageId;
 import com.test.newshop1.ui.SnackbarMessageText;
 import com.test.newshop1.utilities.PersianTextUtil;
-import com.zarinpal.ewallets.purchase.OnCallbackRequestPaymentListener;
-import com.zarinpal.ewallets.purchase.OnCallbackVerificationPaymentListener;
-import com.zarinpal.ewallets.purchase.PaymentRequest;
-import com.zarinpal.ewallets.purchase.ZarinPal;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,13 +30,12 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 public class CheckoutViewModel extends ViewModel {
-    private static final String TAG = "CheckoutViewModel";
 
     public ObservableField<String> shippingCostText = new ObservableField<>();
     public ObservableField<String> totalPriceText = new ObservableField<>();
     public ObservableField<String> discountText = new ObservableField<>();
     public ObservableField<String> totalPayment = new ObservableField<>();
-    public ObservableField<String> orderingMessage = new ObservableField<>();
+    private ObservableField<String> orderingMessage = new ObservableField<>();
     public ObservableField<String> customerNote = new ObservableField<>();
     public ObservableBoolean loadingCoupon = new ObservableBoolean(false);
     public ObservableBoolean isCouponEnabled = new ObservableBoolean(true);
@@ -72,7 +66,6 @@ public class CheckoutViewModel extends ViewModel {
 
     private boolean isCouponValidated = false;
 
-    private ZarinPal zarinPal;
 
     public CheckoutViewModel(DataRepository dataRepository) {
         this.dataRepository = dataRepository;
@@ -84,11 +77,7 @@ public class CheckoutViewModel extends ViewModel {
         initShippingAndPaymentMethods();
     }
 
-    public void setZarinPal(ZarinPal zarinPal) {
-        this.zarinPal = zarinPal;
-    }
-
-    public void setSelectedShippingMethod(ShippingMethod selectedShippingMethod) {
+    void setSelectedShippingMethod(ShippingMethod selectedShippingMethod) {
         if (selectedShippingMethod != null) {
             isShippingSelected.set(true);
             this.shippingCostText.set(PersianTextUtil.toPer(selectedShippingMethod.getCostValue()));
@@ -101,7 +90,7 @@ public class CheckoutViewModel extends ViewModel {
 
     }
 
-    public SingleLiveEvent<Integer> getPaymentEvent() {
+    SingleLiveEvent<Integer> getPaymentEvent() {
         return paymentEvent;
     }
 
@@ -123,16 +112,16 @@ public class CheckoutViewModel extends ViewModel {
         totalPayment.set(PersianTextUtil.toPer(totalPrice + shippingCost - discountAmount));
     }
 
-    public LiveData<Customer> getCustomerLD() {
+    LiveData<Customer> getCustomerLD() {
         return customerLD;
         //return null;
     }
 
-    public SnackbarMessageId getSnackbarMessageId() {
+    SnackbarMessageId getSnackbarMessageId() {
         return mSnackbarMessageId;
     }
 
-    public SnackbarMessageText getSnackbarMessageText() {
+    SnackbarMessageText getSnackbarMessageText() {
         return mSnackbarMessageText;
     }
 
@@ -159,6 +148,10 @@ public class CheckoutViewModel extends ViewModel {
     }
 
     void deleteItem(int position) {
+
+        if (cartItemsLD.getValue() == null)
+            return;
+
         removedItem = cartItemsLD.getValue().get(position);
         dataRepository.removeCartItem(removedItem.getId());
     }
@@ -176,20 +169,16 @@ public class CheckoutViewModel extends ViewModel {
     }
 
     private void initShippingAndPaymentMethods(){
-        Log.d(TAG, "initShippingAndPaymentMethods: called");
         dataRepository.getShippingMethods(new ResponseCallback<List<ShippingMethod>>() {
             @Override
             public void onLoaded(List<ShippingMethod> response) {
                 shippingMethods = response;
                 validateShippingMethods();
-                Log.d(TAG, "onLoaded: called");
             }
 
             @Override
             public void onDataNotAvailable() {
                 shippingMethods = null;
-                //connectionError();
-                Log.d(TAG, "onDataNotAvailable: called");
             }
         });
 
@@ -202,14 +191,13 @@ public class CheckoutViewModel extends ViewModel {
             @Override
             public void onDataNotAvailable() {
                 validPayments.postValue(null);
-                //connectionError();
             }
         });
 
 
     }
 
-    public LiveData<Integer> getTotalPrice(){return dataRepository.getTotalPrice();}
+    LiveData<Integer> getTotalPrice(){return dataRepository.getTotalPrice();}
 
     private void validatePayments(List<PaymentGateway> paymentGateways) {
         List<PaymentGateway> methods = new ArrayList<>();
@@ -224,7 +212,6 @@ public class CheckoutViewModel extends ViewModel {
 
     private void validateShippingMethods() {
         List<ShippingMethod> methods = new ArrayList<>();
-        Log.d(TAG, "validateShippingMethods: " + totalPrice);
         if (totalPrice != null && shippingMethods != null){
             for (ShippingMethod method : shippingMethods) {
 
@@ -247,7 +234,6 @@ public class CheckoutViewModel extends ViewModel {
 
 
     private boolean isValidFreeShipping(ShippingMethod method, Integer total) {
-        Log.d(TAG, "isValidFreeShipping: calling");
         int minTotalPrice = Integer.valueOf(method.getSettings().getMinAmount().getValue());
         return total >= minTotalPrice;
     }
@@ -296,9 +282,7 @@ public class CheckoutViewModel extends ViewModel {
     private void validateCoupon(List<Coupon> coupons) {
 
         List<CartItem> items = cartItemsLD.getValue();
-        //Log.d(TAG, "validateCoupon: validating");
         CouponValidator validator = new CouponValidator(items, coupons);
-        Log.d(TAG, "validateCoupon: " + validator.getResultStatus());
 
         cartItems = validator.getResultItems();
         discountAmount = validator.getDiscountAmount().intValue();
@@ -318,11 +302,14 @@ public class CheckoutViewModel extends ViewModel {
         updatePaymentDetails();
     }
 
-    public void completeOrder() {
+    void completeOrder() {
         Customer customer = customerLD.getValue();
 
+        if (cartItemsLD.getValue() == null){
+            return;
+        }
+
         if (!isCouponValidated){
-            Log.d(TAG, "completeOrder: no Coupon");
             cartItems.clear();
 
             for (CartItem cartItem : cartItemsLD.getValue()) {
@@ -348,6 +335,8 @@ public class CheckoutViewModel extends ViewModel {
             return;
         }
 
+        if (customer == null)
+            return;
 
         Order order = new Order(Order.PENDING, customer.getId(),
                 "", billingObservableField.get(), customer.getShipping(),
@@ -389,11 +378,11 @@ public class CheckoutViewModel extends ViewModel {
         mSnackbarMessageId.setValue(R.string.connection_error_message);
     }
 
-    public void updateAddress(Billing billing) {
+    void updateAddress(Billing billing) {
         this.billingObservableField.set(billing);
     }
 
-    public void checkAddress() {
+    void checkAddress() {
         Billing billing = billingObservableField.get();
         if (billing != null) {
             if (!billing.hasFirstName()) {

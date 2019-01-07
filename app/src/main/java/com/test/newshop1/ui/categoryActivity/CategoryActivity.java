@@ -31,11 +31,10 @@ import androidx.viewpager.widget.ViewPager;
 public class CategoryActivity extends BaseActivity implements OnCatItemClickListener {
 
     public static final String DEFAULT_SELECTED_CAT = "default-cat";
-    private static final String TAG = "CategoryActivity";
     private CategoryViewModel viewModel;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    CategoryFragmentPagerAdapter pagerAdapter;
+    private CategoryFragmentPagerAdapter pagerAdapter;
     private LayerDrawable cartIcon;
 
     @Override
@@ -43,7 +42,6 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-
 
         tabLayout = findViewById(R.id.main_cat_tabs);
         viewPager = findViewById(R.id.container_VP);
@@ -54,7 +52,7 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
 
         viewModel = obtainViewModel(this);
         viewModel.loadCategories().observe(this, isLoaded -> {
-            if (isLoaded != null && isLoaded){
+            if (isLoaded != null && isLoaded) {
                 setupTabLayout(getIntent().getIntExtra(DEFAULT_SELECTED_CAT, 0));
             }
         });
@@ -76,9 +74,7 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
         }
 
         viewPager.setCurrentItem(selected, true);
-
         tabLayout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
         viewPager.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -103,7 +99,7 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.cart_item:
                 startCheckout();
                 break;
@@ -127,7 +123,7 @@ public class CategoryActivity extends BaseActivity implements OnCatItemClickList
             badge = new BadgeDrawable(this);
         }
 
-        badge.setCount(count ==null?"0": String.valueOf(count));
+        badge.setCount(count == null ? "0" : String.valueOf(count));
         cartIcon.mutate();
         cartIcon.setDrawableByLayerId(R.id.ic_group_count, badge);
     }

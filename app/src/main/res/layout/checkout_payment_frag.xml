@@ -228,7 +228,7 @@
                                 android:background="@drawable/bg_accent_round_btn"
                                 android:elevation="4dp"
                                 android:onClick="@{()-> viewmodel.removeCode()}"
-                                android:text="حذف کد"
+                                android:text="@string/remove_coupon_btn_text"
                                 android:textSize="12sp"
                                 bind:invisibleIfFalse="@{!viewmodel.isCouponEnabled}" />
                         </LinearLayout>
@@ -281,7 +281,7 @@
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         android:singleLine="false"
-                        android:hint="یادداشت خریدار برای ما..."
+                        android:hint="@string/customer_note_hint"
                         android:text="@={viewmodel.customerNote}"
                         android:textAlignment="viewStart"
                         android:textColor="@color/primary_text"

@@ -13,13 +13,14 @@ import com.test.newshop1.data.database.customer.Customer;
 import com.test.newshop1.databinding.CheckoutAddressFragBinding;
 import com.test.newshop1.ui.loginActivity.LoginActivity;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
 public class AddressFragment extends Fragment {
-    private static final String TAG = "AddressFragment";
 
     private CheckoutViewModel mViewModel;
     private CheckoutAddressFragBinding binding;
@@ -33,7 +34,7 @@ public class AddressFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: called");
+
         binding = CheckoutAddressFragBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         root.findViewById(R.id.next_btn).setOnClickListener(view -> nextStep());
@@ -46,18 +47,18 @@ public class AddressFragment extends Fragment {
     }
 
     private void nextStep() {
-        Log.d(TAG, "nextStep: address to payment");
-        if (isLoggedIn){
+
+        if (isLoggedIn) {
             mViewModel.checkAddress();
         } else {
-            Snackbar.make(getView(), R.string.login_force_text, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(Objects.requireNonNull(getView()), R.string.login_force_text, Snackbar.LENGTH_SHORT).show();
         }
     }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onActivityCreated: called");
+
         super.onActivityCreated(savedInstanceState);
 
         mViewModel = CheckoutActivity.obtainViewModel(getActivity());
@@ -70,13 +71,11 @@ public class AddressFragment extends Fragment {
 
     private void updateUI(Customer customer) {
 
-        Log.d(TAG, "updateUI: called");
+
         isLoggedIn = customer != null;
         binding.setCustomer(customer);
-        //Log.d(TAG, "updateUI: customer is null: " + (customer == null));
-//        Log.d(TAG, "updateUI: customer has billing: " + (customer.hasBilling()));
         if (customer != null) {
-            Log.d(TAG, "updateUI: updating billing Address" );
+
             mViewModel.updateAddress(customer.getBilling());
         }
     }

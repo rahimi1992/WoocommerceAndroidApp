@@ -7,7 +7,7 @@ import com.test.newshop1.data.database.shoppingcart.CartItem;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CouponValidator {
+class CouponValidator {
 
     private static final String FIXED_CART = "fixed_cart";
     private static final String PERCENT = "percent";
@@ -21,7 +21,7 @@ public class CouponValidator {
     private final List<CartItem> initialItems;
     private final List<Coupon> coupons;
 
-    public CouponValidator(List<CartItem> initialItems, List<Coupon> coupons){
+    CouponValidator(List<CartItem> initialItems, List<Coupon> coupons){
         this.initialItems = initialItems;
         this.coupons = coupons;
         this.resultItems = new ArrayList<>();
@@ -192,15 +192,15 @@ public class CouponValidator {
         resultItems = initialItems;
     }
 
-    public String getResultStatus() {
+    String getResultStatus() {
         return resultStatus;
     }
 
-    public List<CartItem> getResultItems() {
+    List<CartItem> getResultItems() {
         return resultItems;
     }
 
-    public Float getDiscountAmount() {
+    Float getDiscountAmount() {
         return discountAmount;
     }
 }

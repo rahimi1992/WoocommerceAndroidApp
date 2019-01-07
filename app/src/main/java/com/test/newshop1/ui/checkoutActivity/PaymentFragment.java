@@ -1,13 +1,7 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +11,19 @@ import android.widget.RadioGroup;
 
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.payment.PaymentGateway;
-import com.test.newshop1.ui.paymentActivity.PaymentActivity;
 import com.test.newshop1.data.database.shipping.ShippingMethod;
 import com.test.newshop1.databinding.CheckoutPaymentFragBinding;
+import com.test.newshop1.ui.paymentActivity.PaymentActivity;
 
 import java.util.List;
 
-public class PaymentFragment extends Fragment {
-    private static final String TAG = "PaymentFragment";
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-    private CheckoutViewModel mViewModel;
+public class PaymentFragment extends Fragment {
+
+    private CheckoutViewModel viewModel;
     private CheckoutPaymentFragBinding binding;
     private RadioGroup shippingRG;
     private RadioGroup paymentRG;
@@ -54,8 +51,7 @@ public class PaymentFragment extends Fragment {
     }
 
     private void nextStep() {
-        mViewModel.completeOrder();
-        //mViewModel.setCurrentStep(CheckoutStep.CONFIRM);
+        viewModel.completeOrder();
     }
 
 
@@ -63,25 +59,19 @@ public class PaymentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        mViewModel = CheckoutActivity.obtainViewModel(getActivity());
-        binding.setViewmodel(mViewModel);
+        viewModel = CheckoutActivity.obtainViewModel(getActivity());
+        binding.setViewmodel(viewModel);
 
-        mViewModel.getValidShippingMethods().observe(this, this::updateShippingMethods);
-        mViewModel.getValidPayments().observe(this, this::updatePayments);
-        mViewModel.getTotalPrice().observe(this, aFloat -> mViewModel.setTotalPrice(aFloat));
-        mViewModel.getPaymentEvent().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                startPayment(integer);
-            }
-        });
-        mViewModel.loadCoupon("");
-        binding.getRoot().findViewById(R.id.discount_btn).setOnClickListener(v -> mViewModel.loadCoupon(couponET.getText().toString()));
+        viewModel.getValidShippingMethods().observe(this, this::updateShippingMethods);
+        viewModel.getValidPayments().observe(this, this::updatePayments);
+        viewModel.getTotalPrice().observe(this, aFloat -> viewModel.setTotalPrice(aFloat));
+        viewModel.getPaymentEvent().observe(this, this::startPayment);
+        viewModel.loadCoupon("");
+        binding.getRoot().findViewById(R.id.discount_btn).setOnClickListener(v -> viewModel.loadCoupon(couponET.getText().toString()));
     }
 
 
     private void startPayment(Integer orderId){
-        Log.d(TAG, "startPayment: called " + orderId);
         if (orderId != null) {
             Intent intent = new Intent(getActivity(), PaymentActivity.class);
             intent.putExtra(PaymentActivity.ORDER_ID, String.valueOf(orderId));
@@ -91,7 +81,7 @@ public class PaymentFragment extends Fragment {
 
 
     private void updatePayments(List<PaymentGateway> paymentGateways) {
-        mViewModel.setSelectedPaymentMethod(null);
+        viewModel.setSelectedPaymentMethod(null);
         paymentRG.removeAllViews();
         if (paymentGateways != null && paymentGateways.size() != 0){
             for (PaymentGateway paymentGateway : paymentGateways) {
@@ -101,7 +91,7 @@ public class PaymentFragment extends Fragment {
                 rb.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
                     if (isChecked)
-                        mViewModel.setSelectedPaymentMethod(paymentGateway);
+                        viewModel.setSelectedPaymentMethod(paymentGateway);
                 });
 
                 paymentRG.addView(rb);
@@ -114,8 +104,7 @@ public class PaymentFragment extends Fragment {
     }
 
     private void updateShippingMethods(List<ShippingMethod> shippingMethods) {
-        Log.d(TAG, "updateShippingMethods: updating");
-        mViewModel.setSelectedShippingMethod(null);
+        viewModel.setSelectedShippingMethod(null);
         shippingRG.removeAllViews();
         if (shippingMethods != null && shippingMethods.size() != 0){
             for (ShippingMethod shippingMethod : shippingMethods) {
@@ -125,7 +114,7 @@ public class PaymentFragment extends Fragment {
                 rb.setOnCheckedChangeListener((buttonView, isChecked) -> {
 
                     if (isChecked) {
-                        mViewModel.setSelectedShippingMethod(shippingMethod);
+                        viewModel.setSelectedShippingMethod(shippingMethod);
                     }
                 });
 

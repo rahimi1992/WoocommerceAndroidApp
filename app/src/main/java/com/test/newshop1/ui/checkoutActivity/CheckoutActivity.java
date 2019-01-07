@@ -1,11 +1,8 @@
 package com.test.newshop1.ui.checkoutActivity;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.shuhart.stepview.StepView;
 import com.test.newshop1.R;
@@ -25,7 +22,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 
 public class CheckoutActivity extends AppCompatActivity {
-    private static final String TAG = "CheckoutActivity";
 
 
     private StepView mStepView;
@@ -36,7 +32,6 @@ public class CheckoutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: called");
         setContentView(R.layout.activity_checkout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -49,13 +44,10 @@ public class CheckoutActivity extends AppCompatActivity {
 
         parentLayout = findViewById(android.R.id.content);
         mStepView = findViewById(R.id.cart_step_view);
-        //mStepView.go(0, false);
-
 
         mViewModel = obtainViewModel(this);
 
         mViewModel.getCurrentStep().observe(this, this::updateFragments);
-        //mViewModel.setCurrentStep(CheckoutStep.CART);
 
         ZarinPal zarinPal = ZarinPal.getPurchase(this);
         mViewModel.setZarinPal(zarinPal);
@@ -87,16 +79,12 @@ public class CheckoutActivity extends AppCompatActivity {
                 transaction.replace(R.id.container, CartFragment.newInstance());
                 break;
             case ADDRESS:
-                Log.d(TAG, "updateFragments: ADDRESS");
                 mStepView.go(1, false);
                 transaction.replace(R.id.container, AddressFragment.newInstance());
-                //transaction.addToBackStack(null);
                 break;
             case PAYMENT:
                 mStepView.go(2, false);
                 transaction.replace(R.id.container, PaymentFragment.newInstance());
-                //transaction.addToBackStack(null);
-
                 break;
         }
 

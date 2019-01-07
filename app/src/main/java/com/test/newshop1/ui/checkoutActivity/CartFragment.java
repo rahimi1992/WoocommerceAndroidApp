@@ -2,7 +2,6 @@ package com.test.newshop1.ui.checkoutActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.test.newshop1.utilities.SnackbarUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +27,6 @@ import androidx.fragment.app.Fragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CartFragment extends Fragment {
-    private static final String TAG = CartFragment.class.getSimpleName();
 
     private CheckoutViewModel mViewModel;
     private List<CartItem> cartItems;
@@ -52,8 +51,8 @@ public class CartFragment extends Fragment {
     }
 
     private void nextStep() {
-        if (isCartEmpty){
-            Snackbar.make(getView(), R.string.empty_cart_text, Snackbar.LENGTH_SHORT).show();
+        if (isCartEmpty) {
+            Snackbar.make(Objects.requireNonNull(getView()), R.string.empty_cart_text, Snackbar.LENGTH_SHORT).show();
         } else {
             mViewModel.setCurrentStep(CheckoutStep.ADDRESS);
         }
@@ -72,8 +71,7 @@ public class CartFragment extends Fragment {
 
     }
 
-    void showCartDetail() {
-        Log.d(TAG, "showCartDetail: starts");
+    private void showCartDetail() {
         LayoutInflater inflater = getLayoutInflater();
         int price = 0;
         linearLayout.removeAllViews();
@@ -86,12 +84,6 @@ public class CartFragment extends Fragment {
                 int itemId = item.getId();
                 viewItem = inflater.inflate(R.layout.cart_item, linearLayout, false);
                 TextView title = viewItem.findViewById(R.id.item_title);
-                //title.setTypeface(font_yekan);
-//                if (item.hasMetaData()) {
-//                    TextView metaData = viewItem.findViewById(R.id.meta_data_TV);
-//                    String metaText = item.getMetaData().get(0).getKey() + ": " + item.getMetaData().get(0).getValue();
-//                    metaData.setText(metaText);
-//                }
                 Button deleteButton = viewItem.findViewById(R.id.delete_btn);
                 deleteButton.setOnClickListener(this::deleteItem);
                 deleteButton.setId(i);
@@ -105,9 +97,8 @@ public class CartFragment extends Fragment {
                 TextView qtyTV = viewItem.findViewById(R.id.qty);
                 qtyTV.setText(PersianTextUtil.toPer(item.getQuantity()));
                 TextView priceTV = viewItem.findViewById(R.id.item_price);
-                String itemPriceText = getString(R.string.currency,PersianTextUtil.toPer(Integer.valueOf(item.getTotal())/item.getQuantity()));
+                String itemPriceText = getString(R.string.currency, PersianTextUtil.toPer(Integer.valueOf(item.getTotal()) / item.getQuantity()));
                 priceTV.setText(itemPriceText);
-                //priceTV.setTypeface(font_yekan);
                 CircleImageView image = viewItem.findViewById(R.id.thumbnail);
                 image.setOnClickListener(this::goToProductDetail);
                 image.setId(item.getProductId());
@@ -115,15 +106,12 @@ public class CartFragment extends Fragment {
                         .error(R.drawable.place_holder)
                         .placeholder(R.drawable.place_holder)
                         .into(image);
-//                if (i == 0) {
-//                    viewItem.findViewById(R.id.cart_header).setVisibility(View.VISIBLE);
-//                }
                 linearLayout.addView(viewItem);
                 price += Integer.valueOf(item.getTotal());
             }
             viewItem = inflater.inflate(R.layout.cart_summary, linearLayout, false);
             TextView totalPriceTV = viewItem.findViewById(R.id.s_total_price);
-            totalPriceTV.setText(getString(R.string.currency,PersianTextUtil.toPer(price)));
+            totalPriceTV.setText(getString(R.string.currency, PersianTextUtil.toPer(price)));
             linearLayout.addView(viewItem);
             emptyCartText.setVisibility(View.GONE);
             isCartEmpty = false;
@@ -140,17 +128,17 @@ public class CartFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void deleteItem(View view) {
+    private void deleteItem(View view) {
         mViewModel.deleteItem(view.getId());
-        SnackbarUtils.showSnackbar(getView(), "حذف شد", "بازگرداندن", v -> mViewModel.undoRemove());
+        SnackbarUtils.showSnackbar(getView(), getString(R.string.removed_text), R.string.undo_delete, v -> mViewModel.undoRemove());
     }
 
 
-    public void increaseQuantity(View view) {
+    private void increaseQuantity(View view) {
         mViewModel.addItem(view.getId());
     }
 
-    public void decreaseQuantity(View view) {
+    private void decreaseQuantity(View view) {
         mViewModel.decreaseItem(view.getId());
     }
 

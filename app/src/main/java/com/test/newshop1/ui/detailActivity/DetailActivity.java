@@ -6,7 +6,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.TextView;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.rd.PageIndicatorView;
 import com.test.newshop1.R;
 import com.test.newshop1.data.database.product.Product;
 import com.test.newshop1.ui.OnItemClickListener;
@@ -27,9 +25,6 @@ import com.test.newshop1.utilities.BadgeDrawable;
 import com.test.newshop1.utilities.InjectorUtil;
 import com.test.newshop1.utilities.PersianTextUtil;
 import com.test.newshop1.utilities.SnackbarUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,7 +38,6 @@ import androidx.viewpager.widget.ViewPager;
 
 
 public class DetailActivity extends AppCompatActivity implements ProductImageSliderAdapter.OnCallback, OnItemClickListener {
-    private static final String TAG = DetailActivity.class.getSimpleName();
 
     public static final String PRODUCT_ID = "product-id";
 
@@ -52,9 +46,6 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
     private ViewPager slider;
     private CollapsingToolbarLayout collapsingToolbar;
-    private AppBarLayout appBarLayout;
-    private PageIndicatorView pageIndicatorView;
-    private List<Integer> colors = new ArrayList<>();
     private CustomCardView customCardView;
     private Button expandBtn;
     private LayerDrawable cartIcon;
@@ -66,12 +57,12 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-//        ActivityDetailBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
 
         Toolbar toolbar = findViewById(R.id.anim_toolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         ViewModelFactory factory = InjectorUtil.provideViewModelFactory(this);
@@ -82,8 +73,8 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         collapsingToolbar.setContentScrimColor(getResources().getColor(R.color.transparentDark));
         collapsingToolbar.setStatusBarScrimColor(getResources().getColor(R.color.transparentDark));
 
-        appBarLayout = findViewById(R.id.appbar);
-        appBarLayout.addOnOffsetChangedListener((AppBarLayout.BaseOnOffsetChangedListener) (appBarLayout, verticalOffset) -> {
+        AppBarLayout appBarLayout1 = findViewById(R.id.appbar);
+        appBarLayout1.addOnOffsetChangedListener((AppBarLayout.BaseOnOffsetChangedListener) (appBarLayout, verticalOffset) -> {
             if (toolbar.getNavigationIcon() != null && cartIcon != null)
                 if ((collapsingToolbar.getHeight() + verticalOffset) < (2 * ViewCompat.getMinimumHeight(collapsingToolbar))) {
                     toolbar.getNavigationIcon().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
@@ -95,7 +86,7 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         });
 
         slider = findViewById(R.id.slider_view_pager);
-        pageIndicatorView = findViewById(R.id.slider_view_pager_indicator);
+        //pageIndicatorView = findViewById(R.id.slider_view_pager_indicator);
 
 
         customCardView = findViewById(R.id.detail_card);
@@ -122,16 +113,10 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
         findViewById(R.id.add_to_cart_btn).setOnClickListener(v -> viewModel.addToCart());
     }
 
-    private void setObservers(){
-
-    }
 
     private void updateUI(Product product) {
         if (product != null) {
-            colors.clear();
-            for (int i = 0; i < product.getImages().size(); i++) {
-                colors.add(getResources().getColor(R.color.colorAccent));
-            }
+
             ProductImageSliderAdapter sliderAdapter = new ProductImageSliderAdapter(product.getImages(), this);
             slider.setAdapter(sliderAdapter);
             collapsingToolbar.setTitle(product.getName());
@@ -174,12 +159,6 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
     @Override
     public void callbackColor(int color, int position) {
-        //Log.d(TAG, "callbackColor: color: " + color);
-        //colors.set(position, color);
-        //int page = slider.getCurrentItem();
-        //collapsingToolbar.setContentScrimColor(colors.get(page));
-        //pageIndicatorView.setSelectedColor(colors.get(page));
-        //invalidateOptionsMenu();
     }
 
     @Override
@@ -189,7 +168,6 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d(TAG, "onCreateOptionsMenu: called");
         getMenuInflater().inflate(R.menu.menu_cart, menu);
         cartIcon = (LayerDrawable) menu.findItem(R.id.cart_item).getIcon();
 
@@ -205,13 +183,16 @@ public class DetailActivity extends AppCompatActivity implements ProductImageSli
                 break;
             case android.R.id.home:
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
-                upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)){
-                    TaskStackBuilder.create(this)
-                            .addNextIntentWithParentStack(upIntent)
-                            .startActivities();
-                } else {
-                    NavUtils.navigateUpTo(this, upIntent);
+                if (upIntent != null) {
+                    upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                    if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                        TaskStackBuilder.create(this)
+                                .addNextIntentWithParentStack(upIntent)
+                                .startActivities();
+                    } else {
+                        NavUtils.navigateUpTo(this, upIntent);
+                    }
                 }
         }
         return true;

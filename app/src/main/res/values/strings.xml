@@ -77,5 +77,9 @@
     <string name="title_activity_orders">پیگیری سفارشات</string>
     <string name="title_activity_payment">PaymentActivity</string>
     <string name="title_activity_checkout">تکمیل خرید</string>
+    <string name="customer_note_hint">یادداشت خریدار برای ما...</string>
+    <string name="remove_coupon_btn_text">حذف کد</string>
+    <string name="removed_text">حذف شد</string>
+    <string name="undo_delete">بازگرداندن</string>
 
 </resources>

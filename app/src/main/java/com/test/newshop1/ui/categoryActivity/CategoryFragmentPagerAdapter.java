@@ -19,7 +19,7 @@ public class CategoryFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
 
-    public void addPages(Integer id, String title) {
+    void addPages(Integer id, String title) {
         parentIds.add(id);
         titles.add(title);
         notifyDataSetChanged();

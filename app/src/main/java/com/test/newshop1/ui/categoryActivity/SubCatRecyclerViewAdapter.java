@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 
 public class SubCatRecyclerViewAdapter extends RecyclerView.Adapter<SubCatRecyclerViewAdapter.BaseViewHolder> {
 
-    public static final int NORMAL_VIEW_TYPE = 1;
+    static final int NORMAL_VIEW_TYPE = 1;
     public static final int SIMPLE_VIEW_TYPE = 2;
     private int viewType = NORMAL_VIEW_TYPE;
     private List<Category> categories;
@@ -35,7 +35,7 @@ public class SubCatRecyclerViewAdapter extends RecyclerView.Adapter<SubCatRecycl
         return viewType;
     }
 
-    public void submitList(List<Category> categories){
+    public void submitList(List<Category> categories) {
         this.categories = categories;
         notifyDataSetChanged();
     }
@@ -45,7 +45,7 @@ public class SubCatRecyclerViewAdapter extends RecyclerView.Adapter<SubCatRecycl
     public BaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        switch (viewType){
+        switch (viewType) {
             case NORMAL_VIEW_TYPE:
                 return new CategoryViewHolder(CategoryItemBinding.inflate(inflater, parent, false));
             case SIMPLE_VIEW_TYPE:

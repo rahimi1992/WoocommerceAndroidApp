@@ -21,7 +21,7 @@ public class CategoryViewModel extends ViewModel implements ResponseCallback<Lis
         isCategoriesLoaded = new MutableLiveData<>();
     }
 
-    MutableLiveData<Boolean> loadCategories(){
+    MutableLiveData<Boolean> loadCategories() {
         dataRepository.getCategories(this);
         return isCategoriesLoaded;
     }
@@ -38,7 +38,7 @@ public class CategoryViewModel extends ViewModel implements ResponseCallback<Lis
 
     }
 
-    List<Category> getCategories(int parent){
+    List<Category> getCategories(int parent) {
         List<Category> categories = new ArrayList<>();
         if (allCategories != null) {
             for (Category category : allCategories) {
