@@ -49,8 +49,8 @@ public class CheckoutActivity extends AppCompatActivity {
 
         mViewModel.getCurrentStep().observe(this, this::updateFragments);
 
-        ZarinPal zarinPal = ZarinPal.getPurchase(this);
-        mViewModel.setZarinPal(zarinPal);
+//        ZarinPal zarinPal = ZarinPal.getPurchase(this);
+//        mViewModel.setZarinPal(zarinPal);
 
         setupSnackBar();
 
